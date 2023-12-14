@@ -15,11 +15,12 @@ require('dotenv').config();
 
 //get the environment variables from the .env file
 const PORT = process.env.PORT || 4000; 
-const mongodbURL = process.env.MONGODB_URL;
+const mongodbURL = process.env.MONGO_DB_URL;
 
 //import the database model
 const User = require('./model/User');
 const Location = require('./model/Location');
+const bingMap = require('./services/BingMap');
 
 
 //ininialize express app
@@ -104,6 +105,16 @@ app.put('/api/user/:id',(req, res) =>{
 app.delete('/api/user/:id',(req, res) =>{
     User.findByIdAndDelete(req.params.id).then((result) => {
         res.send(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+});
+
+//return current location
+app.get('/api/location/current',(req, res) => {
+    bingMap.getCurrentLocation().then((result) => {
+        res.send(result);
+        console.info(result);
     }).catch((err) => {
         console.log(err);
     });

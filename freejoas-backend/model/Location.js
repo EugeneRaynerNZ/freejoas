@@ -10,6 +10,7 @@ const UserSchema = new Schema({
     longitude: String,
     Latitude: String,
     address: String,
+    city: String,
     date: String,
     time: String,
     uploaderID: String,
