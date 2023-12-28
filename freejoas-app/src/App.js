@@ -1,16 +1,12 @@
 import image from './freejoas-image.png';
+import Main from './pages/Main';
+import Navigation from './Navigation';
 import './App.css';
 
 function App() {
   return (
     <>
-      <header>
-        <nav>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Play</a></li>
-          <li><a href="#">About</a></li>
-        </nav>
-      </header>
+      <Navigation />
 
       <main>
         <div>
@@ -22,6 +18,8 @@ function App() {
           <img src={image} />
         </div>
       </main>
+
+      <Main />
 
     </>
   );
