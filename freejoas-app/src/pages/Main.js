@@ -5,12 +5,12 @@ import '../App.css';
 function Main() {
 
     const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-    const [coordinates, setCoordinates] = useState('Taylor');
+    const [coordinates, setCoordinates] = useState(0);
     const [distance, getDistance] = useState(0);
 
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
+            navigator.geolocation.watchPosition(
               (position) => {
                 const pos = {
                   lat: position.coords.latitude,
@@ -19,12 +19,7 @@ function Main() {
 
                 setCoordinates(pos)
 
-                getDistance(distanceInKmBetweenEarthCoordinates(
-                    stableCoordinates.lat,
-                    stableCoordinates.lng,
-                    coordinates.lat,
-                    coordinates.lng
-                ))
+                
               },
               (e) => {
                 console.log(e)
@@ -33,6 +28,15 @@ function Main() {
           } else {
             console.log('fail 2')
           }
+
+          if(coordinates != 0) {
+            getDistance(distanceInKmBetweenEarthCoordinates(
+                stableCoordinates.lat,
+                stableCoordinates.lng,
+                coordinates.lat,
+                coordinates.lng
+            ))
+        }
     }
 
     function degreesToRadians(degrees) {
