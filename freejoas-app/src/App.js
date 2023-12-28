@@ -1,27 +1,15 @@
-import image from './freejoas-image.png';
-import Main from './pages/Main';
-import Navigation from './Navigation';
+import { BrowserRouter } from "react-router-dom";
+import Navigation from "./Navigation";
+import Body from "./components/Body";
+
 import './App.css';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Navigation />
-
-      <main>
-        <div>
-          <h2>Find your</h2>
-          <h1>Freejoas</h1>
-          <h2>Today</h2>
-        </div>
-        <div>
-          <img src={image} />
-        </div>
-      </main>
-
-      <Main />
-
-    </>
+      <Body />
+    </BrowserRouter>
   );
 }
 

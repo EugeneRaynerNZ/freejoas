@@ -11,7 +11,7 @@
 **/
 
 // Load environment variables
-require('dotenv').config();
+// require('dotenv').config();
 
 //get the environment variables from the .env file
 const PORT = process.env.PORT || 4000; 

@@ -1,8 +1,7 @@
-import Navigation from '../Navigation';
 import { useState } from 'react';
 import '../App.css';
 
-function Main() {
+function Play() {
 
     const stableCoordinates = {lat: -36.863617, lng: 174.744042}
     const [coordinates, setCoordinates] = useState(0);
@@ -18,7 +17,7 @@ function Main() {
                 };
 
                 setCoordinates(pos)
-
+                
                 
               },
               (e) => {
@@ -29,14 +28,12 @@ function Main() {
             console.log('fail 2')
           }
 
-          if(coordinates != 0) {
-            getDistance(distanceInKmBetweenEarthCoordinates(
-                stableCoordinates.lat,
-                stableCoordinates.lng,
-                coordinates.lat,
-                coordinates.lng
-            ))
-        }
+          getDistance(distanceInKmBetweenEarthCoordinates(
+            stableCoordinates.lat,
+            stableCoordinates.lng,
+            coordinates.lat,
+            coordinates.lng
+          ))
     }
 
     function degreesToRadians(degrees) {
@@ -55,29 +52,27 @@ function Main() {
         var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
                 Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        return earthRadiusKm * c;
+        return Math.floor((earthRadiusKm * c) * 1000);
     }
 
     
       
     return (
-    <>
-        <Navigation />
+       <div id="play">
 
-        <main>
-        <button id="demo" onClick={getLocation}>Click me for coordinates</button>
-        
-        </main>
+        <section>
+          <button id="demo" onClick={getLocation}>Click me for coordinates</button>
+        </section>
 
         <section>
             <div>Current: {coordinates.lat} : {coordinates.lng}</div>
             <div>Dummy Data: {stableCoordinates.lat} : {stableCoordinates.lng}</div>
 
-            <div>Distance: {Math.floor(distance * 1000)} meters away</div>
+            <div>Distance: {distance} meters away</div>
         </section>
 
-    </>
+        </div> 
     );
 }
 
-export default Main;
+export default Play;

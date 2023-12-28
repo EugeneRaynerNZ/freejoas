@@ -78,13 +78,6 @@ header nav li a {
   color: black;
 }
 
-main {
-  height: calc(100vh - var(--header-height));
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
 main div {
   padding: 0 64px;
 }
@@ -95,4 +88,32 @@ main h1 {
 
 main h2 {
   font-size: 48px;
+}
+
+#play {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 32px;;
+}
+
+@media screen and (max-width: 600px) {
+  main div {
+    padding: 0 24px;
+  }
+
+  main div img {
+    max-width: 100%;
+
+  }
+  
+  
+  main h1 {
+    font-size: 42px;
+  }
+  
+  main h2 {
+    font-size: 28px;
+  }
 }

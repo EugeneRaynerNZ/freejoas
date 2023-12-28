@@ -1,12 +1,12 @@
 import './App.css';
+import { Link } from "react-router-dom";
 
 function Navigation() {
   return (
     <header>
         <nav>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Play</a></li>
-            <li><a href="#">About</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/play">Play</Link></li>
         </nav>
     </header>
   );

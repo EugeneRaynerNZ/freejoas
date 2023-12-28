@@ -9,15 +9,8 @@ const UserSchema = new Schema({
     locationID: String,
     longitude: String,
     Latitude: String,
-    address: String,
-    city: String,
-    date: String,
-    time: String,
-    uploaderID: String,
     status: String,
-    description: String,
-    image: String,
-    
+    description: String
 });
 
 module.exports = mongoose.model("Location", UserSchema);
