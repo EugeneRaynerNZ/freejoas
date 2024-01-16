@@ -11,22 +11,27 @@
 **/
 
 // Load environment variables
-// require('dotenv').config();
+require('dotenv').config();
 
 //get the environment variables from the .env file
-const PORT = process.env.PORT || 4000; 
+const PORT = process.env.PORT; 
 const mongodbURL = process.env.MONGO_DB_URL;
 
 //import the database model
-const User = require('./model/User');
-const Location = require('./model/Location');
-const bingMap = require('./services/BingMap');
-
+const Freejoas = require('./model/FreejoasModel');
 
 //ininialize express app
 const express = require('express'); 
 const mongoose = require('mongoose');
 const app = express();
+
+app.use(express.json());
+
+//import routes
+const freejoasRouter = require('./router/freejoasRouter');
+
+//use routes
+app.use('/api', freejoasRouter);
 
 
 // Connect to MongoDB
@@ -34,15 +39,6 @@ mongoose.connect(mongodbURL,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
-
-// Check if MongoDB is connected
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-    console.info('Connected to MongoDB');
-    console.info(`----------------------------`);
-});
-
 
 // Start the server
 app.get('/', (req, res) => {
@@ -53,69 +49,11 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
     });
 
-
-//create a new user
-app.post('/api/user',(req, res) =>{
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        collectedLocations: req.body.collectedLocations,
-    });
-    user.save().then((result) => {
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-    });
+// Check if MongoDB is connected
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.info('Connected to MongoDB');
+    console.info(`----------------------------`);
 });
 
-//get all users
-app.get('/api/user',(req, res) =>{
-    User.find().then((result) => {
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-//get a user by id
-app.get('/api/user/:id',(req, res) =>{
-    User.findById(req.params.id).then((result) => {
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-//update a user by id
-app.put('/api/user/:id',(req, res) =>{
-    User.findById(req.params.id).then((result) => {
-        result.username = req.body.username;
-        result.email = req.body.email;
-        result.password = req.body.password;
-        result.collectedLocations = req.body.collectedLocations;
-        result.save();
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-//delete a user by id
-app.delete('/api/user/:id',(req, res) =>{
-    User.findByIdAndDelete(req.params.id).then((result) => {
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
-
-//return current location
-app.get('/api/location/current',(req, res) => {
-    bingMap.getCurrentLocation().then((result) => {
-        res.send(result);
-        console.info(result);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
