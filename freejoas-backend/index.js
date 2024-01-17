@@ -18,14 +18,17 @@ const PORT = process.env.PORT;
 const mongodbURL = process.env.MONGO_DB_URL;
 
 //import the database model
-const Freejoas = require('./model/FreejoasModel');
+// const Freejoas = require('./model/FreejoasModel');
 
 //ininialize express app
 const express = require('express'); 
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 //import routes
 const freejoasRouter = require('./router/freejoasRouter');

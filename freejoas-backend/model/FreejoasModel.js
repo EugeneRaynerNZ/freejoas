@@ -11,7 +11,7 @@ const FreejoasModel = Schema({
 },{
     timestamps: true,
     versionKey: false,
-    toJSON: { virtuals: true },
+    toJSON: { virtuals: true,transform: (doc, ret) => { delete ret._id; } },
     toObject: { virtuals: true },
 }
 );

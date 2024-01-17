@@ -31,6 +31,7 @@ const freejoaController = {
         });
         try{
             const savedFreejoa = await freejoa.save();
+            console.log(savedFreejoa);
             res.json(savedFreejoa);
         }catch(err){
             res.json({message: err});
