@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../App.css';
+import axios from "axios";
+
 
 function Play() {
 
@@ -55,7 +57,32 @@ function Play() {
         return Math.floor((earthRadiusKm * c) * 1000);
     }
 
-    
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      // Fetch data from the server
+      axios.get('http://localhost:4000/api/freejoas')
+        .then(response => {
+          setData(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }, []);
+
+    const [inputs, setInputs] = useState({});
+    const handleChange = e => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
+
+    function handleClick() {
+      console.log(inputs);
+
+      axios.post('http://localhost:4000/api/newfreejoa', {
+        longitude: inputs.longitude,
+        latitude: inputs.latitude,
+        status: "available",
+        description: inputs.description
+      })
+    }
       
     return (
        <div id="play">
@@ -67,9 +94,30 @@ function Play() {
         <section>
             <div>Current: {coordinates.lat} : {coordinates.lng}</div>
             <div>Dummy Data: {stableCoordinates.lat} : {stableCoordinates.lng}</div>
-
             <div>Distance: {distance} meters away</div>
         </section>
+
+        <ul>
+          {data.map(item => (
+            <li key={item.id}>
+              <h3>{item.id}</h3>
+              <span>Latitude: {item.latitude}</span>
+              <span>Longitude: {item.longitude}</span>
+              <span>Description: {item.description}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex gap-4 flex-column">
+          <h4 style={{textAlign: 'center'}}>Add a new location</h4>
+          <form style={{display: 'flex', flexDirection: 'column', rowGap: "16px"}}>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="longitude" value={inputs.longitude || ''} onChange={handleChange} />
+            <input name="latitude" value={inputs.latitude || ''} onChange={handleChange} />
+            <input name="description" placeholder="description" value={inputs.description || ''} onChange={handleChange} />
+          </form>
+        </div>
+
+        <button onClick={handleClick}>Do Something Button</button>
 
         </div> 
     );

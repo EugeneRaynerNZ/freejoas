@@ -7,7 +7,7 @@ function Home() {
       <main>
         <div>
           <h2>Find your</h2>
-          <h1>Freejoas</h1>
+          <h1 className="text-3xl font-bold underline">Freejoas</h1>
           <h2>Today</h2>
         </div>
         <div>

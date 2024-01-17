@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const FreejoasModel = Schema({
-    freejoasID: String,
     freejoaName: String,
     longitude: String,
     latitude: String,
     status: String,
-    description: String
+    description: String,
+    address: String,
+    city: String,
 },{
     timestamps: true,
     versionKey: false,

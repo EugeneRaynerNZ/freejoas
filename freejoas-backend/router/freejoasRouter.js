@@ -6,13 +6,13 @@ const freejoaController = require('../controller/FreejoasController');
 router.get('/freejoas', freejoaController.getAllFreejoas);
 
 //get freejoa by ID
-router.get('/:freejoaID', freejoaController.getFreejoa);
+// router.get('/:freejoaID', freejoaController.getFreejoa);
 
 //create a freejoa
 router.post('/newfreejoa', freejoaController.createFreejoa);
 
 //update a freejoa
-router.patch('/:freejoaID', freejoaController.updateFreejoa);
+// router.patch('/:freejoaID', freejoaController.updateFreejoa);
 
 //delete a freejoa
 router.delete('/:freejoaID', freejoaController.deleteFreejoa);
