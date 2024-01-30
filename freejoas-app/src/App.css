@@ -78,24 +78,12 @@ header nav li a {
   color: black;
 }
 
-main div {
-  padding: 0 64px;
-}
-
 main h1 {
   font-size: 128px;
 }
 
 main h2 {
   font-size: 48px;
-}
-
-#play {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  row-gap: 32px;
 }
 
 @media screen and (max-width: 600px) {

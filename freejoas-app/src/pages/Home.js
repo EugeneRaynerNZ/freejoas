@@ -11,7 +11,7 @@ function Home() {
           <h2>Today</h2>
         </div>
         <div>
-          <img src={image} />
+          <img src={image} alt="Freejoas"/>
         </div>
       </main>
 
