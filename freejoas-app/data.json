@@ -1,19 +1,19 @@
 [
     {
-        "longitude": "174.737513",
         "latitude": "-36.884011",
-        "status": "available",
-        "description": "St Lukes",
+        "longitude": "174.737513",
+        "status": "true",
+        "title": "St Lukes",
         "amount": "6",
         "createdAt": "2024-01-30T02:55:14.166Z",
         "updatedAt": "2024-01-30T02:55:14.166Z",
         "id": "65b865121949a030fa98db99"
     },
     {
-        "longitude": "174.737455",
         "latitude": "-36.854996",
-        "status": "available",
-        "description": "Somewhere in Grey lynn",
+        "longitude": "174.737455",
+        "status": "true",
+        "title": "Somewhere in Grey lynn",
         "amount": "1",
         "createdAt": "2024-01-30T03:00:40.343Z",
         "updatedAt": "2024-01-30T03:00:40.343Z",

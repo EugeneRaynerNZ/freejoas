@@ -4,21 +4,25 @@ import axios from "axios";
 
 function Play() {
   // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-  const [location, setLocation] = useState(0)
+  const [location, setLocation] = useState(false)
   const [myCurrentCoordinates, setCoordinates] = useState(0);
   const [distance, getDistance] = useState(0);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     // Fetch data from the server
-    axios.get('http://localhost:4000/api/freejoas')
+    if (!location) {
+      axios.get('http://localhost:4000/api/freejoas')
       .then(response => {
         setData(response.data);
+        console.log(data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+    }
+    
+  }, [location]);
 
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -40,8 +44,8 @@ function Play() {
   }
 
   function handleSelectItem(itemId){
-    console.log(itemId)
-    console.log(data)
+    console.log('itemId ' + itemId)
+    console.log('data ' + data)
 
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
@@ -76,7 +80,7 @@ function Play() {
     <div id="play" className="flex justify-center gap-4 max-w-xl mx-auto my-0">
 
       <section className="basis-2/4">
-        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-scroll">
+        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-scroll pb-2">
           {data.map(item => (
             <li className="p-2 flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item.id} onClick={() => handleSelectItem(item.id)}>
               {/* <span>Latitude: {item.latitude}</span>
@@ -89,8 +93,16 @@ function Play() {
         </ul>
       </section>
 
-      <section className="basis-2/4">
-        <div>Distance: {distance} meters away</div>
+      <section className="flex basis-2/4 items-center justify-center">
+        {location === 0 ? (
+          <div>Please select a location to begin</div>
+        ) : (
+          <div className="flex flex-col gap-2 text-center">
+          <span className="text-lg">You are</span> 
+          <span className="text-4xl text-blue-600">{distance}</span>
+          <span className="text-lg">meters from<br />your destination</span>
+        </div>
+        )}
       </section>
 
     </div> 
