@@ -65,7 +65,16 @@ const freejoaController = {
         }catch(err){
             res.json({message: err});
         }
-    }
+    },
+    //delete all freejoas
+    deleteAllFreejoas: async (req, res) => {
+        try{
+            const deletedFreejoas = await FreejoasModel.deleteMany();
+            res.json(deletedFreejoas);
+        }catch(err){
+            res.json({message: err});
+        }
+    },
 }
 
 module.exports = freejoaController;
