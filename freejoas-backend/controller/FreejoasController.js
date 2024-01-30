@@ -12,9 +12,9 @@ const freejoaController = {
         }
     },
     //get freejoa by freejoaID
-    getFreejoa: async (req, res) => {
+    getFreejoaByID: async (req, res) => {
         try{
-            const freejoa = await FreejoasModel.find({freejoaID: req.params.freejoaID});
+            const freejoa = await FreejoasModel.findOne({_id: req.params.freejoaID});
             console.log("req id: " + req.params.freejoaID);
             if(!freejoa){
                 return res.status(404).json({message: "Freejoa not found"});

@@ -6,7 +6,7 @@ const freejoaController = require('../controller/FreejoasController');
 router.get('/freejoas', freejoaController.getAllFreejoas);
 
 //get freejoa by ID
-// router.get('/:freejoaID', freejoaController.getFreejoa);
+router.get('/:freejoaID', freejoaController.getFreejoaByID);
 
 //create a freejoa
 router.post('/newfreejoa', freejoaController.createFreejoa);
