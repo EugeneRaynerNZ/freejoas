@@ -6,7 +6,7 @@ const FreejoasModel = Schema({
     longitude: String,
     status: Boolean,
     title: String,
-    amount:String,
+    amount: String,
     createdAt: Date,
     updatedAt: Date,
 },{

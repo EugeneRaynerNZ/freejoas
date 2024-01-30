@@ -14,8 +14,8 @@ const freejoaController = {
     //get freejoa by freejoaID
     getFreejoaByID: async (req, res) => {
         try{
-            const freejoa = await FreejoasModel.findOne({_id: req.params.freejoaID});
-            console.log("req id: " + req.params.freejoaID);
+            const freejoa = await FreejoasModel.findOne({_id: req.params._id});
+            console.log("req id: " + req.params._id);
             if(!freejoa){
                 return res.status(404).json({message: "Freejoa not found"});
             }
@@ -27,10 +27,11 @@ const freejoaController = {
     //create a freejoa
     createFreejoa: async (req, res) => {
         const freejoa = new FreejoasModel({
-            longitude: req.body.longitude,
             latitude: req.body.latitude,
+            longitude: req.body.longitude,
+            amount: req.body.amount,
             status: req.body.status,
-            description: req.body.description
+            title: req.body.title
         });
         try{
             const savedFreejoa = await freejoa.save();
@@ -44,12 +45,13 @@ const freejoaController = {
     updateFreejoa: async (req, res) => {
         try{
             const updatedFreejoa = await FreejoasModel.updateOne(
-                {_id: req.params.freejoaID},
+                {_id: req.params._id},
                 {$set: {
-                    longitude: req.body.longitude,
                     latitude: req.body.latitude,
+                    longitude: req.body.longitude,
+                    amount: req.body.amount,
                     status: req.body.status,
-                    description: req.body.description
+                    title: req.body.title
                 }}
             );
             res.json(updatedFreejoa);
@@ -60,7 +62,7 @@ const freejoaController = {
     //delete a freejoa
     deleteFreejoa: async (req, res) => {
         try{
-            const deletedFreejoa = await FreejoasModel.deleteOne({_id: req.params.freejoaID});
+            const deletedFreejoa = await FreejoasModel.deleteOne({_id: req.params._id});
             res.json(deletedFreejoa);
         }catch(err){
             res.json({message: err});

@@ -9,15 +9,23 @@ function Upload() {
     const handleChange = e => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
 
     function handleClick() {
-      console.log(inputs);
+      if(inputs.latitude && inputs.longitude && inputs.amount && inputs.title) {
+        axios.post('http://localhost:4000/api/newfreejoa', {
+          latitude: inputs.latitude,
+          longitude: inputs.longitude,
+          amount: inputs.amount,
+          status: true,
+          title: inputs.title
+        })
 
-      axios.post('http://localhost:4000/api/newfreejoa', {
-        longitude: inputs.longitude,
-        latitude: inputs.latitude,
-        amount: inputs.amount,
-        status: "available",
-        description: inputs.description
-      })
+        inputs.latitude = '';
+        inputs.longitude = '';
+        inputs.amount = '';
+        inputs.title = '';
+
+      } else {
+        console.log('please input all required fields')
+      }
     }
       
     return (

@@ -1,28 +1,24 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
-import axios from "axios";
+import axios from '../axios';
 
 function Play() {
   // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-  const [location, setLocation] = useState(false)
+  // const [location, setLocation] = useState(null)
   const [myCurrentCoordinates, setCoordinates] = useState(0);
   const [distance, getDistance] = useState(0);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the server
-    if (!location) {
-      axios.get('http://localhost:4000/api/freejoas')
-      .then(response => {
-        setData(response.data);
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    async function fetchData() {
+      const request = await axios.get("/freejoas");
+      console.log(request)
+      setData(request.data)
     }
     
-  }, [location]);
+    fetchData();
+    // if [], run once when the row loads, and don't run again (only on page load)
+  }, []);
 
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -43,66 +39,59 @@ function Play() {
       return Math.floor((earthRadiusKm * c) * 1000);
   }
 
-  function handleSelectItem(itemId){
-    console.log('itemId ' + itemId)
-    console.log('data ' + data)
+  function handleSelectItem(lat, lng){
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
 
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
+      getDistance(
+        distanceInKmBetweenEarthCoordinates(
+          lat,
+          lng,
+          myCurrentCoordinates.latitude,
+          myCurrentCoordinates.longitude
+        )
+      )
 
-          setCoordinates(pos)
-        },
-        (e) => {
-          console.log(e)
-        }
-      );
+    } else {
+      console.log("Geolocation not supported");
     }
-
-    getDistance(distanceInKmBetweenEarthCoordinates(
-      location.latitude,
-      location.longitude,
-      myCurrentCoordinates.lat,
-      myCurrentCoordinates.lng
-    ))
-
-    setLocation(data.find(x => x.id === itemId))
-
-    console.log(`Location I want to go to: ${location.latitude} : ${location.longitude}`)
-    console.log(`My Current Location: ${myCurrentCoordinates.lat} : ${myCurrentCoordinates.lng}`)
+  }
+  
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    setCoordinates({ latitude, longitude });
+    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+  }
+  
+  function error() {
+    console.log("Unable to retrieve your location");
   }
       
   return (
     <div id="play" className="flex justify-center gap-4 max-w-xl mx-auto my-0">
 
       <section className="basis-2/4">
-        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-scroll pb-2">
+        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
           {data.map(item => (
-            <li className="p-2 flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item.id} onClick={() => handleSelectItem(item.id)}>
-              {/* <span>Latitude: {item.latitude}</span>
-              <span>Longitude: {item.longitude}</span> */}
-              <span>Description: {item.description}</span>
-              {/* to add */}
-              <span>Estimated amount of trees: 0</span>
+            <li className="p-2 flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
+              <span>Title: {item.title}</span>
+              <span>Estimated amount of trees: {item.amount}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <section className="flex basis-2/4 items-center justify-center">
-        {location === 0 ? (
+        {/* {!location ? (
           <div>Please select a location to begin</div>
-        ) : (
+        ) : ( */}
           <div className="flex flex-col gap-2 text-center">
           <span className="text-lg">You are</span> 
           <span className="text-4xl text-blue-600">{distance}</span>
           <span className="text-lg">meters from<br />your destination</span>
         </div>
-        )}
+        {/* )} */}
       </section>
 
     </div> 
