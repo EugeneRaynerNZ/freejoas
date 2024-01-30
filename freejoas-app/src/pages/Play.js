@@ -2,25 +2,23 @@ import { useState, useEffect } from 'react';
 import '../App.css';
 import axios from "axios";
 
-
 function Play() {
+  // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
+  const [location, setLocation] = useState(0)
+  const [myCurrentCoordinates, setCoordinates] = useState(0);
+  const [distance, getDistance] = useState(0);
+  const [data, setData] = useState([]);
 
-    // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-    const [location, setLocation] = useState(0)
-    const [myCurrentCoordinates, setCoordinates] = useState(0);
-    const [distance, getDistance] = useState(0);
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-      // Fetch data from the server
-      axios.get('http://localhost:4000/api/freejoas')
-        .then(response => {
-          setData(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    }, []);
+  useEffect(() => {
+    // Fetch data from the server
+    axios.get('http://localhost:4000/api/freejoas')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -70,28 +68,28 @@ function Play() {
 
     setLocation(data.find(x => x.id === itemId))
 
-    console.log(location)
+    console.log(`Location I want to go to: ${location.latitude} : ${location.longitude}`)
+    console.log(`My Current Location: ${myCurrentCoordinates.lat} : ${myCurrentCoordinates.lng}`)
   }
       
   return (
-    <div id="play" className="flex justify-center max-w-xl mx-auto my-0">
+    <div id="play" className="flex justify-center gap-4 max-w-xl mx-auto my-0">
 
-      <section>
-        <ul className="locations-list">
+      <section className="basis-2/4">
+        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-scroll">
           {data.map(item => (
-            <li className="p-2 flex flex-col" key={item.id} onClick={() => handleSelectItem(item.id)}>
-              <span>{item.id}</span>
-              <span>Latitude: {item.latitude}</span>
-              <span>Longitude: {item.longitude}</span>
+            <li className="p-2 flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item.id} onClick={() => handleSelectItem(item.id)}>
+              {/* <span>Latitude: {item.latitude}</span>
+              <span>Longitude: {item.longitude}</span> */}
               <span>Description: {item.description}</span>
+              {/* to add */}
+              <span>Estimated amount of trees: 0</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section>
-        <div>Current: {myCurrentCoordinates.lat} : {myCurrentCoordinates.lng}</div>
-        <div>Dummy Data: {location.lat} : {location.lng}</div>
+      <section className="basis-2/4">
         <div>Distance: {distance} meters away</div>
       </section>
 
