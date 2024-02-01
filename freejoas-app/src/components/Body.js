@@ -6,7 +6,7 @@ import Upload from "../pages/Upload";
 
 function Body() {
     return (
-        <main>
+        <main className="flex flex-1">
 
             <Routes>
                 <Route exact path='/' Component={Home}/>

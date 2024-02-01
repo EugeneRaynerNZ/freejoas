@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
 import axios from '../axios';
+import { FaTree } from "react-icons/fa";
 
 function Play() {
   // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
@@ -69,18 +70,7 @@ function Play() {
   }
       
   return (
-    <div id="play" className="flex justify-center gap-4 max-w-xl mx-auto my-0">
-
-      <section className="basis-2/4">
-        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
-          {data.map(item => (
-            <li className="p-2 flex flex-col shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
-              <span>Title: {item.title}</span>
-              <span>Estimated amount of trees: {item.amount}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+    <div id="play" className="flex flex-col justify-center gap-4 max-w-3xl mx-auto my-0">
 
       <section className="flex basis-2/4 items-center justify-center">
         {/* {!location ? (
@@ -92,6 +82,19 @@ function Play() {
           <span className="text-lg">meters from<br />your destination</span>
         </div>
         {/* )} */}
+      </section>
+
+      <section className="basis-2/4">
+        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
+          {data.map(item => (
+            <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
+              <span className="text-slate-700  font-bold">{item.title}</span>
+              <div className="flex gap-2">
+                <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
     </div> 

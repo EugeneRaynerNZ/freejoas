@@ -57,6 +57,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
 header {
   width: 100%;
   height: var(--header-height);
@@ -84,24 +90,4 @@ main h1 {
 
 main h2 {
   font-size: 48px;
-}
-
-@media screen and (max-width: 600px) {
-  main div {
-    padding: 0 24px;
-  }
-
-  main div img {
-    max-width: 100%;
-
-  }
-  
-  
-  main h1 {
-    font-size: 42px;
-  }
-  
-  main h2 {
-    font-size: 28px;
-  }
 }
