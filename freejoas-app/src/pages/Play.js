@@ -27,6 +27,26 @@ function Play() {
     // if [], run once when the row loads, and don't run again (only on page load)
   }, []);
 
+  useEffect(() => {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+
+    } else {
+      console.log("Geolocation not supported");
+    }
+
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setCoordinates({ latitude, longitude });
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
+  }, []);
+
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
   }
@@ -50,6 +70,16 @@ function Play() {
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
 
+    } else {
+      console.log("Geolocation not supported");
+    }
+
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setCoordinates({ latitude, longitude });
+      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      
       getDistance(
         distanceInKmBetweenEarthCoordinates(
           lat,
@@ -58,22 +88,13 @@ function Play() {
           myCurrentCoordinates.longitude
         )
       )
-
-    } else {
-      console.log("Geolocation not supported");
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
     }
   }
   
-  function success(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    setCoordinates({ latitude, longitude });
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-  }
-  
-  function error() {
-    console.log("Unable to retrieve your location");
-  }
       
   return (
     <div id="play" className="flex flex-col justify-center gap-4 max-w-3xl mx-auto my-0">
