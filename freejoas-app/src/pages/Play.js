@@ -11,10 +11,16 @@ function Play() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+
+    // Want to use async/await? Add the `async` keyword to your outer function/method.
     async function fetchData() {
-      const request = await axios.get("/freejoas");
-      console.log(request)
-      setData(request.data)
+      try {
+        const response = await axios.get('/freejoas');
+        console.log(response)
+        setData(response.data)
+      } catch (error) {
+        console.error(error);
+      }
     }
     
     fetchData();
@@ -86,6 +92,9 @@ function Play() {
 
       <section className="basis-2/4">
         <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
+          {/* {!data ? (
+          <div>Please select a location to begin</div>
+          ) : ( */}
           {data.map(item => (
             <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
               <span className="text-slate-700  font-bold">{item.title}</span>
@@ -94,6 +103,7 @@ function Play() {
               </div>
             </li>
           ))}
+          {/* )} */}
         </ul>
       </section>
 
