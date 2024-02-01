@@ -27,6 +27,22 @@ function Upload() {
         console.log('please input all required fields')
       }
     }
+
+    function getCurrentLocation(){
+      if (navigator?.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        console.log("Geolocation not supported");
+      }
+    }
+
+    function success(position) {
+      setInputs(inputs.latitude = position.coords.latitude, inputs.longitude = position.coords.longitude)
+    }
+    
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
       
     return (
        <div id="upload">
@@ -40,6 +56,8 @@ function Upload() {
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="title" placeholder="title" value={inputs.title || ''} onChange={handleChange} />
           </form>
           <button className="bg-green-700 text-white rounded p-2" onClick={handleClick}>Add a new location now</button>
+          <button className="bg-green-700 text-white rounded p-2" onClick={getCurrentLocation}>Enter from my current location</button>
+          {inputs.latitude} : {inputs.longitude}
         </div>
 
         
