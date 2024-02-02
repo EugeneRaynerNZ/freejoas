@@ -18,6 +18,6 @@ router.post('/newfreejoa', freejoaController.createFreejoa);
 router.delete('/:freejoaID', freejoaController.deleteFreejoa);
 
 //delete all freejoas
-router.delete('/all', freejoaController.deleteAllFreejoas);
+// router.delete('/all', freejoaController.deleteAllFreejoas);
 
 module.exports = router;

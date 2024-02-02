@@ -6,7 +6,7 @@ const instance = axios.create({
     // baseURL: "https://ceba-121-98-11-51.ngrok-free.app/api",
     headers: {
         'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning' :'skip-browser-warning'
+        // 'ngrok-skip-browser-warning' :'skip-browser-warning'
     }
 })
 
