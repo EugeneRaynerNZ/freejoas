@@ -5,7 +5,7 @@ import { FaTree } from "react-icons/fa";
 
 function Play() {
   // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-  // const [location, setLocation] = useState(null)
+  const [freejoaLocation, setFreejoaLocation] = useState(0)
   const [myCurrentCoordinates, setCoordinates] = useState(0);
   const [distance, getDistance] = useState(0);
   const [data, setData] = useState([]);
@@ -28,24 +28,73 @@ function Play() {
   }, []);
 
   useEffect(() => {
-    if (navigator?.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
+    // navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0,});
 
-    } else {
-      console.log("Geolocation not supported");
-    }
+    // if (navigator?.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0,});
 
-    function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      setCoordinates({ latitude, longitude });
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    }
+    // } else {
+    //   console.log("Geolocation not supported");
+    // }
+
+    // function success(position) {
+    //   const latitude = position.coords.latitude;
+    //   const longitude = position.coords.longitude;
+    //   setCoordinates({ latitude, longitude });
+    //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    // }
     
-    function error() {
-      console.log("Unable to retrieve your location");
+    // function error() {
+    //   console.log("Unable to retrieve your location");
+    // }
+
+    // Check if the Geolocation API is supported by the browser
+    if ("geolocation" in navigator) {
+      // Use watchPosition to continuously monitor the device's location
+      const watchId = navigator.geolocation.watchPosition(
+        // Success callback function
+        function (position) {
+
+          // Update the state with the new position
+          setCoordinates({ 
+            latitude: position.coords.latitude, 
+            longitude: position.coords.longitude
+          });
+
+          if(freejoaLocation) {
+            getDistance(
+              distanceInKmBetweenEarthCoordinates(
+                freejoaLocation.latitude,
+                freejoaLocation.longitude,
+                myCurrentCoordinates.latitude,
+                myCurrentCoordinates.longitude
+              )
+            )
+          }
+
+          console.log(myCurrentCoordinates.latitude, myCurrentCoordinates.longitude)
+        },
+        // Error callback function
+        function (error) {
+          // Handle errors, such as permission denied or unable to retrieve location
+          console.error(`Error getting location: ${error.message}`);
+        },
+        // Options object (optional)
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+
+      // Cleanup the watchPosition when the component unmounts
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+      };
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
-  }, []);
+  }, [freejoaLocation]);
 
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -67,32 +116,38 @@ function Play() {
   }
 
   function handleSelectItem(lat, lng){
-    if (navigator?.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
 
-    } else {
-      console.log("Geolocation not supported");
-    }
+    setFreejoaLocation({
+      latitude: lat,
+      longitude: lng
+    })
 
-    function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      setCoordinates({ latitude, longitude });
-      console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    // if (navigator?.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(success, error);
+
+    // } else {
+    //   console.log("Geolocation not supported");
+    // }
+
+    // function success(position) {
+    //   const latitude = position.coords.latitude;
+    //   const longitude = position.coords.longitude;
+    //   setCoordinates({ latitude, longitude });
+    //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
       
-      getDistance(
-        distanceInKmBetweenEarthCoordinates(
-          lat,
-          lng,
-          myCurrentCoordinates.latitude,
-          myCurrentCoordinates.longitude
-        )
-      )
-    }
+    //   getDistance(
+    //     distanceInKmBetweenEarthCoordinates(
+    //       lat,
+    //       lng,
+    //       myCurrentCoordinates.latitude,
+    //       myCurrentCoordinates.longitude
+    //     )
+    //   )
+    // }
     
-    function error() {
-      console.log("Unable to retrieve your location");
-    }
+    // function error() {
+    //   console.log("Unable to retrieve your location");
+    // }
   }
   
       

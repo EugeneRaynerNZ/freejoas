@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '../App.css';
-import axios from "axios";
+import axios from '../axios';
 
 
 function Upload() {
@@ -10,7 +10,7 @@ function Upload() {
 
     function handleClick() {
       if(inputs.latitude && inputs.longitude && inputs.amount && inputs.title) {
-        axios.post('http://localhost:4000/api/newfreejoa', {
+        axios.post('/newfreejoa', {
           latitude: inputs.latitude,
           longitude: inputs.longitude,
           amount: inputs.amount,
@@ -18,10 +18,13 @@ function Upload() {
           title: inputs.title
         })
 
-        inputs.latitude = '';
-        inputs.longitude = '';
-        inputs.amount = '';
-        inputs.title = '';
+        setInputs({
+          latitude: null,
+          longitude: null,
+          amount: null,
+          status: null,
+          title: null
+        })
 
       } else {
         console.log('please input all required fields')
@@ -37,7 +40,11 @@ function Upload() {
     }
 
     function success(position) {
-      setInputs(inputs.latitude = position.coords.latitude, inputs.longitude = position.coords.longitude)
+      setInputs({
+        latitude: position.coords.latitude, 
+        longitude: position.coords.longitude
+      })
+      console.log(inputs)
     }
     
     function error() {
