@@ -25,8 +25,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const app = express();
+const https = require('https');
+const fs = require('fs');
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -38,21 +40,34 @@ const freejoasRouter = require('./router/freejoasRouter');
 //use routes
 app.use('/api', freejoasRouter);
 
-
 // Connect to MongoDB
 mongoose.connect(mongodbURL,{
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
+// Create an HTTPS server
+const options = {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+};
+
 // Start the server
-app.get('/', (req, res) => {
-    res.send('Hello World! - from freejoas-backend');
+https.createServer(options,app).listen(PORT, () => {
+    console.log(`Server listening on port ${PORT} (HTTPS)`);
+});
+
+https.get('/', (req, res) => {
+    res.send('Hello World! - from HTTPS freejoas-backend');
     });
 
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-    });
+// app.get('/', (req, res) => {
+//     res.send('Hello World! - from freejoas-backend');
+//     });
+// 
+// app.listen(PORT, () => {
+//     console.log(`Server listening on port ${PORT}`);
+//     });
 
 // Check if MongoDB is connected
 const db = mongoose.connection;
