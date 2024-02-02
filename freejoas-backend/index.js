@@ -57,9 +57,6 @@ https.createServer(options,app).listen(PORT, () => {
     console.log(`Server listening on port ${PORT} (HTTPS)`);
 });
 
-https.get('/', (req, res) => {
-    res.send('Hello World! - from HTTPS freejoas-backend');
-    });
 
 // app.get('/', (req, res) => {
 //     res.send('Hello World! - from freejoas-backend');
