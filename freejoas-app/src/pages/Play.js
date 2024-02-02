@@ -28,25 +28,6 @@ function Play() {
   }, []);
 
   useEffect(() => {
-    // navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0,});
-
-    // if (navigator?.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0,});
-
-    // } else {
-    //   console.log("Geolocation not supported");
-    // }
-
-    // function success(position) {
-    //   const latitude = position.coords.latitude;
-    //   const longitude = position.coords.longitude;
-    //   setCoordinates({ latitude, longitude });
-    //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    // }
-    
-    // function error() {
-    //   console.log("Unable to retrieve your location");
-    // }
 
     // Check if the Geolocation API is supported by the browser
     if ("geolocation" in navigator) {
@@ -72,7 +53,7 @@ function Play() {
             )
           }
 
-          console.log(myCurrentCoordinates.latitude, myCurrentCoordinates.longitude)
+          console.log(myCurrentCoordinates)
         },
         // Error callback function
         function (error) {
@@ -95,6 +76,21 @@ function Play() {
       console.error("Geolocation is not supported by this browser.");
     }
   }, [freejoaLocation]);
+
+  useEffect(() => {
+    if(freejoaLocation) {
+      getDistance(
+        distanceInKmBetweenEarthCoordinates(
+          freejoaLocation.latitude,
+          freejoaLocation.longitude,
+          myCurrentCoordinates.latitude,
+          myCurrentCoordinates.longitude
+        )
+      )
+
+      console.log(distance)
+    }
+  }, [myCurrentCoordinates])
 
   function degreesToRadians(degrees) {
       return degrees * Math.PI / 180;
@@ -121,33 +117,6 @@ function Play() {
       latitude: lat,
       longitude: lng
     })
-
-    // if (navigator?.geolocation) {
-    //   navigator.geolocation.getCurrentPosition(success, error);
-
-    // } else {
-    //   console.log("Geolocation not supported");
-    // }
-
-    // function success(position) {
-    //   const latitude = position.coords.latitude;
-    //   const longitude = position.coords.longitude;
-    //   setCoordinates({ latitude, longitude });
-    //   console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-      
-    //   getDistance(
-    //     distanceInKmBetweenEarthCoordinates(
-    //       lat,
-    //       lng,
-    //       myCurrentCoordinates.latitude,
-    //       myCurrentCoordinates.longitude
-    //     )
-    //   )
-    // }
-    
-    // function error() {
-    //   console.log("Unable to retrieve your location");
-    // }
   }
   
       
