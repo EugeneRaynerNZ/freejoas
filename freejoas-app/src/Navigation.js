@@ -1,15 +1,19 @@
 import './App.css';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
+import HomeIcon from '@mui/icons-material/Home';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import UploadIcon from '@mui/icons-material/Upload';
 
 function Navigation() {
   return (
-    <header>
-        <nav>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/play">Play</Link></li>
-            <li><Link to="/upload">Upload</Link></li>
+    <footer className="flex">
+        <nav className="flex text-center">
+            <li className="flex align-center justify-center"><NavLink to="/" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><HomeIcon fontSize="large"/></NavLink></li>
+            <li className="flex align-center justify-center"><NavLink to="/play" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><DirectionsWalkIcon fontSize="large" /></NavLink></li>
+            <li className="flex align-center justify-center"><NavLink to="/upload" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><UploadIcon fontSize="large" /></NavLink></li>
         </nav>
-    </header>
+    </footer>
   );
 }
 

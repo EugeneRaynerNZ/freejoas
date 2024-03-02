@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import '../App.css';
 import axios from '../axios';
 import { FaTree } from "react-icons/fa";
+import Navigation from "../Navigation";
+import ExampleData from "../data.json";
+
 
 function Play() {
   // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
@@ -121,38 +124,45 @@ function Play() {
   
       
   return (
-    <div id="play" className="flex flex-col justify-center gap-4 max-w-3xl mx-auto my-0">
+    <div id="play" className="flex flex-col justify-center gap-4 max-w-3xl my-0 w-full">
 
-      <section className="flex basis-2/4 items-center justify-center">
-        {/* {!location ? (
-          <div>Please select a location to begin</div>
-        ) : ( */}
-          <div className="flex flex-col gap-2 text-center">
-          <span className="text-lg">You are</span> 
-          <span className="text-4xl text-blue-600">{distance}</span>
-          <span className="text-lg">meters from<br />your destination</span>
-        </div>
-        {/* )} */}
-      </section>
-
-      <section className="basis-2/4">
-        <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
-          {/* {!data ? (
-          <div>Please select a location to begin</div>
+      <div className="flex-1 flex flex-col pt-8 gap-2">
+        <section className="flex basis-2/4 items-center justify-center">
+          {/* {!location ? (
+            <div>Please select a location to begin</div>
           ) : ( */}
-          {data.map(item => (
-            <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
-              <span className="text-slate-700  font-bold">{item.title}</span>
-              <div className="flex gap-2">
-                <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
-              </div>
-            </li>
-          ))}
+            <div className="flex flex-col gap-2 text-center">
+            <span className="text-lg">You are</span> 
+            <span className="text-4xl text-blue-600">{distance}</span>
+            <span className="text-lg">meters from<br />your destination</span>
+          </div>
           {/* )} */}
-        </ul>
-      </section>
+        </section>
 
-    </div> 
+        <section className="basis-2/4 px-4">
+          <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
+            {/* {!data ? (
+            <div>Please select a location to begin</div>
+            ) : ( */}
+            {ExampleData.map(item => (
+              <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
+                <span className="text-slate-700  font-bold">{item.title}</span>
+                <div className="flex gap-2">
+                  <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
+                </div>
+                <div className="flex">
+                  <div><span>Updated at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div>
+                </div>
+              </li>
+            ))}
+            {/* )} */}
+          </ul>
+        </section>
+      </div>
+
+<Navigation />
+</div> 
+
   );
 }
 
