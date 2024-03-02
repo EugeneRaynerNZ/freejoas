@@ -1,3 +1,5 @@
+import React from 'react';
+import image from '../freejoas-image.png';
 import '../App.css';
 import { NavLink } from "react-router-dom";
 
