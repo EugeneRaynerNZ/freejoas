@@ -151,7 +151,8 @@ function Play() {
                   <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
                 </div>
                 <div className="flex">
-                  <div><span>Updated at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div>
+                  {/* <div><span>Added at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div> */}
+                  Status: All good!
                 </div>
               </li>
             ))}

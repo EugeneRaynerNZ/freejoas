@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import Body from "./components/Body";
+import Router from "./components/Router";
 
 
 import './App.css';
@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   return (
     <BrowserRouter>
-      <Body />
+      <Router />
     </BrowserRouter>
   );
 }

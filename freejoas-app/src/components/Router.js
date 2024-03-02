@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from "../pages/Home";
 import Play from "../pages/Play";
 import Upload from "../pages/Upload";
+import UpdateTree from "../pages/UpdateTree";
 
 function Body() {
     return (
@@ -10,9 +11,10 @@ function Body() {
 
             <Routes>
                 <Route exact path='/' Component={Home}/>
-                <Route path='/Home' Component={Home}/>
-                <Route path='/Play' Component={Play}/>
-                <Route path='/Upload' Component={Upload}/>
+                <Route path='/home' Component={Home}/>
+                <Route path='/play' Component={Play}/>
+                <Route path='/upload' Component={Upload}/>
+                <Route path='/update' Component={UpdateTree}/>
             </Routes>
 
         </main>
