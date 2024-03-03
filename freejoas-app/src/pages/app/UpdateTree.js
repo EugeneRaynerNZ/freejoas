@@ -1,6 +1,6 @@
 import React from 'react';
-import Navigation from "../Navigation";
-import '../App.css';
+import Navigation from "../../Navigation";
+import '../../App.css';
 
 function UpdateTree() {
 

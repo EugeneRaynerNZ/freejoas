@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import '../App.css';
-import axios from '../axios';
+import '../../App.css';
+import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
-import Navigation from "../Navigation";
-import ExampleData from "../data.json";
+import Navigation from "../../Navigation";
+// import ExampleData from "../data.json";
 
 
 function Play() {
@@ -18,7 +18,7 @@ function Play() {
     // Want to use async/await? Add the `async` keyword to your outer function/method.
     async function fetchData() {
       try {
-        const response = await axios.get('/freejoas');
+        const response = await axios.get('/freejoas/all');
         console.log(response)
         setData(response.data)
       } catch (error) {
@@ -144,7 +144,7 @@ function Play() {
             {/* {!data ? (
             <div>Please select a location to begin</div>
             ) : ( */}
-            {ExampleData.map(item => (
+            {data.map(item => (
               <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
                 <span className="text-slate-700  font-bold">{item.title}</span>
                 <div className="flex gap-2">

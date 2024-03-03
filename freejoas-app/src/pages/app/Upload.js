@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import '../App.css';
-import axios from '../axios';
-import Navigation from "../Navigation";
+import '../../App.css';
+import axios from '../../axios';
+import Navigation from "../../Navigation";
 
 
 function Upload() {

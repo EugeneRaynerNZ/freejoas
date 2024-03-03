@@ -17,7 +17,7 @@ function Home() {
             <p>Enjoy walking to find Feijoas today.</p>
           </div>
           <div className="home--title-container-button pb-4">
-            <NavLink className="cta--button" to="/play" >Get Started</NavLink>
+            <NavLink className="cta--button" to="/login" >Login</NavLink>
           </div>
         </div>
       </section>
