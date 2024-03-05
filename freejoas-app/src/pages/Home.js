@@ -9,7 +9,7 @@ function Home() {
 
       <section className="home w-full">
         <div className="home--logo-container">
-          <img src={image} style={{width: "320px"}}/>
+          <img src={image} alt="Freejoas" style={{width: "320px"}}/>
         </div>
         <div className="home--title-container">
           <div className="home--title-container-text">

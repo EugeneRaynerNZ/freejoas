@@ -4,11 +4,11 @@ import '../../App.css';
 
 function UpdateTree() {
 
-    const [status, setStatus] = React.useState('');
+    // const [status, setStatus] = React.useState('');
 
-    const handleChange = (event) => {
-        setStatus(event.target.value);
-    };
+    // const handleChange = (event) => {
+    //     setStatus(event.target.value);
+    // };
 
     return (
 
@@ -20,7 +20,7 @@ function UpdateTree() {
                         <span>What's the status?</span>
                     </label>
                     <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option className="w-full" defaultValue={status}>Choose an option</option>
+                        {/* <option className="w-full" defaultValue={status}>Choose an option</option> */}
                         <option className="w-full">It's got heaps</option>
                         <option className="w-full">It's losing fruit</option>
                         <option className="w-full">Not much on there</option>
