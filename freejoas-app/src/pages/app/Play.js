@@ -3,6 +3,7 @@ import '../../App.css';
 import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
+import NumberToColorGradient from "../../components/ColourGenerator";
 // import ExampleData from "../data.json";
 
 
@@ -128,35 +129,35 @@ function Play() {
 
       <div className="flex-1 flex flex-col pt-8 gap-2">
         <section className="flex basis-2/4 items-center justify-center">
-          {/* {!location ? (
-            <div>Please select a location to begin</div>
-          ) : ( */}
+          {!freejoaLocation ? (
+            <div>Please select a location below to begin</div>
+          ) : (
             <div className="flex flex-col gap-2 text-center">
             <span className="text-lg">You are</span> 
-            <span className="text-4xl text-blue-600">{distance}</span>
+            <NumberToColorGradient number={distance} />
             <span className="text-lg">meters from<br />your destination</span>
           </div>
-          {/* )} */}
+           )}
         </section>
 
         <section className="basis-2/4 px-4">
           <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
-            {/* {!data ? (
-            <div>Please select a location to begin</div>
-            ) : ( */}
-            {data.map(item => (
-              <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
-                <span className="text-slate-700  font-bold">{item.title}</span>
-                <div className="flex gap-2">
-                  <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
-                </div>
-                <div className="flex">
-                  {/* <div><span>Added at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div> */}
-                  Status: All good!
-                </div>
-              </li>
-            ))}
-            {/* )} */}
+            {!data ? (
+              <div>Loading...</div>
+            ) : (
+              data.map(item => (
+                <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
+                  <span className="text-slate-700  font-bold">{item.title}</span>
+                  <div className="flex gap-2">
+                    <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
+                  </div>
+                  <div className="flex">
+                    {/* <div><span>Added at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div> */}
+                    Status: All good!
+                  </div>
+                </li>
+              ))
+            )}
           </ul>
         </section>
       </div>
