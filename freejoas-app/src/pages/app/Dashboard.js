@@ -28,6 +28,7 @@ function Dashboard() {
     
     fetchData();
     // if [], run once when the row loads, and don't run again (only on page load)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

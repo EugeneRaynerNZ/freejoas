@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 function ArrowToPointLocation({ targetLatitude, targetLongitude, currentLatitude, currentLongitude }) {
   useEffect(() => {
@@ -22,3 +22,4 @@ function ArrowToPointLocation({ targetLatitude, targetLongitude, currentLatitude
 }
 
 export default ArrowToPointLocation;
+ 

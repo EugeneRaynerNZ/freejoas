@@ -31,6 +31,7 @@ function Play() {
     
     fetchData();
     // if [], run once when the row loads, and don't run again (only on page load)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -81,6 +82,8 @@ function Play() {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freejoaLocation]);
 
   useEffect(() => {
@@ -96,6 +99,7 @@ function Play() {
 
       console.log(distance)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myCurrentCoordinates])
 
   function degreesToRadians(degrees) {
