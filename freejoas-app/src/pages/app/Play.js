@@ -4,6 +4,8 @@ import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import NumberToColorGradient from "../../components/ColourGenerator";
+import Arrow from "../../components/Arrow";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 // import ExampleData from "../data.json";
 
 
@@ -136,6 +138,13 @@ function Play() {
             <span className="text-lg">You are</span> 
             <NumberToColorGradient number={distance} />
             <span className="text-lg">meters from<br />your destination</span>
+            <Arrow
+              targetLatitude={freejoaLocation.latitude}
+              targetLongitude={freejoaLocation.longitude}
+              currentLatitude={myCurrentCoordinates.latitude}
+              currentLongitude={myCurrentCoordinates.longitude}
+            />
+            <div className="w-full text-center"><ArrowUpwardIcon id="arrow"/></div>
           </div>
            )}
         </section>
