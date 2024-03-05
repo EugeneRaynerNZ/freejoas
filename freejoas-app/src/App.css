@@ -162,6 +162,29 @@ footer nav li a svg {
   text-align: center;
 }
 
+.back--button{
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  /* color: white; */
+  padding: 4px 8px;
+  align-self: baseline;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+}
+
+.back--button svg {
+  width: 16px;
+}
+
+.back--button span {
+  font-size: 12px;
+}
+
 .cta--button {
   font-size: 16px;
   background: var(--primary-color);
@@ -175,7 +198,6 @@ footer nav li a svg {
 .cta--button-delete {
   background: #d30415;
 }
-
 
 #upload input{
   border-radius: 8px;

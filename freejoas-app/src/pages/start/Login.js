@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 function Login() {
@@ -37,27 +38,29 @@ function Login() {
 
     return (
 
-        <section className="home w-full">
+        <section className="flex flex-col gap-8 login w-full px-8 items-center justify-center">
             
-            <NavLink to="/" >Go back</NavLink>
-            <h1 className="text-center mb-4">Login</h1>
+            <div className="flex flex-col gap-8 w-full">
+                <NavLink className="back--button" to="/" ><ArrowBackIcon /><span>Go back</span></NavLink>
+                <h1 className="text-center">Login</h1>
+            </div>
             <form className="flex flex-col gap-2 mb-16">
                 <label>
                     Email Address
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" value={inputs.email || ''} onChange={handleChange} />
+                    <input type="email" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" value={inputs.email || ''} onChange={handleChange} />
                 </label>
                 <label>
                     Password
                     <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" value={inputs.password || ''} onChange={handleChange} />
+                    {/* <input type="password" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" value={inputs.password || ''} onChange={handleChange} /> */}
                 </label>
 
                 
             </form>
 
-            <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Login</button>
-
-            wsking233@gmail.com
-            123456abc
+            <div className="flex w-full">
+                <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Login</button>
+            </div>
 
             {console.log(user)}
         </section>
