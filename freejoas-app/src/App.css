@@ -408,15 +408,6 @@ form {
   color: #555555;
 }
 
-#upload input{
-  border-radius: 8px;
-  background: #eff0ef;
-}
-
-#upload input::placeholder{
-  color: rgba(128, 133, 126, 0.938)
-}
-
 .dashboard {
   background: var(--primary-color);
 }
@@ -495,4 +486,10 @@ form {
 
 .dashboard--previous-activity li {
   box-shadow: 0px 0px 2px 0px rgba(48,115,81,0.3);
+}
+
+.get-my-location{
+  font-size: 14px;
+  text-decoration: underline;
+  color: var(--primary-color);
 }
