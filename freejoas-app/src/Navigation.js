@@ -5,14 +5,36 @@ import HomeIcon from '@mui/icons-material/Home';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import UploadIcon from '@mui/icons-material/Upload';
 
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import DirectionsWalkOutlinedIcon from '@mui/icons-material/DirectionsWalkOutlined';
+import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
+
 function Navigation() {
   return (
     <footer className="flex">
-        <nav className="flex text-center">
-            <li className="flex align-center justify-center"><NavLink to="/dashboard" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><HomeIcon fontSize="large"/></NavLink></li>
-            <li className="flex align-center justify-center"><NavLink to="/play" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><DirectionsWalkIcon fontSize="large" /></NavLink></li>
-            <li className="flex align-center justify-center"><NavLink to="/upload" className={({ isActive, isPending }) => isPending ? "pending" : isActive ? "active" : ""}><UploadIcon fontSize="large" /></NavLink></li>
-        </nav>
+      <nav className="flex text-center">
+        <li className="nav-link">
+          <NavLink to="/dashboard" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
+            {({ isActive }) => (
+              <>{isActive ? <HomeIcon fontSize="large" /> : <HomeOutlinedIcon fontSize="large" />} Home</>
+            )}
+          </NavLink>
+        </li>
+        <li className="nav-link">
+          <NavLink to="/play" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
+            {({ isActive }) => (
+              <>{isActive ? <DirectionsWalkIcon fontSize="large" /> : <DirectionsWalkOutlinedIcon fontSize="large" />} Explore</>
+            )}
+          </NavLink>
+        </li>
+        <li className="nav-link">
+          <NavLink to="/upload" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
+            {({ isActive }) => (
+              <>{isActive ? <UploadIcon fontSize="large" /> : <UploadOutlinedIcon fontSize="large" />} Upload</>
+            )}
+          </NavLink>
+        </li>
+      </nav>
     </footer>
   );
 }

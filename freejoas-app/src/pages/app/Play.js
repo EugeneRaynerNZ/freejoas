@@ -5,45 +5,34 @@ import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import NumberToColorGradient from "../../components/ColourGenerator";
 import Arrow from "../../components/Arrow";
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-// import ExampleData from "../data.json";
+import ArrowUpwardIcon from '../../arrow.svg';
 
+import Probability from '../../components/Probability';
 
 function Play() {
-  // const stableCoordinates = {lat: -36.863617, lng: 174.744042}
-  const [freejoaLocation, setFreejoaLocation] = useState(0)
+  const [freejoaLocation, setFreejoaLocation] = useState(null);
   const [myCurrentCoordinates, setCoordinates] = useState(0);
   const [distance, getDistance] = useState(0);
   const [data, setData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-
-    // Want to use async/await? Add the `async` keyword to your outer function/method.
     async function fetchData() {
       try {
         const response = await axios.get('/freejoas/all');
-        console.log(response)
-        setData(response.data)
+        setData(response.data);
       } catch (error) {
         console.error(error);
       }
     }
     
     fetchData();
-    // if [], run once when the row loads, and don't run again (only on page load)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-
-    // Check if the Geolocation API is supported by the browser
     if ("geolocation" in navigator) {
-      // Use watchPosition to continuously monitor the device's location
       const watchId = navigator.geolocation.watchPosition(
-        // Success callback function
         function (position) {
-
-          // Update the state with the new position
           setCoordinates({ 
             latitude: position.coords.latitude, 
             longitude: position.coords.longitude
@@ -57,17 +46,12 @@ function Play() {
                 myCurrentCoordinates.latitude,
                 myCurrentCoordinates.longitude
               )
-            )
+            );
           }
-
-          console.log(myCurrentCoordinates)
         },
-        // Error callback function
         function (error) {
-          // Handle errors, such as permission denied or unable to retrieve location
           console.error(`Error getting location: ${error.message}`);
         },
-        // Options object (optional)
         {
           enableHighAccuracy: true,
           timeout: 5000,
@@ -75,15 +59,12 @@ function Play() {
         }
       );
 
-      // Cleanup the watchPosition when the component unmounts
       return () => {
         navigator.geolocation.clearWatch(watchId);
       };
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [freejoaLocation]);
 
   useEffect(() => {
@@ -95,89 +76,126 @@ function Play() {
           myCurrentCoordinates.latitude,
           myCurrentCoordinates.longitude
         )
-      )
-
-      console.log(distance)
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [myCurrentCoordinates])
+  }, [myCurrentCoordinates]);
 
   function degreesToRadians(degrees) {
-      return degrees * Math.PI / 180;
+    return degrees * Math.PI / 180;
   }
     
   function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
-      var earthRadiusKm = 6371;
+    var earthRadiusKm = 6371;
     
-      var dLat = degreesToRadians(lat2-lat1);
-      var dLon = degreesToRadians(lon2-lon1);
+    var dLat = degreesToRadians(lat2-lat1);
+    var dLon = degreesToRadians(lon2-lon1);
     
-      lat1 = degreesToRadians(lat1);
-      lat2 = degreesToRadians(lat2);
+    lat1 = degreesToRadians(lat1);
+    lat2 = degreesToRadians(lat2);
     
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      return Math.floor((earthRadiusKm * c) * 1000);
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    return Math.floor((earthRadiusKm * c) * 1000);
   }
 
-  function handleSelectItem(lat, lng){
-
+  function handleSelectItem(lat, lng, item){
     setFreejoaLocation({
       latitude: lat,
       longitude: lng
-    })
+    });
+
+    setSelectedItem(item); // Just set the entire item object
   }
   
-      
   return (
-    <div id="play" className="flex flex-col justify-center gap-4 max-w-3xl my-0 w-full">
-
-      <div className="flex-1 flex flex-col pt-8 gap-2">
-        <section className="flex basis-2/4 items-center justify-center">
-          {!freejoaLocation ? (
-            <div>Please select a location below to begin</div>
-          ) : (
-            <div className="flex flex-col gap-2 text-center">
-            <span className="text-lg">You are</span> 
-            <NumberToColorGradient number={distance} />
-            <span className="text-lg">meters from<br />your destination</span>
-            <Arrow
-              targetLatitude={freejoaLocation.latitude}
-              targetLongitude={freejoaLocation.longitude}
-              currentLatitude={myCurrentCoordinates.latitude}
-              currentLongitude={myCurrentCoordinates.longitude}
-            />
-            <div className="w-full text-center"><ArrowUpwardIcon id="arrow"/></div>
-          </div>
-           )}
-        </section>
-
-        <section className="basis-2/4 px-4">
-          <ul className="locations-list flex flex-col gap-4 max-h-96 overflow-y-auto pb-2">
-            {!data ? (
-              <div>Loading...</div>
+    <section className="explore w-full main-container flex flex-col">
+      <div className="main-container--top flex flex-col">
+        <div className="flex flex-col gap-8 w-full">
+            <p className="page-title">Explore</p>
+        </div>
+        <div className="flex-1 flex flex-col">
+          <section className="flex">
+            {freejoaLocation ? (
+              <div className="standout ">
+                <div className="movement">
+                  <div className="movement--arrow w-full flex justify-center"><img src={ArrowUpwardIcon} alt="arrow" id="arrow"/></div>
+                  <div className="movement--text">
+                    <span className="text-lg">You are</span> 
+                    <NumberToColorGradient number={distance} />
+                    <span className="text-lg">meters from your destination</span>
+                  </div>
+                  <Arrow
+                    targetLatitude={freejoaLocation.latitude}
+                    targetLongitude={freejoaLocation.longitude}
+                    currentLatitude={myCurrentCoordinates.latitude}
+                    currentLongitude={myCurrentCoordinates.longitude}
+                  />
+                </div>
+                <div className="locations-list--item selected">
+                  <div className="location-list--item-image"></div>
+                  <div className="location-list--item-container">
+                    <div className="location-list--item-filter">
+                      <span>Under 1 km</span>
+                      <div className="location-list--item-tree">
+                        <span>{selectedItem.amount}</span>
+                        <FaTree />
+                      </div>
+                    </div>
+                    <span className="location-list--item-title">{selectedItem.title}</span>
+                    <Probability text="High Priority" type="high" />
+                    <div className="location-list--item-visited">
+                      <em>Visited on 28/02/2024</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : (
-              data.map(item => (
-                <li className="p-2 flex flex-col gap-2 shadow-md cursor-pointer hover:shadow-lg transition-shadow rounded-md" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude)}>
-                  <span className="text-slate-700  font-bold">{item.title}</span>
-                  <div className="flex gap-2">
-                    <div className="icon--container flex gap-1"><FaTree /><span>{item.amount}</span></div>
-                  </div>
-                  <div className="flex">
-                    {/* <div><span>Added at:{new Date(item.updatedAt).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})}</span> by <span>{item.username}</span></div> */}
-                    Status: All good!
-                  </div>
-                </li>
-              ))
+              <div className="py-8"></div>
             )}
-          </ul>
-        </section>
+          </section>
+          <section>
+            <div className="explore-heading pb-4">
+              <h1>Select a location</h1>
+              <h2>Filters</h2>
+              <div className="filters">
+                <div className="filter">Under 1 km</div>
+                <div className="filter">Under 3 km</div>
+                <div className="filter">Under 5 km</div>
+              </div>
+            </div>
+            <ul className="locations-list">
+              {!data ? (
+                <div>Loading...</div>
+              ) : (
+                data.map(item => (
+                  <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
+                    <div className="location-list--item-image"></div>
+                    <div className="location-list--item-container">
+                      <div className="location-list--item-filter">
+                        <span>Under 1 km</span>
+                        <div className="location-list--item-tree">
+                          <span>{item.amount}</span>
+                          <FaTree />
+                        </div>
+                      </div>
+                      <span className="location-list--item-title">{item.title}</span>
+                      <Probability text="High Priority" type="high" />
+                      <div className="location-list--item-visited">
+                        <em>Visited on 28/02/2024</em>
+                      </div>
+                    </div>
+                  </li>
+                ))
+              )}
+            </ul>
+          </section>
+        </div>
       </div>
-
-<Navigation />
-</div> 
-
+      <div className="main-container--bottom">
+        <Navigation />
+      </div>
+    </section>
   );
 }
 

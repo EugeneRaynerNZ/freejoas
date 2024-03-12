@@ -27,7 +27,7 @@ function NumberToColorGradient({ number }) {
     // Convert RGB values to hex
     const hexColor = "#" + interpolatedColor.map(c => c.toString(16).padStart(2, "0")).join("");
 
-    return <span className="text-4xl" style={{ color: hexColor }}>{number}</span>;
+    return <h3 style={{ color: hexColor }}>{number}</h3>;
 }
 
 export default NumberToColorGradient;
