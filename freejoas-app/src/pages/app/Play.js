@@ -86,6 +86,13 @@ function Play() {
   function degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
   }
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
     
   // function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
   //   var earthRadiusKm = 6371;
@@ -109,6 +116,8 @@ function Play() {
     });
 
     setSelectedItem(item); // Just set the entire item object
+
+    scrollToTop();
   }
   
   return (
