@@ -138,6 +138,10 @@ footer nav {
   background: rgba(255,255,255,0.9)
 }
 
+.home .main-container--bottom {
+  background: transparent
+}
+
 .page-title {
   font-size: 18px;
   font-weight: 600;
