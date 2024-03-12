@@ -11,8 +11,8 @@ import Probability from '../../components/Probability';
 
 function Play() {
   const [freejoaLocation, setFreejoaLocation] = useState(null);
-  const [myCurrentCoordinates, setCoordinates] = useState(0);
-  const [distance, getDistance] = useState(0);
+  const [myCurrentCoordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
+  const [distance, setDistance] = useState(0);
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -37,17 +37,6 @@ function Play() {
             latitude: position.coords.latitude, 
             longitude: position.coords.longitude
           });
-
-          if(freejoaLocation) {
-            getDistance(
-              distanceInKmBetweenEarthCoordinates(
-                freejoaLocation.latitude,
-                freejoaLocation.longitude,
-                myCurrentCoordinates.latitude,
-                myCurrentCoordinates.longitude
-              )
-            );
-          }
         },
         function (error) {
           console.error(`Error getting location: ${error.message}`);
@@ -65,39 +54,53 @@ function Play() {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
-  }, [freejoaLocation]);
+  }, []);
 
   useEffect(() => {
-    if(freejoaLocation) {
-      getDistance(
-        distanceInKmBetweenEarthCoordinates(
+    if(freejoaLocation && myCurrentCoordinates.latitude && myCurrentCoordinates.longitude) {
+      const distanceInKmBetweenEarthCoordinates = (lat1, lon1, lat2, lon2) => {
+        var earthRadiusKm = 6371;
+        
+        var dLat = degreesToRadians(lat2-lat1);
+        var dLon = degreesToRadians(lon2-lon1);
+        
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+        
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        return Math.floor((earthRadiusKm * c) * 1000);
+      };
+      
+      const distanceInKm = distanceInKmBetweenEarthCoordinates(
           freejoaLocation.latitude,
           freejoaLocation.longitude,
           myCurrentCoordinates.latitude,
           myCurrentCoordinates.longitude
-        )
-      );
+        );
+      setDistance(distanceInKm);
     }
-  }, [myCurrentCoordinates]);
+  }, [freejoaLocation, myCurrentCoordinates]);
 
   function degreesToRadians(degrees) {
     return degrees * Math.PI / 180;
   }
     
-  function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
-    var earthRadiusKm = 6371;
+  // function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+  //   var earthRadiusKm = 6371;
     
-    var dLat = degreesToRadians(lat2-lat1);
-    var dLon = degreesToRadians(lon2-lon1);
+  //   var dLat = degreesToRadians(lat2-lat1);
+  //   var dLon = degreesToRadians(lon2-lon1);
     
-    lat1 = degreesToRadians(lat1);
-    lat2 = degreesToRadians(lat2);
+  //   lat1 = degreesToRadians(lat1);
+  //   lat2 = degreesToRadians(lat2);
     
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    return Math.floor((earthRadiusKm * c) * 1000);
-  }
+  //   var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+  //           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+  //   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  //   return Math.floor((earthRadiusKm * c) * 1000);
+  // }
 
   function handleSelectItem(lat, lng, item){
     setFreejoaLocation({
