@@ -2,7 +2,7 @@
 
 
 :root {
-  --primary-color: #307351;
+  --primary-color: #20AE72;
 }
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -117,12 +117,32 @@ footer nav li a svg {
   align-items: flex-end;
 }
 
+.main-container {
+  /* padding: 16px; */
+}
+
+.main-container--top {
+  flex: 1;
+  z-index: 1;
+}
+
+.main-container--bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px;
+  z-index: 10;
+}
+
 
 .home {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: rgba(0,0,0,0.1)
+  background: var(--primary-color);
+  color: white;
+  padding: 32px;
 }
 
 .home--logo-container {
@@ -137,13 +157,15 @@ footer nav li a svg {
 .home--title-container {
   display: flex;
   flex: 1;
-  padding: 32px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 24px;
-  border-radius: 32px 32px 0 0;
-  background: white;
+  height: 420px;
+  gap: 8px;
+}
+
+.home--title-container p {
+  font-weight: 500
 }
 
 
@@ -199,6 +221,34 @@ footer nav li a svg {
   background: #d30415;
 }
 
+.home .cta--button {
+  background: rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+form {
+  width: 100%;
+}
+
+.input--container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+}
+
+.input--container span {
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+}
+
+.input--container input {
+  padding: 18px;
+  border: 1px solid #8A8A8A;
+  border-radius: 8px;
+}
+
 #upload input{
   border-radius: 8px;
   background: #eff0ef;
@@ -209,12 +259,25 @@ footer nav li a svg {
 }
 
 .dashboard {
-
+  background: var(--primary-color);
 }
 
-.dashboard--title-container{
-  flex: 1 0 40%;
+.logo-mark {
+  padding: 50px 16px 72px 16px;
+  display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+.dashboard--container {
+  background: white;
+  flex: 1;
+  border-radius: 32px 32px 0 0;
+  padding: 16px;
+}
+
+.dashboard--welcome{
+  padding: 72px 0;
 }
 
 .dashboard .dashboard--title-container-text {
@@ -225,21 +288,38 @@ footer nav li a svg {
 }
 
 
-.dashboard .dashboard--title-container p{
-  font-size: 18px;
+.dashboard--container p{
+  font-size: 14px;
 }
 
-.dashboard .dashboard--title-container h1{
-  font-size: 24px;
-}
-
-.dashboard--previous-activity {
-  flex: 1;
+.dashboard--container h1{
+  font-size: 36px;
 }
 
 .dashboard--previous-activity--container {
-  max-height: 150px;
-  overflow-y: scroll;
+  overflow-x: auto;
+  column-gap: 8px;
+}
+
+.previous-activity--image {
+  height: 110px;
+  width: 168px;
+  background: grey;
+  border-radius: 8px
+}
+
+.previous-acitivty--date{
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.previous-acitivty--name{
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.previous-acitivty--distance{
+  font-size: 14px;
 }
 
 .dashboard--previous-activity h2{

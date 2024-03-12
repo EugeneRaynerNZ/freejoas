@@ -45,14 +45,13 @@ function Login() {
                 <h1 className="text-center">Login</h1>
             </div>
             <form className="flex flex-col gap-2 mb-16">
-                <label>
-                    Email Address
-                    <input type="email" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" value={inputs.email || ''} onChange={handleChange} />
+                <label className="input--container">
+                    <span>Email Address</span>
+                    <input type="email" name="email" value={inputs.email || ''} onChange={handleChange} />
                 </label>
-                <label>
-                    Password
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" value={inputs.password || ''} onChange={handleChange} />
-                    {/* <input type="password" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" value={inputs.password || ''} onChange={handleChange} /> */}
+                <label className="input--container">
+                    <span>Password</span>
+                    <input type="password" name="password" value={inputs.password || ''} onChange={handleChange} />
                 </label>
 
                 

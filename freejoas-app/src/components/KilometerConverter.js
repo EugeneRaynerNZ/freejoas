@@ -6,7 +6,7 @@ function MeterToKilometerConverter({ meters }) {
       return `${meters} meters`;
     } else {
       const kilometers = meters / 1000;
-      return `${kilometers} kilometers`;
+      return `${kilometers} km`;
     }
   };
 
