@@ -9,6 +9,8 @@ import UpdateTree from "../pages/app/UpdateTree";
 import Register from "../pages/start/Register";
 import Login from "../pages/start/Login";
 
+import UploadImage from "./UploadImage";
+
 function Body() {
     return (
         <main className="flex flex-1 justify-center">
@@ -22,6 +24,8 @@ function Body() {
 
                 <Route path='/register' Component={Register}/>
                 <Route path='/login' Component={Login}/>
+
+                <Route path='/uploadimage' Component={UploadImage}/>
             </Routes>
 
         </main>
