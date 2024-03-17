@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWU2OWYzNWQwNzAxODczZGU5NjQyNTMiLCJhY2NvdW50VHlwZSI6ImFkbWluIiwiaWF0IjoxNzEwNDk3MzkxNjI5LCJleHAiOjE3MTA1ODM3OTE2Mjl9.J4uo2Hisnikunrjzzj6WoH7liQLwG79Qc6wKp6UQkzo";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWU2OWYzNWQwNzAxODczZGU5NjQyNTMiLCJhY2NvdW50VHlwZSI6ImFkbWluIiwiaWF0IjoxNzEwNjUxNzM2NjQzLCJleHAiOjE3MTA3MzgxMzY2NDN9.loEXggzYtCinT_3GNrxFinoeC-VRoOvLCeczH-HB7l4";
 // this is the backend ngrok URL (this will change)
 const instance = axios.create({
     baseURL: "http://localhost:4000/api/v1",
