@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const baseURL = 'http://localhost:4000/api/v1'; // Replace 'http://example.com/api' with your actual API base URL
+const baseURL = 'https://freejoas.azurewebsites.net/api/v1'; // Replace 'http://example.com/api' with your actual API base URL
 
 const axiosInstance = axios.create({
   baseURL,
