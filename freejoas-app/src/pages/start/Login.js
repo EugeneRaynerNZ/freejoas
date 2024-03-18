@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../AuthContext';
 import '../../App.css';
-import axios from 'axios';
+import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -30,7 +30,7 @@ function Login() {
         }
 
         try {
-            const response = await axios.post('http://localhost:4000/api/v1/user/login', {
+            const response = await axios.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
             });

@@ -1,27 +1,24 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../../AuthContext';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import axios from '../../axios';
 import Navigation from "../../Navigation";
 import MeterToKilometerConverter from "../../components/KilometerConverter";
 import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
 
 function Dashboard() {
-  const authContext = useContext(AuthContext);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
-        const response = await axios.get('http://localhost:4000/api/v1/user/profile');
+        const response = await axios.get('/user/profile');
         setUser(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData(); // fetchData doesn't need to be included in the dependency array
-  }, [authContext.token]); // authContext.token is the only dependency
+  }, []); // authContext.token is the only dependency
 
   return (
 

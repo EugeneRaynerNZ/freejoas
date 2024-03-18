@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../AuthContext';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import '../../App.css';
-import axios from 'axios';
+import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import NumberToColorGradient from "../../components/ColourGenerator";
@@ -13,8 +12,6 @@ import LogoPlaceholder from '../../example-2.svg'
 import Probability from '../../components/Probability';
 
 function Play() {
-  const authContext = useContext(AuthContext);
-  axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
 
   const [freejoaLocation, setFreejoaLocation] = useState(null);
   const [myCurrentCoordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
@@ -25,7 +22,7 @@ function Play() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('http://localhost:4000/api/v1/freejoa/all');
+        const response = await axios.get('/freejoa/all');
         setData(response.data);
       } catch (error) {
         console.error(error);

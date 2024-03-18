@@ -1,13 +1,23 @@
-import axios from "axios";
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-// this is the backend ngrok URL (this will change)
-const instance = axios.create({
-    baseURL: "http://localhost:4000/api/v1",
-    // baseURL: "https://freejoas.azurewebsites.net/api/v1",
-    headers: {
-        'Content-Type': 'application/json',
-        // 'ngrok-skip-browser-warning' :'skip-browser-warning'
+const baseURL = 'http://localhost:4000/api/v1'; // Replace 'http://example.com/api' with your actual API base URL
+
+const axiosInstance = axios.create({
+  baseURL,
+});
+
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = Cookies.get('token'); // Get token from cookie
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
-})
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
-export default instance;
+export default axiosInstance;

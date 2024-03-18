@@ -22,7 +22,7 @@ function Upload() {
         const { latitude, longitude, amount, title } = inputs;
 
         if (latitude && longitude && amount && title && base64Image) {
-            axios.post('http://localhost:4000/api/v1/freejoa/upload', {
+            axios.post('/freejoa/upload', {
                 latitude,
                 longitude,
                 amount,
