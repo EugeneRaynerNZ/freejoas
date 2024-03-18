@@ -120,7 +120,11 @@ footer nav {
 }
 
 .main-container {
-  /* padding: 16px; */
+  padding-bottom: 90px;
+}
+
+.dashboard {
+  padding: 0;
 }
 
 .main-container--top {
@@ -165,6 +169,16 @@ footer nav {
   
 }
 
+.home-logo {
+  position: relative;
+}
+
+.home-logo--mark {
+  position: absolute;
+  top: 12px;
+  right: 64px;
+}
+
 .home--title-container {
   display: flex;
   flex: 1;
@@ -205,7 +219,7 @@ footer nav {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  position: fixed;
+  /* position: fixed; */
   top: 2rem;
   left: 2rem;
 }
@@ -245,7 +259,7 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 16px;
+  gap: 8px;
 }
 
 .input--container span {
@@ -346,7 +360,7 @@ form {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .locations-list--item.selected {
@@ -374,6 +388,8 @@ form {
 
 .location-list--item-filter span {
   font-size: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .location-list--item-tree {
@@ -384,10 +400,6 @@ form {
 
 .location-list--item-tree span {
   font-size: 14px;
-}
-
-.location-list--item-filter span {
-  font-size: 12px;
 }
 
 .location-list--item-title {
@@ -496,4 +508,40 @@ form {
   font-size: 14px;
   text-decoration: underline;
   color: var(--primary-color);
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 6s linear infinite;
+  -moz-animation: rotating 6s linear infinite;
+  -ms-animation: rotating 6s linear infinite;
+  -o-animation: rotating 6s linear infinite;
+  animation: rotating 6s linear infinite;
 }

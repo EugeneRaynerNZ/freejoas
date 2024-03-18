@@ -1,61 +1,79 @@
+import React, { useContext } from 'react';
+import { AuthContext } from '../../AuthContext';
 import { useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
+import ImageUpload from "../../components/UploadImage"
 
 
 function Upload() {
+  const authContext = useContext(AuthContext);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
 
-    const [inputs, setInputs] = useState({});
-    const handleChange = e => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
+  const [inputs, setInputs] = useState({});
+  const handleChange = e => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
 
-    function handleClick() {
-      if(inputs.latitude && inputs.longitude && inputs.amount && inputs.title) {
-        axios.post('/newfreejoa', {
-          latitude: inputs.latitude,
-          longitude: inputs.longitude,
-          amount: inputs.amount,
-          status: true,
-          title: inputs.title
-        })
-
-        setInputs({
-          latitude: null,
-          longitude: null,
-          amount: null,
-          status: null,
-          title: null
-        })
-
-      } else {
-        console.log('please input all required fields')
-      }
-    }
-
-    function getCurrentLocation(){
-      if (navigator?.geolocation) {
-        navigator.geolocation.getCurrentPosition(success, error);
-      } else {
-        console.log("Geolocation not supported");
-      }
-    }
-
-    function success(position) {
-      setInputs({
-        latitude: position.coords.latitude, 
-        longitude: position.coords.longitude
+  function handleClick() {
+    if(inputs.latitude && inputs.longitude && inputs.amount && inputs.title) {
+      axios.post('http://localhost:4000/api/v1/freejoa/upload', {
+        latitude: inputs.latitude,
+        longitude: inputs.longitude,
+        amount: inputs.amount,
+        title: inputs.title,
+        image: {data: base64Image}
       })
-      console.log(inputs)
-    }
-    
-    function error() {
-      console.log("Unable to retrieve your location");
-    }
-      
-    return (
-       <div className="flex flex-col w-full pt-8 main-container">
 
-       <div className="flex-1 flex flex-col gap-2 mx-8 main-container--top">
+      setInputs({
+        latitude: null,
+        longitude: null,
+        amount: null,
+        status: null,
+        title: null,
+        base64Image: null
+      })
+
+    } else {
+      console.log('please input all required fields')
+    }
+  }
+
+  const [base64Image, setBase64Image] = useState('');
+
+  const handleImageChange = (base64Image) => {
+    setBase64Image(base64Image);
+    console.log(base64Image)
+  };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   // You can access base64Image here for further processing
+  //   console.log('Base64 Image:', base64Image);
+  // };
+
+  function getCurrentLocation(){
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      console.log("Geolocation not supported");
+    }
+  }
+
+  function success(position) {
+    setInputs({
+      latitude: position.coords.latitude, 
+      longitude: position.coords.longitude
+    })
+    console.log(inputs)
+  }
+  
+  function error() {
+    console.log("Unable to retrieve your location");
+  }
+    
+  return (
+    <div className="flex flex-col w-full pt-8 main-container">
+      <div className="flex-1 flex flex-col gap-2 mx-8 main-container--top">
         <div className="flex gap-8 flex-col max-w-xl my-0">
           <div className="flex flex-col gap-8 w-full">
             <p className="page-title">Upload</p>
@@ -81,22 +99,18 @@ function Upload() {
                   <span>Name the location</span>
                   <input type="text" name="title" value={inputs.title || ''} onChange={handleChange} placeholder="Snazzy Location Name" />
               </label>
-              {/* <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="latitude" value={inputs.latitude || ''} onChange={handleChange} placeholder="lat"/>
-              <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="longitude" value={inputs.longitude || ''} onChange={handleChange} placeholder="lng"/>
-              <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="amount" placeholder="amount of trees" value={inputs.amount || ''} onChange={handleChange} />
-              <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="title" placeholder="title" value={inputs.title || ''} onChange={handleChange} /> */}
+              <ImageUpload onImageChange={handleImageChange}/>
             </form>
             <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Upload Location</button>
           </div>
         </div>
-       </div>
-
-        
-        <div className="main-container--bottom">
-          <Navigation />
-        </div>
-        </div> 
-    );
+      </div>
+      
+      <div className="main-container--bottom">
+        <Navigation />
+      </div>
+    </div> 
+  );
 }
 
 export default Upload;

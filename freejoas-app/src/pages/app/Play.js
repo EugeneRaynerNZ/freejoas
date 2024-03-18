@@ -1,15 +1,21 @@
+import React, { useContext } from 'react';
+import { AuthContext } from '../../AuthContext';
 import { useState, useEffect } from 'react';
 import '../../App.css';
-import axios from '../../axios';
+import axios from 'axios';
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import NumberToColorGradient from "../../components/ColourGenerator";
 import Arrow from "../../components/Arrow";
 import ArrowUpwardIcon from '../../arrow.svg';
+import LogoPlaceholder from '../../example-2.svg'
 
 import Probability from '../../components/Probability';
 
 function Play() {
+  const authContext = useContext(AuthContext);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
+
   const [freejoaLocation, setFreejoaLocation] = useState(null);
   const [myCurrentCoordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
   const [distance, setDistance] = useState(0);
@@ -19,8 +25,9 @@ function Play() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('/freejoas/all');
+        const response = await axios.get('http://localhost:4000/api/v1/freejoa/all');
         setData(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -93,21 +100,6 @@ function Play() {
       behavior: 'smooth'
     });
   };
-    
-  // function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
-  //   var earthRadiusKm = 6371;
-    
-  //   var dLat = degreesToRadians(lat2-lat1);
-  //   var dLon = degreesToRadians(lon2-lon1);
-    
-  //   lat1 = degreesToRadians(lat1);
-  //   lat2 = degreesToRadians(lat2);
-    
-  //   var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-  //           Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-  //   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  //   return Math.floor((earthRadiusKm * c) * 1000);
-  // }
 
   function handleSelectItem(lat, lng, item){
     setFreejoaLocation({
@@ -115,7 +107,7 @@ function Play() {
       longitude: lng
     });
 
-    setSelectedItem(item); // Just set the entire item object
+    setSelectedItem(item); 
 
     scrollToTop();
   }
@@ -145,7 +137,23 @@ function Play() {
                   />
                 </div>
                 <div className="locations-list--item selected">
-                  <div className="location-list--item-image"></div>
+                  {selectedItem.image ? (
+                  <div className="location-list--item-image" style={{
+                    backgroundImage: `url(${selectedItem.image[0].data})`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    }}>
+
+                    </div>
+                  ) : (
+                    <div className="location-list--item-image" style={{
+                      backgroundImage: `url(${LogoPlaceholder})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
+                      }}></div>
+                  )}
                   <div className="location-list--item-container">
                     <div className="location-list--item-filter">
                       <span>Under 1 km</span>
@@ -155,7 +163,7 @@ function Play() {
                       </div>
                     </div>
                     <span className="location-list--item-title">{selectedItem.title}</span>
-                    <Probability text="High Priority" type="high" />
+                    <Probability text="High Probability" type="high" />
                     <div className="location-list--item-visited">
                       <em>Visited on 28/02/2024</em>
                     </div>
@@ -182,7 +190,23 @@ function Play() {
               ) : (
                 data.map(item => (
                   <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
-                    <div className="location-list--item-image"></div>
+                    {item.image ? (
+                      <div className="location-list--item-image" style={{
+                        backgroundImage: `url(${item.image[0].data})`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        }}>
+
+                        </div>
+                      ) : (
+                        <div className="location-list--item-image" style={{
+                          backgroundImage: `url(${LogoPlaceholder})`,
+                          backgroundSize: 'cover',
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'center',
+                          }}></div>
+                      )}
                     <div className="location-list--item-container">
                       <div className="location-list--item-filter">
                         <span>Under 1 km</span>
@@ -192,7 +216,7 @@ function Play() {
                         </div>
                       </div>
                       <span className="location-list--item-title">{item.title}</span>
-                      <Probability text="High Priority" type="high" />
+                      <Probability text="High Probability" type="high" />
                       <div className="location-list--item-visited">
                         <em>Visited on 28/02/2024</em>
                       </div>
