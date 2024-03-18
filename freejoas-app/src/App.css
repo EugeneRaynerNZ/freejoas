@@ -278,6 +278,10 @@ form {
   padding: 16px;
 }
 
+.explore.main-container {
+  padding-bottom: 90px;
+}
+
 .standout {
   display: flex;
   flex-direction: column;
