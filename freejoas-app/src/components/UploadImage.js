@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import imageCompression from 'browser-image-compression';
 
 function UploadImage({ onImageChange }) {
-    const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
 
     const handleFileChange = async (event) => {
@@ -11,7 +10,6 @@ function UploadImage({ onImageChange }) {
         if (file && file.type.startsWith('image/')) {
             try {
                 const compressedFile = await compressImage(file);
-                setSelectedFile(compressedFile);
 
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -25,9 +23,8 @@ function UploadImage({ onImageChange }) {
                 alert('Error compressing image.');
             }
         } else {
-            alert('Please select an image file.');
-            setSelectedFile(null);
             setPreviewUrl(null);
+            onImageChange(''); // Clear image if invalid
         }
     };
 

@@ -27,7 +27,6 @@ function Play() {
       try {
         const response = await axios.get('http://localhost:4000/api/v1/freejoa/all');
         setData(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }

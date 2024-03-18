@@ -7,23 +7,21 @@ import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
 
 function Dashboard() {
-
   const authContext = useContext(AuthContext);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-      fetchData();
-  }, []);
-
-  const fetchData = async () => {
+    const fetchData = async () => {
       try {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
-          const response = await axios.get('http://localhost:4000/api/v1/user/profile');
-          setUser(response.data);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
+        const response = await axios.get('http://localhost:4000/api/v1/user/profile');
+        setUser(response.data);
       } catch (error) {
-          console.error(error);
+        console.error(error);
       }
-  };
+    };
+    fetchData(); // fetchData doesn't need to be included in the dependency array
+  }, [authContext.token]); // authContext.token is the only dependency
 
   return (
 

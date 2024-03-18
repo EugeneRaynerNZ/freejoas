@@ -255,6 +255,11 @@ form {
   width: 100%;
 }
 
+.error-message {
+  font-weight: 400 !important;
+  color: red;
+}
+
 .input--container {
   display: flex;
   flex-direction: column;
