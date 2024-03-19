@@ -23,7 +23,8 @@ function Play() {
     async function fetchData() {
       try {
         const response = await axios.get('/freejoa/all');
-        setData(response.data);
+        console.log(response.data.data);
+        setData(response.data.data);
       } catch (error) {
         console.error(error);
       }
