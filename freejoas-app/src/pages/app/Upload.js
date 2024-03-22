@@ -4,6 +4,8 @@ import '../../App.css';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
 import ImageUpload from "../../components/UploadImage";
+import { useNavigate } from "react-router-dom";
+
 
 function Upload() {
     const authContext = useContext(AuthContext);
@@ -12,6 +14,7 @@ function Upload() {
     const [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});
     const [base64Image, setBase64Image] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -36,6 +39,7 @@ function Upload() {
                     title: '',
                     image: ''
                 });
+                navigate("/play");
             }).catch(error => {
                 console.error(error);
             });
