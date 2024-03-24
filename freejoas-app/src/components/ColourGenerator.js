@@ -2,6 +2,7 @@ import React from 'react';
 
 function NumberToColorGradient({ number }) {
     const minNumber = 0; // Define your minimum number
+    const maxNumber = 1000; // Define your maximum number for interpolation
 
     const minColor = [48, 115, 81]; // RGB values for #307351
     const maxColor = [255, 0, 0]; // RGB values for #ff0000
@@ -16,10 +17,10 @@ function NumberToColorGradient({ number }) {
     };
   
     // Clamp the input number between minNumber and maxNumber
-    const clampedNumber = Math.max(number, minNumber);
+    const clampedNumber = Math.max(Math.min(number, maxNumber), minNumber);
   
-    // Calculate the ratio between 0 and the input number
-    const ratio = clampedNumber / number;
+    // Calculate the ratio between 0 and 1 based on the clamped number
+    const ratio = clampedNumber / maxNumber;
   
     // Interpolate the color based on the ratio
     const interpolatedColor = interpolateColor(minColor, maxColor, ratio);
