@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
-import MeterToKilometerConverter from "../../components/KilometerConverter";
-import PreviousActivityExample from "../../previousActivity.json";
+// import MeterToKilometerConverter from "../../components/KilometerConverter";
+// import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
 
 function Dashboard() {
@@ -45,7 +45,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="dashboard--previous-activity flex flex-col gap-2">
+            {/* <div className="dashboard--previous-activity flex flex-col gap-2">
               <h2>Recent Activity</h2>
               <div className="dashboard--previous-activity--container pb-4 flex">
                 {PreviousActivityExample.map(activity => (
@@ -59,7 +59,7 @@ function Dashboard() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
 
         </div>
