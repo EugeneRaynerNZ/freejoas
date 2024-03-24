@@ -56,7 +56,7 @@ function Login() {
                 <h1>Login</h1>
             </div>
 
-            <form className="flex flex-col gap-2 mb-16">
+            <form className="flex flex-col gap-4 mb-16">
                 <label className="input--container">
                     <span>Email Address</span>
                     <input
