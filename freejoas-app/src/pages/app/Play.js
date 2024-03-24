@@ -19,6 +19,8 @@ function Play() {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -31,6 +33,22 @@ function Play() {
     }
     
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const handleDeviceOrientation = event => {
+      setDeviceOrientation({
+        alpha: event.alpha,
+        beta: event.beta,
+        gamma: event.gamma
+      });
+    };
+  
+    window.addEventListener('deviceorientation', handleDeviceOrientation);
+  
+    return () => {
+      window.removeEventListener('deviceorientation', handleDeviceOrientation);
+    };
   }, []);
 
   useEffect(() => {
@@ -131,6 +149,7 @@ function Play() {
                     targetLongitude={freejoaLocation.longitude}
                     currentLatitude={myCurrentCoordinates.latitude}
                     currentLongitude={myCurrentCoordinates.longitude}
+                    deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
                   />
                 </div>
                 <div className="locations-list--item selected">
