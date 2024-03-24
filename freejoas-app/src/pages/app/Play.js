@@ -9,7 +9,7 @@ import Arrow from "../../components/Arrow";
 import ArrowUpwardIcon from '../../arrow.svg';
 import LogoPlaceholder from '../../example-2.svg'
 
-import Probability from '../../components/Probability';
+// import Probability from '../../components/Probability';
 
 function Play() {
 
@@ -172,17 +172,17 @@ function Play() {
                   )}
                   <div className="location-list--item-container">
                     <div className="location-list--item-filter">
-                      <span>Under 1 km</span>
+                      {/* <span>Under 1 km</span> */}
                       <div className="location-list--item-tree">
                         <span>{selectedItem.amount}</span>
                         <FaTree />
                       </div>
                     </div>
                     <span className="location-list--item-title">{selectedItem.title}</span>
-                    <Probability text="High Probability" type="high" />
+                    {/* <Probability text="High Probability" type="high" />
                     <div className="location-list--item-visited">
                       <em>Visited on 28/02/2024</em>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -193,12 +193,12 @@ function Play() {
           <section>
             <div className="explore-heading pb-4">
               <h1>Select a location</h1>
-              <h2>Filters</h2>
+              {/* <h2>Filters</h2>
               <div className="filters">
                 <div className="filter">Under 1 km</div>
                 <div className="filter">Under 3 km</div>
                 <div className="filter">Under 5 km</div>
-              </div>
+              </div> */}
             </div>
             <ul className="locations-list">
               {!data ? (
@@ -225,17 +225,17 @@ function Play() {
                       )}
                     <div className="location-list--item-container">
                       <div className="location-list--item-filter">
-                        <span>Under 1 km</span>
+                        {/* <span>Under 1 km</span> */}
                         <div className="location-list--item-tree">
                           <span>{item.amount}</span>
                           <FaTree />
                         </div>
                       </div>
                       <span className="location-list--item-title">{item.title}</span>
-                      <Probability text="High Probability" type="high" />
+                      {/* <Probability text="High Probability" type="high" />
                       <div className="location-list--item-visited">
                         <em>Visited on 28/02/2024</em>
-                      </div>
+                      </div> */}
                     </div>
                   </li>
                 ))
