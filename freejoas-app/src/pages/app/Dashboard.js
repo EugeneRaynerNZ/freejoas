@@ -12,7 +12,7 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const response = await axios.get('/user/profile');
-        setUser(response.data);
+        setUser(response.data.data);
       } catch (error) {
         console.error(error);
       }
@@ -38,7 +38,7 @@ function Dashboard() {
                 <div className="flex flex-col align-center justify-center text-center">
                     <div className="flex align-center justify-center flex-col gap-2">
                         <p>Welcome back</p>
-                        <h1>{user.user.firstname}</h1>
+                        <h1>{user.firstname}</h1>
                     </div>
                 </div>
               )}
