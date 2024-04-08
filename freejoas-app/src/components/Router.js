@@ -18,16 +18,16 @@ function Body() {
   return (
     <main className="flex flex-1 justify-center">
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/dashboard' element={authContext.token ? <Dashboard /> : <Navigate to="/" />} />
-        <Route path='/play' element={authContext.token ? <Play /> : <Navigate to="/" />} />
-        <Route path='/upload' element={authContext.token ? <Upload /> : <Navigate to="/" />} />
-        <Route path='/update' element={authContext.token ? <UpdateTree /> : <Navigate to="/" />} />
+        <Route path='/' element={authContext.token ? <Home /> : <Navigate to="/login" />} />
+        <Route path='/dashboard' element={authContext.token ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path='/play' element={authContext.token ? <Play /> : <Navigate to="/login" />} />
+        <Route path='/upload' element={authContext.token ? <Upload /> : <Navigate to="/login" />} />
+        <Route path='/update' element={authContext.token ? <UpdateTree /> : <Navigate to="/login" />} />
 
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
 
-        <Route path='/uploadimage' element={authContext.token ? <UploadImage /> : <Navigate to="/" />} />
+        <Route path='/uploadimage' element={authContext.token ? <UploadImage /> : <Navigate to="/login" />} />
       </Routes>
     </main>
   );
