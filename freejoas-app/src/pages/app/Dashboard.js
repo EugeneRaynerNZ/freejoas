@@ -4,21 +4,24 @@ import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
+import { useCookie } from '../../components/CookieContext';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
+  const navigator = useNavigate();
+  const { getCookie, removeCookie } = useCookie();
+
+  const handleLogout = () => {
+    removeCookie('token');
+    removeCookie('user');
+    navigator('/login');
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/user/profile');
-        setUser(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData(); // fetchData doesn't need to be included in the dependency array
-  }, []); // authContext.token is the only dependency
+    console.log(getCookie('user'));
+    setUser(getCookie('user'));
+  }, []);
 
   return (
 
@@ -38,8 +41,12 @@ function Dashboard() {
                 <div className="flex flex-col align-center justify-center text-center">
                     <div className="flex align-center justify-center flex-col gap-2">
                         <p>Welcome back</p>
-                        <h1>{user.firstname}</h1>
+                        <h1>{user.firstname} {user.lastname}</h1>
+                        <h2>username: {user.username}</h2>
+                        <h2>email: {user.email}</h2>
                     </div>
+
+                    <button className="cta--button" onClick={handleLogout}>Log Out</button>
                 </div>
               )}
               </div>

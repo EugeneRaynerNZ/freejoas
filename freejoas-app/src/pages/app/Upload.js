@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../components/AuthContext';
 import '../../App.css';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
@@ -8,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 
 function Upload() {
-    const authContext = useContext(AuthContext);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${authContext.token}`;
 
     const [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});

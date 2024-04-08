@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../components/AuthContext';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../App.css';
-import axios from '../../axios';
+import axiosInstance from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { CookieInstance } from '../../components/CookieContext';
 
 function Login() {
-    const { login } = useContext(AuthContext);
     const [inputs, setInputs] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const { setCookie, getCookie, removeCookie } = CookieInstance;
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -30,24 +30,50 @@ function Login() {
         }
 
         try {
-            const response = await axios.post('/user/login', {
+            const response = await axiosInstance.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
             });
 
             const userToken = response.data.token;
-            login(userToken);
-            navigate("/dashboard");
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                setErrorMessage('User not found.');
-            } else if (error.response && error.response.status === 401) {
-                setErrorMessage('Password is incorrect');
-            } else {
-                console.error(error);
+            setCookie('token', userToken);
+
+            if(userToken !== null){
+                //get user data
+                console.log("userToken", getCookie('token'));
+                const responseData = await axiosInstance.get('user/profile');
+                const user = responseData.data.data;
+                console.log(user);
+                setCookie('user', user);
+
+                console.log(getCookie('user'));
+                // Clear the form
+                setInputs({ email: '', password: '' });
+                navigate("/dashboard");
             }
+
+        } catch (error) {
+            console.error(error);
+            setErrorMessage(error.response.data.message);
+            // if (error.response && error.response.status === 404) {
+            //     setErrorMessage('User not found.');
+            // } else if (error.response && error.response.status === 401) {
+            //     setErrorMessage('Password is incorrect');
+            // } else {
+            //     console.error(error);
+            // }
         }
     };
+
+    useEffect(() => {
+        console.log('Login page loaded');
+        console.log('Token:', getCookie('token'));
+        console.log('Username:', getCookie('username'));
+        removeCookie('token');
+        console.log('after remove token');
+        console.log('Token:', getCookie('token'));
+        console.log('Username:', getCookie('username'));
+    }, []);
 
     return (
         <section className="flex flex-col gap-8 login w-full p-8 items-center justify-center">

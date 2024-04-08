@@ -1,23 +1,32 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import config from './config';
+import { CookieInstance } from './components/CookieContext';
 
-const baseURL = 'https://freejoas.azurewebsites.net/api/v1'; // Replace 'http://example.com/api' with your actual API base URL
+const URL = config.baseURL + config.apiVersion;
 
 const axiosInstance = axios.create({
-  baseURL,
+  baseURL: URL,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 axiosInstance.interceptors.request.use(
-  config => {
-    const token = Cookies.get('token'); // Get token from cookie
+  // Add a request interceptor
+  async (axiosConfig) => {
+    // Get the token from the cookie
+    const token = CookieInstance.getCookie('token');  
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      // Set the Authorization header
+      axiosConfig.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
+    return axiosConfig;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;
