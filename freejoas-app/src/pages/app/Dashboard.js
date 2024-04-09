@@ -19,7 +19,7 @@ function Dashboard() {
 
   useEffect(() => {
     setUser(getCookie('user'));
-  }, []);
+  }, [getCookie]);
 
   return (
 

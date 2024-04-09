@@ -64,7 +64,7 @@ function Login() {
 
     useEffect(() => {
         removeCookie('token');
-    }, []);
+    });
 
     return (
         <section className="flex flex-col gap-8 login w-full p-8 items-center justify-center">
