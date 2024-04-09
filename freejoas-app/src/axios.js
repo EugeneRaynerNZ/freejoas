@@ -1,8 +1,7 @@
 import axios from 'axios';
-import config from './config';
 import { CookieInstance } from './components/CookieContext';
 
-const URL = config.baseURL + config.apiVersion;
+const URL = 'https://freejoas.azurewebsites.net/api/v1';
 
 const axiosInstance = axios.create({
   baseURL: URL,

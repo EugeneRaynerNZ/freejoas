@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
-import axiosInstance from '../../axios';
+import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -11,7 +11,7 @@ function Login() {
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { setCookie, getCookie, removeCookie } = CookieInstance;
+    const { setCookie, removeCookie } = CookieInstance;
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -30,7 +30,7 @@ function Login() {
         }
 
         try {
-            const response = await axiosInstance.post('/user/login', {
+            const response = await axios.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
             });
@@ -40,13 +40,10 @@ function Login() {
 
             if(userToken !== null){
                 //get user data
-                console.log("userToken", getCookie('token'));
-                const responseData = await axiosInstance.get('user/profile');
+                const responseData = await axios.get('user/profile');
                 const user = responseData.data.data;
-                console.log(user);
                 setCookie('user', user);
 
-                console.log(getCookie('user'));
                 // Clear the form
                 setInputs({ email: '', password: '' });
                 navigate("/dashboard");
@@ -66,13 +63,7 @@ function Login() {
     };
 
     useEffect(() => {
-        console.log('Login page loaded');
-        console.log('Token:', getCookie('token'));
-        console.log('Username:', getCookie('username'));
         removeCookie('token');
-        console.log('after remove token');
-        console.log('Token:', getCookie('token'));
-        console.log('Username:', getCookie('username'));
     }, []);
 
     return (

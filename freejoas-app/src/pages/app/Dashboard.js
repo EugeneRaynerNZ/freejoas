@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../axios';
 import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
@@ -10,16 +9,15 @@ import { useNavigate } from 'react-router-dom';
 function Dashboard() {
   const [user, setUser] = useState(null);
   const navigator = useNavigate();
-  const { getCookie, removeCookie } = useCookie();
+  //get functions from the useCookie hook
+  const { getCookie, logout } = useCookie();  
 
   const handleLogout = () => {
-    removeCookie('token');
-    removeCookie('user');
+    logout();
     navigator('/login');
   };
 
   useEffect(() => {
-    console.log(getCookie('user'));
     setUser(getCookie('user'));
   }, []);
 
