@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import { NavLink } from "react-router-dom";
@@ -11,7 +11,7 @@ function Login() {
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { setCookie, removeCookie } = CookieInstance;
+    const { setCookie } = CookieInstance;
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -50,21 +50,15 @@ function Login() {
             }
 
         } catch (error) {
-            console.error(error);
-            setErrorMessage(error.response.data.message);
-            // if (error.response && error.response.status === 404) {
-            //     setErrorMessage('User not found.');
-            // } else if (error.response && error.response.status === 401) {
-            //     setErrorMessage('Password is incorrect');
-            // } else {
-            //     console.error(error);
-            // }
+            if (error.response && error.response.status === 404) {
+                setErrorMessage('User not found.');
+            } else if (error.response && error.response.status === 401) {
+                setErrorMessage('Password is incorrect');
+            } else {
+                console.error(error);
+            }
         }
     };
-
-    useEffect(() => {
-        removeCookie('token');
-    });
 
     return (
         <section className="flex flex-col gap-8 login w-full p-8 items-center justify-center">

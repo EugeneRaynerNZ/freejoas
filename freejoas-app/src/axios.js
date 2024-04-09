@@ -5,7 +5,7 @@ const URL = 'https://freejoas.azurewebsites.net/api/v1';
 
 const axiosInstance = axios.create({
   baseURL: URL,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
