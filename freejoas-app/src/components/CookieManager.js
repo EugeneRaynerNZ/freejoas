@@ -7,6 +7,7 @@ function CookieManager() {
         if (typeof value === 'object') {
             //set the object as a JSON string
             const jsonValue = JSON.stringify(value);
+            console.log("json value: "+jsonValue);
             Cookies.set(key, jsonValue);
         } else {
             //set the value directly if it is not an object

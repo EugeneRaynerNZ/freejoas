@@ -14,11 +14,12 @@ function Dashboard() {
 
   const handleLogout = () => {
     logout();
-    navigator('/login');
+    navigator('/');
   };
 
   useEffect(() => {
     setUser(getCookie('user'));
+    console.log(user);
   }, [getCookie]);
 
   return (
@@ -44,9 +45,9 @@ function Dashboard() {
                         <h2>email: {user.email}</h2>
                     </div>
 
-                    <button className="cta--button" onClick={handleLogout}>Log Out</button>
                 </div>
               )}
+              <button className="cta--button" onClick={handleLogout}>Log Out</button>
               </div>
             </div>
 

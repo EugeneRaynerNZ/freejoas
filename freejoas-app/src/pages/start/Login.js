@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CookieInstance } from '../../components/CookieContext';
+import { CookieInstance, useCookie } from '../../components/CookieContext';
 
 function Login() {
     const [inputs, setInputs] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    const { setCookie } = CookieInstance;
+    const { setCookie, getCookie } = CookieInstance;
+
+    let token = '';
+    let user = null;
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -30,24 +33,15 @@ function Login() {
         }
 
         try {
-            const response = await axios.post('/user/login', {
+            await axios.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
+            }).then((response) => {
+                console.log(response.data);
+                // setToken(response.data.token);
+                token = response.data.token;
+                setCookie('token', response.data.token);
             });
-
-            const userToken = response.data.token;
-            setCookie('token', userToken);
-
-            if(userToken !== null){
-                //get user data
-                const responseData = await axios.get('user/profile');
-                const user = responseData.data.data;
-                setCookie('user', user);
-
-                // Clear the form
-                setInputs({ email: '', password: '' });
-                navigate("/dashboard");
-            }
 
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -57,6 +51,36 @@ function Login() {
             } else {
                 console.error(error);
             }
+        }
+
+        if(token !== ''){
+            fetchUserData();
+        }
+
+        console.log("user "+user);
+        console.log("token "+token);
+        console.log("user cookie: "+ getCookie("user"));
+        console.log("token cookie: "+ getCookie("token"));
+
+
+        if(token !== '' && user !== null){
+            navigate('/dashboard');
+        }
+
+    };
+
+    const fetchUserData = async () => {
+        try{
+            await axios.get('user/profile')
+            .then((response) => {
+                console.log(response.data);
+                user = response.data.data;
+                setCookie('user', response.data.data);
+            });
+             // Clear the form
+             setInputs({ email: '', password: '' });
+        }catch(error){
+            console.error(error);
         }
     };
 
