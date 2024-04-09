@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
