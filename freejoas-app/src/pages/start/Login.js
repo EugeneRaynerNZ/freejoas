@@ -42,9 +42,10 @@ function Login() {
                 console.log(response.data);
                 token = response.data.token;
                 user = response.data.data;
-                console.log("token: "+token);
-                console.log("user: ", user);
                 setCookie('token', response.data.token);
+                setCookie('user', response.data.data);
+                console.log("token: ", getCookie('token'));
+                console.log("user: ", getCookie('user'));
             });
 
         } catch (error) {
