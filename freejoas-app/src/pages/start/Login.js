@@ -4,7 +4,7 @@ import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CookieInstance, useCookie } from '../../components/CookieContext';
+import { CookieInstance } from '../../components/CookieContext';
 
 function Login() {
     const [inputs, setInputs] = useState({ email: '', password: '' });
@@ -23,6 +23,7 @@ function Login() {
     };
 
     const handleClick = async () => {
+        // check if the email and password fields are empty
         if (!inputs.email) {
             setErrors(prevErrors => ({ ...prevErrors, email: 'Please enter your email address.' }));
             return;
@@ -33,13 +34,16 @@ function Login() {
         }
 
         try {
+            // Send a POST request to the server
             await axios.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
             }).then((response) => {
                 console.log(response.data);
-                // setToken(response.data.token);
                 token = response.data.token;
+                user = response.data.data;
+                console.log("token: "+token);
+                console.log("user: ", user);
                 setCookie('token', response.data.token);
             });
 
@@ -53,35 +57,14 @@ function Login() {
             }
         }
 
-        if(token !== ''){
-            fetchUserData();
-        }
-
-        console.log("user "+user);
-        console.log("token "+token);
-        console.log("user cookie: "+ getCookie("user"));
-        console.log("token cookie: "+ getCookie("token"));
-
-
         if(token !== '' && user !== null){
+            console.log("------------------------")
+            console.log('User logged in');
+            console.log("token: "+token);
+            console.log("user: ", user);
             navigate('/dashboard');
         }
 
-    };
-
-    const fetchUserData = async () => {
-        try{
-            await axios.get('user/profile')
-            .then((response) => {
-                console.log(response.data);
-                user = response.data.data;
-                setCookie('user', response.data.data);
-            });
-             // Clear the form
-             setInputs({ email: '', password: '' });
-        }catch(error){
-            console.error(error);
-        }
     };
 
     return (
