@@ -18,9 +18,9 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    console.log("dashboard use effect");
     setUser(getCookie('user'));
-    console.log(user);
-  }, [getCookie]);
+  }, [getCookie, setUser]);
 
   return (
 

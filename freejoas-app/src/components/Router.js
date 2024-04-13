@@ -19,16 +19,15 @@ function Body() {
   
   const PrivateRoute = ({ element }) => {
 
+    //update the token value
     token = getCookie('token');
-    console.log(token);
-    console.log("navigating to private route");
 
     // If the token is not present, redirect to the login page
     return token ? element : <Navigate to="/login" />;
   };
 
   PrivateRoute.propTypes = {
-    element: PropTypes.element.isRequired,
+    element: PropTypes.element.isRequired, 
   };
 
   return (
