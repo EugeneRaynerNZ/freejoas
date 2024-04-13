@@ -15,9 +15,13 @@ import PropTypes from 'prop-types';
 
 function Body() {
   const { getCookie } = useCookie();
-  const token = getCookie('token');
+  let token = getCookie('token');
   
   const PrivateRoute = ({ element }) => {
+
+    token = getCookie('token');
+    console.log(token);
+    console.log("navigating to private route");
 
     // If the token is not present, redirect to the login page
     return token ? element : <Navigate to="/login" />;

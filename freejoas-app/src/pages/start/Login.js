@@ -13,9 +13,6 @@ function Login() {
     const navigate = useNavigate();
     const { setCookie, getCookie } = CookieInstance;
 
-    let token = '';
-    let user = null;
-
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
@@ -40,12 +37,12 @@ function Login() {
                 password: inputs.password,
             }).then((response) => {
                 console.log(response.data);
-                token = response.data.token;
-                user = response.data.data;
                 setCookie('token', response.data.token);
                 setCookie('user', response.data.data);
+            }).then(() => {
                 console.log("token: ", getCookie('token'));
                 console.log("user: ", getCookie('user'));
+                navigate('/dashboard');
             });
 
         } catch (error) {
@@ -57,15 +54,6 @@ function Login() {
                 console.error(error);
             }
         }
-
-        if(token !== '' && user !== null){
-            console.log("------------------------")
-            console.log('User logged in');
-            console.log("token: "+token);
-            console.log("user: ", user);
-            navigate('/dashboard');
-        }
-
     };
 
     return (
