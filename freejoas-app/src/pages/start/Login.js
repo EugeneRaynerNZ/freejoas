@@ -51,6 +51,7 @@ function Login() {
             } else if (error.response && error.response.status === 401) {
                 setErrorMessage('Password is incorrect');
             } else {
+                setErrorMessage(error.message);
                 console.error(error);
             }
         }
