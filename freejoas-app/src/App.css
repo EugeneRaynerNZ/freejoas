@@ -554,3 +554,13 @@ form {
   -o-animation: rotating 6s linear infinite;
   animation: rotating 6s linear infinite;
 }
+
+
+.logout-button {
+  position: absolute;
+  font-size: 12px;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding: 12px 8px;
+}

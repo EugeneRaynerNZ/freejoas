@@ -129,6 +129,7 @@ function Play() {
   
   return (
     <section className="explore w-full main-container flex flex-col">
+      <div className="logout-button">Logout</div>
       <div className="main-container--top flex flex-col">
         <div className="flex flex-col gap-8 w-full">
             <p className="page-title">Explore</p>
