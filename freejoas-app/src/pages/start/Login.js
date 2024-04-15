@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../components/AuthContext';
+import React, { useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { CookieInstance } from '../../components/CookieContext';
 
 function Login() {
-    const { login } = useContext(AuthContext);
     const [inputs, setInputs] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const { setCookie, getCookie } = CookieInstance;
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -20,6 +20,7 @@ function Login() {
     };
 
     const handleClick = async () => {
+        // check if the email and password fields are empty
         if (!inputs.email) {
             setErrors(prevErrors => ({ ...prevErrors, email: 'Please enter your email address.' }));
             return;
@@ -30,14 +31,20 @@ function Login() {
         }
 
         try {
-            const response = await axios.post('/user/login', {
+            // Send a POST request to the server
+            await axios.post('/user/login', {
                 email: inputs.email,
                 password: inputs.password,
+            }).then((response) => {
+                console.log(response.data);
+                setCookie('token', response.data.token);
+                setCookie('user', response.data.data);
+            }).then(() => {
+                console.log("token: ", getCookie('token'));
+                console.log("user: ", getCookie('user'));
+                navigate('/dashboard');
             });
 
-            const userToken = response.data.token;
-            login(userToken);
-            navigate("/dashboard");
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setErrorMessage('User not found.');
