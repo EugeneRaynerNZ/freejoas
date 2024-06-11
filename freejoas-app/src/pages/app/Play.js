@@ -6,8 +6,8 @@ import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import NumberToColorGradient from "../../components/ColourGenerator";
 import Arrow from "../../components/Arrow";
-import ArrowUpwardIcon from '../../arrow.svg';
-import LogoPlaceholder from '../../example-2.svg'
+import ArrowUpwardIcon from '../../images/arrow.svg';
+import LogoPlaceholder from '../../images/example-2.svg'
 
 // import Probability from '../../components/Probability';
 
@@ -129,7 +129,7 @@ function Play() {
   
   return (
     <section className="explore w-full main-container flex flex-col">
-      <div className="logout-button">Logout</div>
+      {/* <div className="logout-button">Logout</div> */}
       <div className="main-container--top flex flex-col">
         <div className="flex flex-col gap-8 w-full">
             <p className="page-title">Explore</p>

@@ -24,8 +24,8 @@ function Home() {
           </div>
         </div>
         <div className="flex flex-col gap-2 main-container--bottom">
-          <NavLink className="cta--button" to="/login" >Login</NavLink>
-          <NavLink className="cta--button" to="/register" >Register</NavLink>
+          <NavLink className="cta--button cta--button-primary" to="/login" >Login</NavLink>
+          <NavLink className="cta--button cta--button-secondary" to="/register" >Register</NavLink>
         </div>
       </section>
 

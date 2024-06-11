@@ -1,7 +1,7 @@
 import React from 'react';
-import HighIcon from '../high.svg';
-import MediumIcon from '../medium.svg';
-import LowIcon from '../low.svg';
+import HighIcon from '../images/high.svg';
+import MediumIcon from '../images/medium.svg';
+import LowIcon from '../images/low.svg';
 
 const Probability = ({ text, type }) => {
   // Define icons and background colors for different types

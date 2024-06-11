@@ -1,7 +1,7 @@
 import '../../App.css';
 import { NavLink } from "react-router-dom";
 
-import image from '../../example-2.svg';
+import image from '../../images/example-2.svg';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 function AppHeader() {

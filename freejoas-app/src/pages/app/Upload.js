@@ -109,7 +109,7 @@ function Upload() {
                             <ImageUpload onImageChange={handleImageChange} />
                             {errors.image && <span className="error-message">{errors.image}</span>}
                         </form>
-                        <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Upload Location</button>
+                        <button className="cta--button cta--button-primary" onClick={handleClick}>Upload Location</button>
                     </div>
                 </div>
             </div>

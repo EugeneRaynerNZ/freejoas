@@ -3,6 +3,7 @@
 
 :root {
   --primary-color: #20AE72;
+  --secondary-color: #0A2E36;
 }
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -62,6 +63,10 @@ body {
   box-sizing: border-box;
 }
 
+h1, h2, h3, h4, h5, h6, span, p {
+  color: var(--secondary-color)
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -101,6 +106,22 @@ footer nav {
   flex: 1 0 33%;
 }
 
+.nav-link--home a.active svg path {
+  stroke: var(--primary-color)
+}
+
+.nav-link--play a.active svg path {
+  fill: var(--primary-color)
+}
+
+.nav-link--upload a.active svg path {
+  stroke: var(--primary-color)
+}
+
+.nav-link a.active {
+  color: var(--primary-color)
+}
+
 .nav-link a {
   color: black;
   display: flex;
@@ -108,10 +129,6 @@ footer nav {
   flex-direction: column;
   align-items: center;
   row-gap: 4px;
-}
-
-.nav-link a.active svg path {
-  fill: #307351;
 }
 
 .nav-link a svg {
@@ -234,21 +251,25 @@ footer nav {
 
 .cta--button {
   font-size: 16px;
-  background: var(--primary-color);
   padding: 16px 24px;
   width: 100%;
-  color: white;
   border-radius: 32px;
   font-weight: 500;
+  text-align: center;
+}
+
+.cta--button-primary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.cta--button-secondary {
+  background: #C9FFE8;
+  color: var(--secondary-color);
 }
 
 .cta--button-delete {
   background: #d30415;
-}
-
-.home .cta--button {
-  background: rgba(255,255,255,0.1);
-  text-align: center;
 }
 
 form {
@@ -441,7 +462,15 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
   height: 155px;
+  position: relative;
+}
+
+.logo-mark .logout {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
 .dashboard--container {
@@ -516,7 +545,7 @@ form {
 .get-my-location{
   font-size: 14px;
   text-decoration: underline;
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {

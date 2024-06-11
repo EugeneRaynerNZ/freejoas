@@ -92,7 +92,7 @@ function Login() {
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
             <div className="flex w-full">
-                <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Login</button>
+                <button className="bg-green-700 text-white rounded p-2 w-full cta--button cta--button-primary" onClick={handleClick}>Login</button>
             </div>
         </section>
     );
