@@ -9,6 +9,7 @@ import NumberToColorGradient from "../../components/ColourGenerator";
 import Arrow from "../../components/Arrow";
 import ArrowUpwardIcon from '../../images/arrow.svg';
 import LogoPlaceholder from '../../images/example-2.svg'
+import SessionStorageManager,{FREEJOAS} from '../../components/SessionStorageManager';
 
 // import Probability from '../../components/Probability';
 
@@ -23,18 +24,29 @@ function Play() {
 
   const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get('/freejoa/all');
-        console.log(response.data.data);
-        setData(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/freejoa/all');
+      if (response.data.data === null || response.data.data === undefined || response.data.data.length === 0) {
+        console.log('No data');
+        return;
     }
-    
+      console.log(response.data.data);
+      setData(()=>(response.data.data));
+      SessionStorageManager().setItem(FREEJOAS, response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const cachedData = SessionStorageManager().getItem(FREEJOAS);
+    if(cachedData){
+      setData(()=>(cachedData));
+      return;
+    }
     fetchData();
+    
   }, []);
 
   useEffect(() => {
@@ -143,7 +155,15 @@ function Play() {
   }
 
   const addRecentVisited = (item) => {
-    setRecentVisited(prevVisited => [...prevVisited, item]);
+    setRecentVisited(prevVisited => {
+      // add item to the beginning of the array
+      const newVisited = [item, ...prevVisited];
+      // limit the recent visited to 5
+      if (newVisited.length > 5) {
+        newVisited.pop();
+      }
+      return newVisited;
+    });  
   }
   
   return (
