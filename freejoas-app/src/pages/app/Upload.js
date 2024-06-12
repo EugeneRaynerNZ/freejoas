@@ -39,7 +39,11 @@ function Upload() {
                 });
                 navigate("/play");
             }).catch(error => {
-                setAdmin(() => (false));
+                // if the error is 403, the user is not an admin
+                if (error.response.status === 403)
+                    {
+                        setAdmin(() => (false));
+                    }
                 console.error(error);
             });
         } else {
