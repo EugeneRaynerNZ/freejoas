@@ -50,7 +50,10 @@ function Login() {
                 setErrorMessage('User not found.');
             } else if (error.response && error.response.status === 401) {
                 setErrorMessage('Password is incorrect');
-            } else {
+            } else if(error.response && error.response.status === 402){
+                setErrorMessage('User Email is not verified');
+            } 
+            else {
                 setErrorMessage(error.message);
                 console.error(error);
             }
