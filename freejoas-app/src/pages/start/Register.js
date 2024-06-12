@@ -54,6 +54,9 @@ function Register() {
                     axios.post('/verification/send', {
                         email: inputs.email,
                         username: inputs.first,
+                    }).then(()=>{
+                        console.log('Verification email sent');
+                        alert('Verification email sent, please check your inbox.');
                     }).catch(error => {
                         console.error(error);
                     });
