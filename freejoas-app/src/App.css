@@ -88,6 +88,10 @@ h1, h2, h3, h4, h5, h6, span, p {
   max-width: 40px;
 }
 
+.text-white {
+  color: white;
+}
+
 footer {
   width: 100%;
   /* height: var(--header-height); */
@@ -397,12 +401,16 @@ form {
   flex: 1
 }
 
-
 .location-list--item-image {
   height: 160px;
   width: 100%;
   background: #D9D9D9;
   border-radius: 12px;
+}
+
+.locations-list--item.selected  .location-list--item-image {
+  height: auto;
+  padding-bottom: 75%;
 }
 
 .location-list--item-container{
@@ -481,7 +489,7 @@ form {
 }
 
 .dashboard--welcome{
-  padding: 72px 0;
+  padding: 112px 0;
 }
 
 .dashboard .dashboard--title-container-text {
