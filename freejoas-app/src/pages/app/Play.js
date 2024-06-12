@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useRecentVisited } from '../../components/RecentVisitedContext';
 import '../../App.css';
 import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
@@ -18,6 +19,7 @@ function Play() {
   const [distance, setDistance] = useState(0);
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { recentVisited, setRecentVisited } = useRecentVisited();
 
   const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
 
@@ -123,8 +125,25 @@ function Play() {
     });
 
     setSelectedItem(item); 
+    handleRecentVisited(item);
+    console.log("Recent visited: ",recentVisited);
 
     scrollToTop();
+  }
+
+  function handleRecentVisited(item){
+    // check if the item is already in the recent visited
+    const exists = recentVisited.some(visited => visited._id === item._id);
+    if(exists){
+      // remove item from recent visited
+      setRecentVisited(prevVisited => prevVisited.filter(visited => visited._id !== item._id));
+    }
+    // add item to recent visited
+    addRecentVisited(item);
+  }
+
+  const addRecentVisited = (item) => {
+    setRecentVisited(prevVisited => [...prevVisited, item]);
   }
   
   return (
