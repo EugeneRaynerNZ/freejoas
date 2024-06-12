@@ -47,6 +47,17 @@ function Register() {
                 lastname: inputs.last,
                 email: inputs.email,
                 password: inputs.password,
+            }).then(response => {
+                // if the status is 201, the user is created
+                if (response.status === 201) {
+                    // send verification email
+                    axios.post('/verification/send', {
+                        email: inputs.email,
+                        username: inputs.first,
+                    }).catch(error => {
+                        console.error(error);
+                    });
+                }
             });
             navigate("/login");
         } catch (error) {
