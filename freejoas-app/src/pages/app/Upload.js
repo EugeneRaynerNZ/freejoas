@@ -89,12 +89,12 @@ function Upload() {
                                 <div className="flex flex-col gap-4">
                                     <label className="input--container">
                                         <span>Your Latitude</span>
-                                        <input type="text" name="latitude" readOnly value={inputs.latitude || ''} onChange={handleChange} placeholder="-34.2512" />
+                                        <input type="text" name="latitude" value={inputs.latitude || ''} onChange={handleChange} placeholder="-34.2512" />
                                         {errors.latitude && <span className="error-message">{errors.latitude}</span>}
                                     </label>
                                     <label className="input--container">
                                         <span>Your Longitude</span>
-                                        <input type="text" name="longitude" readOnly value={inputs.longitude || ''} onChange={handleChange} placeholder="-32.5123" />
+                                        <input type="text" name="longitude" value={inputs.longitude || ''} onChange={handleChange} placeholder="-32.5123" />
                                         {errors.longitude && <span className="error-message">{errors.longitude}</span>}
                                     </label>
                                     <div onClick={getCurrentLocation} className="get-my-location">Get my location</div>
