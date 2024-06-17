@@ -4,6 +4,7 @@ import axios from '../../axios';
 import Navigation from "../../Navigation";
 import ImageUpload from "../../components/UploadImage";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from '../../components/LoadingAnimation';
 
 
 function Upload() {
@@ -13,6 +14,7 @@ function Upload() {
     const [base64Image, setBase64Image] = useState('');
     const navigate = useNavigate();
     const [admin, setAdmin] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -23,6 +25,7 @@ function Upload() {
         const { latitude, longitude, amount, title } = inputs;
 
         if (latitude && longitude && amount && title && base64Image) {
+            setLoading(true);
             axios.post('/freejoa/upload', {
                 latitude,
                 longitude,
@@ -45,6 +48,9 @@ function Upload() {
                         setAdmin(() => (false));
                     }
                 console.error(error);
+            }).finally(() => {
+                // stop the loading animation at the end of the request
+                setLoading(false);
             });
         } else {
             setErrors({
@@ -116,6 +122,10 @@ function Upload() {
                                 <ImageUpload onImageChange={handleImageChange} />
                                 {errors.image && <span className="error-message">{errors.image}</span>}
                             </form>
+                            {/*
+                                here is the loading animation component 
+                             */}
+                            {loading && <LoadingAnimation />}
                             <button className="cta--button cta--button-primary" onClick={handleClick}>Upload Location</button>
                         </div>
                         :

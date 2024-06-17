@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CookieInstance } from '../../components/CookieContext';
+import LoadingAnimation from '../../components/LoadingAnimation';
 
 function Login() {
     const [inputs, setInputs] = useState({ email: '', password: '' });
@@ -12,6 +13,7 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const { setCookie, getCookie } = CookieInstance;
+    const [loading, setLoading] = useState(false);
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -30,6 +32,7 @@ function Login() {
             return;
         }
 
+        setLoading(true);
         try {
             // Send a POST request to the server
             await axios.post('/user/login', {
@@ -50,13 +53,15 @@ function Login() {
                 setErrorMessage('User not found.');
             } else if (error.response && error.response.status === 401) {
                 setErrorMessage('Password is incorrect');
-            } else if(error.response && error.response.status === 402){
+            } else if (error.response && error.response.status === 402) {
                 setErrorMessage('User Email is not verified');
-            } 
+            }
             else {
                 setErrorMessage(error.message);
                 console.error(error);
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -68,6 +73,7 @@ function Login() {
             </div>
 
             <form className="flex flex-col gap-4 mb-16">
+
                 <label className="input--container">
                     <span>Email Address</span>
                     <input
@@ -90,13 +96,17 @@ function Login() {
                     />
                     {errors.password && <span className="error-message">{errors.password}</span>}
                 </label>
+
             </form>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
             <div className="flex w-full">
+
                 <button className="bg-green-700 text-white rounded p-2 w-full cta--button cta--button-primary" onClick={handleClick}>Login</button>
             </div>
+            {loading && <LoadingAnimation />}
+
         </section>
     );
 }
