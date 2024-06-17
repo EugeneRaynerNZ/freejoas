@@ -3,11 +3,12 @@ import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
-import { useCookie } from '../../components/CookieContext';
+import { useCookie, KEY_USER } from '../../utils/CookieContext';
 import { useNavigate } from 'react-router-dom';
-import { useRecentVisited } from '../../components/RecentVisitedContext';
+import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { FaTree } from "react-icons/fa";
 import LogoPlaceholder from '../../images/example-2.svg'
+import LocalStorageManager, {KEY_RECENT_VISITED} from '../../utils/LocalStorageManager';
 
 
 
@@ -16,7 +17,7 @@ function Dashboard() {
   const navigator = useNavigate();
   //get functions from the useCookie hook
   const { getCookie, logout } = useCookie();
-  const { recentVisited } = useRecentVisited();
+  const { recentVisited, setRecentVisited } = useRecentVisited();
 
 
   const handleLogout = () => {
@@ -24,9 +25,18 @@ function Dashboard() {
     navigator('/');
   };
 
+  const fetchRecentVisited = () => {
+    const recentVisited = LocalStorageManager.getUserData(user._id, KEY_RECENT_VISITED);
+    setRecentVisited(recentVisited);
+  };
+
   useEffect(() => {
     console.log("dashboard use effect");
-    setUser(getCookie('user'));
+    setUser(getCookie(KEY_USER));
+    if(user){
+      fetchRecentVisited();
+    }
+
   }, [getCookie, setUser]);
 
   return (

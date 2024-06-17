@@ -48,7 +48,7 @@ function CookieManager() {
         }
     };
 
-    return { setCookie, getCookie, removeCookie, logout, removeAllCookies };
+    return { setCookie, getCookie, removeCookie, logout, removeAllCookies};
 }
 
 export default CookieManager;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CookieInstance } from './components/CookieContext';
+import { CookieInstance } from './utils/CookieContext';
 
 const URL = 'https://freejoas.azurewebsites.net/api/v1';
 // const URL = 'http://localhost:4000/api/v1';

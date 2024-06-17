@@ -1,7 +1,8 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./components/Router";
-import { CookieProvider } from './components/CookieContext';
-import { RecentVisitedProvider } from './components/RecentVisitedContext';
+import { CookieProvider } from './utils/CookieContext';
+import { RecentVisitedProvider } from './utils/RecentVisitedContext';
+import { UserProvider } from "./utils/UserContext";
 
 
 import './App.css';
@@ -9,11 +10,13 @@ import './App.css';
 function App() {
   return (
     <CookieProvider>
-      <RecentVisitedProvider>
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
-      </RecentVisitedProvider>
+      <UserProvider>
+        <RecentVisitedProvider>
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+        </RecentVisitedProvider>
+      </UserProvider>
     </CookieProvider>
   );
 }

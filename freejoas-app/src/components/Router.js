@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { useCookie } from './CookieContext';
+import { useCookie, KEY_TOKEN } from '../utils/CookieContext';
 //pages
 import Home from "../pages/Home";
 import Dashboard from "../pages/app/Dashboard";
@@ -15,12 +15,12 @@ import PropTypes from 'prop-types';
 
 function Body() {
   const { getCookie } = useCookie();
-  let token = getCookie('token');
+  let token = getCookie(KEY_TOKEN);
   
   const PrivateRoute = ({ element }) => {
 
     //update the token value
-    token = getCookie('token');
+    token = getCookie(KEY_TOKEN);
 
     // If the token is not present, redirect to the login page
     return token ? element : <Navigate to="/login" />;

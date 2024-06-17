@@ -4,8 +4,9 @@ import axios from '../../axios';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CookieInstance } from '../../components/CookieContext';
+import { CookieInstance, KEY_USER, KEY_TOKEN } from '../../utils/CookieContext';
 import LoadingAnimation from '../../components/LoadingAnimation';
+import { useUser } from '../../utils/UserContext';
 
 function Login() {
     const [inputs, setInputs] = useState({ email: '', password: '' });
@@ -14,6 +15,7 @@ function Login() {
     const navigate = useNavigate();
     const { setCookie, getCookie } = CookieInstance;
     const [loading, setLoading] = useState(false);
+    const { setUser } = useUser();
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -40,11 +42,12 @@ function Login() {
                 password: inputs.password,
             }).then((response) => {
                 console.log(response.data);
-                setCookie('token', response.data.token);
-                setCookie('user', response.data.data);
+                setCookie(KEY_TOKEN, response.data.token);
+                setCookie(KEY_USER, response.data.data);
+                setUser(response.data.data);
             }).then(() => {
-                console.log("token: ", getCookie('token'));
-                console.log("user: ", getCookie('user'));
+                console.log("token: ", getCookie(KEY_TOKEN));
+                console.log("user: ", getCookie(KEY_USER));
                 navigate('/dashboard');
             });
 

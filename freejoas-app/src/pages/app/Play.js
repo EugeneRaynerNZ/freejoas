@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useRecentVisited } from '../../components/RecentVisitedContext';
+import { useRecentVisited } from '../../utils/RecentVisitedContext';
+import { useUser } from '../../utils/UserContext';
 import '../../App.css';
 import axios from '../../axios';
 import { FaTree } from "react-icons/fa";
@@ -9,7 +10,8 @@ import NumberToColorGradient from "../../components/ColourGenerator";
 import Arrow from "../../components/Arrow";
 import ArrowUpwardIcon from '../../images/arrow.svg';
 import LogoPlaceholder from '../../images/example-2.svg'
-import SessionStorageManager,{FREEJOAS} from '../../components/SessionStorageManager';
+import SessionStorageManager, { FREEJOAS } from '../../utils/SessionStorageManager';
+import LocalStorageManager, {KEY_RECENT_VISITED} from '../../utils/LocalStorageManager';
 
 // import Probability from '../../components/Probability';
 
@@ -21,8 +23,32 @@ function Play() {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const { recentVisited, setRecentVisited } = useRecentVisited();
+  const { user } = useUser();
 
   const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
+
+  function handleRecentVisited(item) {
+    setRecentVisited(prevVisited => {
+      // check if the item is already in the recent visited
+      const index = prevVisited.findIndex(visited => visited._id === item._id);
+
+      if (index !== -1) {
+        // move the current item to the top of the list
+        const updatedVisited = [
+          prevVisited[index],
+          ...prevVisited.slice(0, index),
+          ...prevVisited.slice(index + 1)
+        ];
+        return updatedVisited.slice(0, 5); // only return the first 5 items
+      } else {
+        // add the current item to the top of the list
+        return [item, ...prevVisited].slice(0, 5);
+      }
+    });
+
+    LocalStorageManager.saveUserData(user._id, KEY_RECENT_VISITED, recentVisited);
+  }
+
 
   const fetchData = async () => {
     try {
@@ -30,9 +56,9 @@ function Play() {
       if (response.data.data === null || response.data.data === undefined || response.data.data.length === 0) {
         console.log('No data');
         return;
-    }
-      console.log(response.data.data);
-      setData(()=>(response.data.data));
+      }
+      // console.log(response.data.data);
+      setData(() => (response.data.data));
       SessionStorageManager().setItem(FREEJOAS, response.data.data);
     } catch (error) {
       console.error(error);
@@ -41,12 +67,14 @@ function Play() {
 
   useEffect(() => {
     const cachedData = SessionStorageManager().getItem(FREEJOAS);
-    if(cachedData){
-      setData(()=>(cachedData));
+    if (cachedData) {
+      setData(() => (cachedData));
+      console.log("Cached data: ");
       return;
     }
     fetchData();
-    
+    console.log("Fetching data: ");
+
   }, []);
 
   useEffect(() => {
@@ -57,9 +85,9 @@ function Play() {
         gamma: event.gamma
       });
     };
-  
+
     window.addEventListener('deviceorientation', handleDeviceOrientation);
-  
+
     return () => {
       window.removeEventListener('deviceorientation', handleDeviceOrientation);
     };
@@ -69,8 +97,8 @@ function Play() {
     if ("geolocation" in navigator) {
       const watchId = navigator.geolocation.watchPosition(
         function (position) {
-          setCoordinates({ 
-            latitude: position.coords.latitude, 
+          setCoordinates({
+            latitude: position.coords.latitude,
             longitude: position.coords.longitude
           });
         },
@@ -93,28 +121,28 @@ function Play() {
   }, []);
 
   useEffect(() => {
-    if(freejoaLocation && myCurrentCoordinates.latitude && myCurrentCoordinates.longitude) {
+    if (freejoaLocation && myCurrentCoordinates.latitude && myCurrentCoordinates.longitude) {
       const distanceInKmBetweenEarthCoordinates = (lat1, lon1, lat2, lon2) => {
         var earthRadiusKm = 6371;
-        
-        var dLat = degreesToRadians(lat2-lat1);
-        var dLon = degreesToRadians(lon2-lon1);
-        
+
+        var dLat = degreesToRadians(lat2 - lat1);
+        var dLon = degreesToRadians(lon2 - lon1);
+
         lat1 = degreesToRadians(lat1);
         lat2 = degreesToRadians(lat2);
-        
-        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return Math.floor((earthRadiusKm * c) * 1000);
       };
-      
+
       const distanceInKm = distanceInKmBetweenEarthCoordinates(
-          freejoaLocation.latitude,
-          freejoaLocation.longitude,
-          myCurrentCoordinates.latitude,
-          myCurrentCoordinates.longitude
-        );
+        freejoaLocation.latitude,
+        freejoaLocation.longitude,
+        myCurrentCoordinates.latitude,
+        myCurrentCoordinates.longitude
+      );
       setDistance(distanceInKm);
     }
   }, [freejoaLocation, myCurrentCoordinates]);
@@ -130,57 +158,34 @@ function Play() {
     });
   };
 
-  function handleSelectItem(lat, lng, item){
+  function handleSelectItem(lat, lng, item) {
     setFreejoaLocation({
       latitude: lat,
       longitude: lng
     });
 
-    setSelectedItem(item); 
+    setSelectedItem(item);
     handleRecentVisited(item);
-    console.log("Recent visited: ",recentVisited);
+    console.log("Recent visited: ", recentVisited);
 
     scrollToTop();
   }
 
-  function handleRecentVisited(item){
-    // check if the item is already in the recent visited
-    const exists = recentVisited.some(visited => visited._id === item._id);
-    if(exists){
-      // remove item from recent visited
-      setRecentVisited(prevVisited => prevVisited.filter(visited => visited._id !== item._id));
-    }
-    // add item to recent visited
-    addRecentVisited(item);
-  }
-
-  const addRecentVisited = (item) => {
-    setRecentVisited(prevVisited => {
-      // add item to the beginning of the array
-      const newVisited = [item, ...prevVisited];
-      // limit the recent visited to 5
-      if (newVisited.length > 5) {
-        newVisited.pop();
-      }
-      return newVisited;
-    });  
-  }
-  
   return (
     <section className="explore w-full main-container flex flex-col">
       {/* <div className="logout-button">Logout</div> */}
       <div className="main-container--top flex flex-col">
         <div className="flex flex-col gap-8 w-full">
-            <p className="page-title">Explore</p>
+          <p className="page-title">Explore</p>
         </div>
         <div className="flex-1 flex flex-col">
           <section className="flex">
             {freejoaLocation ? (
               <div className="standout ">
                 <div className="movement">
-                  <div className="movement--arrow w-full flex justify-center"><img src={ArrowUpwardIcon} alt="arrow" id="arrow"/></div>
+                  <div className="movement--arrow w-full flex justify-center"><img src={ArrowUpwardIcon} alt="arrow" id="arrow" /></div>
                   <div className="movement--text">
-                    <span className="text-lg">You are</span> 
+                    <span className="text-lg">You are</span>
                     <NumberToColorGradient number={distance} />
                     <span className="text-lg">meters from your destination</span>
                   </div>
@@ -194,11 +199,11 @@ function Play() {
                 </div>
                 <div className="locations-list--item selected">
                   {selectedItem.image ? (
-                  <div className="location-list--item-image" style={{
-                    backgroundImage: `url(${selectedItem.image[0].data})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
+                    <div className="location-list--item-image" style={{
+                      backgroundImage: `url(${selectedItem.image[0].data})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center',
                     }}>
 
                     </div>
@@ -208,7 +213,7 @@ function Play() {
                       backgroundSize: 'cover',
                       backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center',
-                      }}></div>
+                    }}></div>
                   )}
                   <div className="location-list--item-container">
                     <div className="location-list--item-filter">
@@ -252,17 +257,17 @@ function Play() {
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center',
-                        }}>
+                      }}>
 
-                        </div>
-                      ) : (
-                        <div className="location-list--item-image" style={{
-                          backgroundImage: `url(${LogoPlaceholder})`,
-                          backgroundSize: 'cover',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'center',
-                          }}></div>
-                      )}
+                      </div>
+                    ) : (
+                      <div className="location-list--item-image" style={{
+                        backgroundImage: `url(${LogoPlaceholder})`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}></div>
+                    )}
                     <div className="location-list--item-container">
                       <div className="location-list--item-filter">
                         {/* <span>Under 1 km</span> */}
