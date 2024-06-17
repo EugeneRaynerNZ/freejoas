@@ -41,13 +41,13 @@ function Dashboard() {
     fetchRecentVisited();
   }, [fetchRecentVisited]);
 
-  useEffect(() => {
-    /**
-     *  This only for debugging purposes
-     */
-    console.log("user: ", user);
-    console.log("recentVisited: ", recentVisited);
-  }, [user, recentVisited]);
+  // useEffect(() => {
+  //   /**
+  //    *  This only for debugging purposes
+  //    */
+  //   console.log("user: ", user);
+  //   console.log("recentVisited: ", recentVisited);
+  // }, [user, recentVisited]);
 
   
   // useEffect(() => {
