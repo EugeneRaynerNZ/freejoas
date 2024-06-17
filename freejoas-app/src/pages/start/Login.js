@@ -78,7 +78,7 @@ function Login() {
                 <h1>Login</h1>
             </div>
 
-            <form className="flex flex-col gap-4 mb-16">
+            <form className="flex flex-col gap-6 mb-16">
 
                 <label className="input--container">
                     <span>Email Address</span>
@@ -108,11 +108,13 @@ function Login() {
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-            <div className="flex w-full">
-
-                <button className="bg-green-700 text-white rounded p-2 w-full cta--button cta--button-primary" onClick={handleClick}>Login</button>
+            <div className="flex w-full justify-center">
+                <div className={`login--button cta--button-primary ${loading ? "login--button-loading" : ""}`} onClick={handleClick}>
+                    {loading && <LoadingAnimation />}
+                    <span>Login</span>
+                </div>
             </div>
-            {loading && <LoadingAnimation />}
+
 
         </section>
     );
