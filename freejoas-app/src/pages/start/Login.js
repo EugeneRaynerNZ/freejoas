@@ -65,6 +65,12 @@ function Login() {
         }
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
+            handleClick();
+        }
+    };
+
     return (
         <section className="flex flex-col gap-8 login w-full p-8 items-center justify-center">
             <div className="flex flex-col gap-8 w-full">
@@ -93,6 +99,7 @@ function Login() {
                         value={inputs.password}
                         onChange={handleChange}
                         className={errors.password ? 'input-error' : ''}
+                        onKeyDown={handleKeyDown}
                     />
                     {errors.password && <span className="error-message">{errors.password}</span>}
                 </label>
