@@ -45,10 +45,13 @@ function Play() {
         return [item, ...prevVisited].slice(0, 5);
       }
     });
-
-    LocalStorageManager.saveUserData(user._id, KEY_RECENT_VISITED, recentVisited);
   }
 
+  useEffect(() => {
+    if (user) {
+      LocalStorageManager.saveUserData(user._id, KEY_RECENT_VISITED, recentVisited);
+    }
+  }, [recentVisited, user]);
 
   const fetchData = async () => {
     try {

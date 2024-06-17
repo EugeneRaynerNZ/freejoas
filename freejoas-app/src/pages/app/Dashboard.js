@@ -1,43 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect, useCallback } from 'react';
 import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
-import { useCookie, KEY_USER } from '../../utils/CookieContext';
+import { useCookie } from '../../utils/CookieContext';
 import { useNavigate } from 'react-router-dom';
 import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { FaTree } from "react-icons/fa";
 import LogoPlaceholder from '../../images/example-2.svg'
 import LocalStorageManager, {KEY_RECENT_VISITED} from '../../utils/LocalStorageManager';
+import { useUser } from '../../utils/UserContext';
 
 
 
 function Dashboard() {
-  const [user, setUser] = useState(null);
   const navigator = useNavigate();
   //get functions from the useCookie hook
-  const { getCookie, logout } = useCookie();
+  const { logout } = useCookie();
   const { recentVisited, setRecentVisited } = useRecentVisited();
+  const {user, setUser} = useUser();
 
 
   const handleLogout = () => {
     logout();
+    setRecentVisited([]);
+    setUser(null);
     navigator('/');
   };
 
-  const fetchRecentVisited = () => {
-    const recentVisited = LocalStorageManager.getUserData(user._id, KEY_RECENT_VISITED);
-    setRecentVisited(recentVisited);
-  };
+
+  const fetchRecentVisited = useCallback(() => {
+    if (user && (recentVisited.length === 0 || !recentVisited)) {
+      const storedRecentVisited = LocalStorageManager.getUserData(user._id, KEY_RECENT_VISITED);
+      setRecentVisited(storedRecentVisited || []);
+    }
+  }, [user, recentVisited, setRecentVisited]);
 
   useEffect(() => {
     console.log("dashboard use effect");
-    setUser(getCookie(KEY_USER));
-    if(user){
-      fetchRecentVisited();
-    }
+    fetchRecentVisited();
+  }, [fetchRecentVisited]);
 
-  }, [getCookie, setUser]);
+  useEffect(() => {
+    /**
+     *  This only for debugging purposes
+     */
+    console.log("user: ", user);
+    console.log("recentVisited: ", recentVisited);
+  }, [user, recentVisited]);
+
+  
+  // useEffect(() => {
+  //   console.log("dashboard use effect");
+  //   if(recentVisited.length === 0 || recentVisited === undefined || recentVisited === null){
+  //     const recentVisited = LocalStorageManager.getUserData(user._id, KEY_RECENT_VISITED);
+  //     setRecentVisited(()=>(recentVisited));
+  //   }
+  //   console.log("user: ", user);
+  //   console.log("recentVisited: ", recentVisited);
+
+  // }, []);
 
   return (
 

@@ -7,7 +7,13 @@ const LocalStorageManager = {
   saveUserData: (userId, dataKey, data) => {
     try{
         // get user data 
-        let userData = JSON.parse(localStorage.getItem(userId)) || {};  // if there is no user data, create an empty object
+        let userData = localStorage.getItem(userId);  
+        // if there is no user data, create an empty object
+        if (!userData) {
+            userData = {};
+        }else{
+            userData = JSON.parse(userData);
+        }
         // add the data to the user data
         userData[dataKey] = data;
     
