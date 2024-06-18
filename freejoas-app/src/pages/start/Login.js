@@ -7,7 +7,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CookieInstance, KEY_USER, KEY_TOKEN } from '../../utils/CookieContext';
 import LoadingAnimation from '../../components/LoadingAnimation';
 import { useUser } from '../../utils/UserContext';
-import { useRecentVisited } from '../../utils/RecentVisitedContext';
 
 
 function Login() {
@@ -18,7 +17,6 @@ function Login() {
     const { setCookie, getCookie } = CookieInstance;
     const { user, setUser } = useUser();
     const [loading, setLoading] = useState(false);
-    const {setRecentVisited} = useRecentVisited();
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -68,7 +66,7 @@ function Login() {
             setLoading(false);
             navigate('/dashboard');
         }
-    }, [user]);
+    }, [user, navigate]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {

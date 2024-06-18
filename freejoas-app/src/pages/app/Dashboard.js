@@ -42,6 +42,8 @@ function Dashboard() {
     }
     console.log("user: ", user);
     console.log("recentVisited: ", recentVisited);
+    // this will run only once when the component is mounted
+    // eslint-disable-next-line
   }, []);
 
   return (
