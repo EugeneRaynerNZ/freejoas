@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
 import { NavLink } from "react-router-dom";
@@ -7,6 +7,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CookieInstance, KEY_USER, KEY_TOKEN } from '../../utils/CookieContext';
 import LoadingAnimation from '../../components/LoadingAnimation';
 import { useUser } from '../../utils/UserContext';
+import { useRecentVisited } from '../../utils/RecentVisitedContext';
+
 
 function Login() {
     const [inputs, setInputs] = useState({ email: '', password: '' });
@@ -14,8 +16,9 @@ function Login() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     const { setCookie, getCookie } = CookieInstance;
+    const { user, setUser } = useUser();
     const [loading, setLoading] = useState(false);
-    const { setUser } = useUser();
+    const {setRecentVisited} = useRecentVisited();
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
@@ -42,31 +45,30 @@ function Login() {
                 password: inputs.password,
             }).then((response) => {
                 console.log(response.data);
+                setUser(()=>(response.data.data));
                 setCookie(KEY_TOKEN, response.data.token);
                 setCookie(KEY_USER, response.data.data);
-                setUser(response.data.data);
-            }).then(() => {
+                return user;
+            }).then((user) => {
                 console.log("token: ", getCookie(KEY_TOKEN));
                 console.log("user: ", getCookie(KEY_USER));
-                navigate('/dashboard');
+                console.log("useUser: ", user);
+                // navigate('/dashboard');
             });
-
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                setErrorMessage('User not found.');
-            } else if (error.response && error.response.status === 401) {
-                setErrorMessage('Password is incorrect');
-            } else if (error.response && error.response.status === 402) {
-                setErrorMessage('User Email is not verified');
-            }
-            else {
-                setErrorMessage(error.message);
-                console.error(error);
-            }
+            setErrorMessage(error.response.data.message);
+            console.error(error);
         } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (user) {
+            setLoading(false);
+            navigate('/dashboard');
+        }
+    }, [user]);
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter' || event.keyCode === 13 || event.which === 13) {
