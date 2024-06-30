@@ -750,3 +750,30 @@ form {
 @keyframes spin {
 	100% {transform: rotate(360deg)}
 }
+
+
+
+
+@media (min-width: 600px) {
+  .login {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .home > div {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .home .main-container--bottom {
+    position: static;
+  }
+
+  .dashboard {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
