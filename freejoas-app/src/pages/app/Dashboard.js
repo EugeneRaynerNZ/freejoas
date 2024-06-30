@@ -3,7 +3,7 @@ import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
 import '../../App.css';
-import { useCookie } from '../../utils/CookieContext';
+import { CookieInstance, KEY_USER } from '../../utils/CookieContext';
 import { useNavigate } from 'react-router-dom';
 import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { FaTree } from "react-icons/fa";
@@ -16,7 +16,7 @@ import { useUser } from '../../utils/UserContext';
 function Dashboard() {
   const navigator = useNavigate();
   //get functions from the useCookie hook
-  const { logout } = useCookie();
+  const { logout, getCookie } = CookieInstance;
   const { recentVisited, setRecentVisited } = useRecentVisited();
   const { user, setUser } = useUser();
 
@@ -37,6 +37,15 @@ function Dashboard() {
 
   useEffect(() => {
     console.log("dashboard use effect");
+    if(!user){
+
+      const cookieUser = getCookie(KEY_USER);
+      if(cookieUser){
+        setUser(()=>(cookieUser));
+      }else{
+        logout();
+      }
+    }
     if (user) {
       fetchRecentVisited(user._id);
     }
@@ -44,7 +53,7 @@ function Dashboard() {
     console.log("recentVisited: ", recentVisited);
     // this will run only once when the component is mounted
     // eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   return (
 
