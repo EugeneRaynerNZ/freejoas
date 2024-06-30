@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { useCookie, KEY_TOKEN } from '../utils/CookieContext';
 //pages
+import Landing from '../pages/Landing'
 import Home from "../pages/Home";
 import Dashboard from "../pages/app/Dashboard";
 import Play from "../pages/app/Play";
@@ -33,8 +34,10 @@ function Body() {
   return (
     <main className="flex flex-1 justify-center">
       <Routes>
+        
         <Route path='/' element={token ? <Navigate to="/dashboard" /> : <Home />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/landing' element={<Landing />} />
         <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
         <Route path='/play' element={<PrivateRoute element={<Play />} />} />
         <Route path='/upload' element={<PrivateRoute element={<Upload />} />} />
