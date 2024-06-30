@@ -35,7 +35,7 @@ function Body() {
     <main className="flex flex-1 justify-center">
       <Routes>
         
-        <Route path='/' element={token ? <Navigate to="/dashboard" /> : <Landing />} />
+        <Route path='/' element={<Landing />} />
         <Route path='/home' element={<Home />} />
         {/* <Route path='/landing' element={<Landing />} /> */}
         <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
@@ -45,7 +45,7 @@ function Body() {
         <Route path='/uploadimage' element={<PrivateRoute element={<UploadImage />} />} />
 
         <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={token? <Navigate to='/dashboard' /> :<Login />} />
 
         <Route path='*' element={<h1>Page Not Found</h1>} />
 
