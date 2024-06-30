@@ -85,10 +85,10 @@ function Play() {
        *  This only for debugging purposes
        *  remove the time delay when you are done
        */      
-      setTimeout(() => { 
-        setLoading(false);
-       }, 2000);
-      // setLoading(false);
+      // setTimeout(() => { 
+      //   setLoading(false);
+      //  }, 2000);
+      setLoading(false);
     }
   };
 
@@ -101,10 +101,10 @@ function Play() {
        *  This only for debugging purposes
        *  remove the time delay when you are done
        */
-      setTimeout(() => { 
-        setLoading(false);
-       }, 2000);
-      // setLoading(false);
+      // setTimeout(() => { 
+      //   setLoading(false);
+      //  }, 2000);
+      setLoading(false);
       console.log("Cached data: ");
       return;
     }

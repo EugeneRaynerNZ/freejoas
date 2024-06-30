@@ -26,13 +26,14 @@ function Upload() {
 
         if (latitude && longitude && amount && title && base64Image) {
             setLoading(true);
-            axios.post('/freejoa/upload', {
+            const freejoa = {
                 latitude,
                 longitude,
                 amount,
                 title,
                 image: { data: base64Image }
-            }).then(() => {
+            }
+            axios.post('/freejoa/upload', freejoa).then(() => {
                 setInputs({
                     latitude: '',
                     longitude: '',
