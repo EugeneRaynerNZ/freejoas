@@ -63,20 +63,9 @@ function Play() {
           console.log('No data');
           return;
         }
-        // console.log(response.data.data);
         setData(() => (response.data.data));
         SessionStorageManager().setItem(FREEJOAS, response.data.data);
       })
-
-      // const response = await axios.get('/freejoa/all');
-
-      // if (response.data.data === null || response.data.data === undefined || response.data.data.length === 0) {
-      //   console.log('No data');
-      //   return;
-      // }
-      // // console.log(response.data.data);
-      // setData(() => (response.data.data));
-      // SessionStorageManager().setItem(FREEJOAS, response.data.data);
     } catch (error) {
       console.error("Error fetching data: ", error.message);
     } finally {
@@ -207,12 +196,19 @@ function Play() {
     scrollToTop();
   }
 
+  const handleSync = ()=>{
+    console.log("Syncing data");
+    fetchData();
+  }
+
   return (
     <section className="explore w-full main-container flex flex-col">
       {/* <div className="logout-button">Logout</div> */}
       <div className="main-container--top flex flex-col">
         <div className="flex flex-col gap-8 w-full">
-          <p className="page-title">Explore</p>
+          <button onClick={handleSync} >
+            <p className="page-title">Explore</p>
+          </button>
         </div>
         <div className="flex-1 flex flex-col">
           <section className="flex">
