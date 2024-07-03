@@ -12,6 +12,7 @@ import Register from "../pages/start/Register";
 import Login from "../pages/start/Login";
 import UploadImage from "./UploadImage";
 import PropTypes from 'prop-types';
+import PageNotFound from '../pages/404'
 
 
 function Body() {
@@ -47,7 +48,7 @@ function Body() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={token? <Navigate to='/dashboard' /> :<Login />} />
 
-        <Route path='*' element={<h1>Page Not Found</h1>} />
+        <Route path='*' element={<PageNotFound />} />
 
       </Routes>
     </main>

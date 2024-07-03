@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   position: relative;
 }
 
-.landing-page .backgroundWash {
+.backgroundWash {
   z-index: 2;
   position: absolute;
   background: rgba(255, 255, 255, 0.51);
@@ -168,6 +168,108 @@ h1, h2, h3, h4, h5, h6, span, p {
   }
 
   .landing-page--image-container {
+    max-width: 360px;
+    width: auto;
+  }
+}
+
+.PageNotFound {
+  height: 100vh;
+  width: 100%;
+  background: var(--Sky-Gradient-10, linear-gradient(180deg, #B7EAFF 0%, #94DFFF 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  position: relative;
+}
+
+.PageNotFound--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1224px;
+  gap: 48px;
+  z-index: 5;
+  position: relative;
+}
+
+.PageNotFound--text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+  gap: 30px;
+}
+
+.PageNotFound--text-container h1 {
+  color: #0A2E36;
+  font-size: 96px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 100%;
+  text-align: center;
+  width: 100%;
+}
+
+.PageNotFound--text-container p {
+  color: #0A2E36;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.PageNotFound--image-container {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 24px;
+}
+
+.PageNotFound--image-container a {
+  display: flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  width: auto;
+  font-family: "Source Sans 3";
+  transition: all 0.3s;
+}
+
+.PageNotFound--image-container a:hover {
+  background: black;
+}
+
+@media (max-width: 940px) {
+  .PageNotFound--container {
+    flex-direction: column;
+  }
+
+  .PageNotFound--text-container {
+    text-align: center;
+    align-items: center;
+    width: auto;
+  }
+
+  .PageNotFound--text-container h1 {
+    padding: 0 16px;
+    font-size: 60px;
+  }
+
+  .PageNotFound--text-container p {
+    padding: 0 16px;
+    font-size: 24px;
+  }
+
+  .PageNotFound--image-container {
     max-width: 360px;
     width: auto;
   }
