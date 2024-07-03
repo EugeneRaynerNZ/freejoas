@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CookieInstance, KEY_USER, KEY_TOKEN } from '../../utils/CookieContext';
 import LoadingAnimation from '../../components/LoadingAnimation';

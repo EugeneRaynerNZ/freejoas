@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import axios from '../../axios';
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LoadingAnimation from '../../components/LoadingAnimation';
+
 
 function Register() {
     const [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
 
     const handleChange = e => {
         setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
+    };
+
+    const sendVerificationEmail = async (email, username) => {
+        try{
+            await axios.post('/verification/send', {
+                email: inputs.email,
+                username: inputs.first,
+            });
+
+            console.log('Verification email sent');
+
+            navigate('/verify-your-email', { state: { email: email, username: username} });
+
+        }catch(error){
+            console.error(error);
+        }
     };
 
     async function handleClick() {
@@ -41,6 +60,8 @@ function Register() {
             return;
         }
 
+        setLoading(true);
+
         try {
             await axios.post('/user/create', {
                 firstname: inputs.first,
@@ -51,20 +72,9 @@ function Register() {
                 // if the status is 201, the user is created
                 if (response.status === 201) {
                     // send verification email
-                    axios.post('/verification/send', {
-                        email: inputs.email,
-                        username: inputs.first,
-                    }).then(()=>{
-                        console.log('Verification email sent');
-                        // this appears too late. removing and replacing with redirect to nice page
-                        // alert('Verification email sent, please check your inbox.');
-                    }).catch(error => {
-                        console.log('Error sending verification email');
-                        console.error(error);
-                    });
+                    sendVerificationEmail(inputs.email, inputs.first);
                 }
             });
-            navigate("/verify-your-email");
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setErrors(prevErrors => ({ ...prevErrors, email: 'Email address already exists.' }));
@@ -72,6 +82,8 @@ function Register() {
                 setErrors(prevErrors => ({ ...prevErrors, email: 'An error occurred. Please try again later.' }));
             }
             console.error(error);
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -108,8 +120,14 @@ function Register() {
                     {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
                 </label>
             </form>
-            <div className="flex w-full">
+            {/* <div className="flex w-full">
                 <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Register</button>
+            </div> */}
+            <div className="flex w-full justify-center">
+                <div className={`login--button cta--button-primary ${loading ? "login--button-loading" : ""}`} onClick={handleClick}>
+                    {loading && <LoadingAnimation />}
+                    <span>Register</span>
+                </div>
             </div>
         </section>
     );
