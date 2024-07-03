@@ -268,7 +268,7 @@ function Play() {
           </section>
           <section>
             
-            <div className="locations-list">
+            <div>
               
 
             {loading ? (
@@ -296,7 +296,7 @@ function Play() {
                 </div> */}
               </div>
                 
-                <ul>
+                <ul className="locations-list">
                   {data.map(item => (
                     <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
                       {item.image ? (
