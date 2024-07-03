@@ -163,6 +163,11 @@ h1, h2, h3, h4, h5, h6, span, p {
     width: auto;
   }
 
+  .landing-page--text-container h1 {
+    padding: 0 16px;
+    font-size: 48px;
+  }
+
   .landing-page--text-container p {
     padding: 0 16px;
   }
@@ -170,6 +175,11 @@ h1, h2, h3, h4, h5, h6, span, p {
   .landing-page--image-container {
     max-width: 360px;
     width: auto;
+    padding: 0 16px;
+  }
+
+  .landing-page--image-container img {
+    width: 100%;
   }
 }
 
