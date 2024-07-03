@@ -73,6 +73,35 @@ h1, h2, h3, h4, h5, h6, span, p {
   height: 100dvh;
 }
 
+.verify-your-email {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  padding: 32px;
+}
+
+.verify-your-email h1 {
+  color: #0A2E36;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.verify-your-email img {
+  max-width: 80px;
+}
+
+.verify-your-email p {
+  color: #0A2E36;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
 .landing-page {
   height: 100vh;
   width: 100%;

@@ -14,7 +14,7 @@ function PageNotFound() {
                 <p>Sorry, no luck here! This page is as empty as this tree.</p>
             </div>
             <div className="PageNotFound--image-container">
-                <img src={Image404} alt="Feijoa Tree"/>
+                <img src={Image404} alt="Empty Tree"/>
                 <NavLink className="cta--button cta--button-primary" to="/dashboard" >Take Me Home</NavLink>
             </div>
         </div>

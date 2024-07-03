@@ -56,14 +56,15 @@ function Register() {
                         username: inputs.first,
                     }).then(()=>{
                         console.log('Verification email sent');
-                        alert('Verification email sent, please check your inbox.');
+                        // this appears too late. removing and replacing with redirect to nice page
+                        // alert('Verification email sent, please check your inbox.');
                     }).catch(error => {
                         console.log('Error sending verification email');
                         console.error(error);
                     });
                 }
             });
-            navigate("/login");
+            navigate("/verify-your-email");
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setErrors(prevErrors => ({ ...prevErrors, email: 'Email address already exists.' }));

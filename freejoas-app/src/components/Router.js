@@ -12,7 +12,8 @@ import Register from "../pages/start/Register";
 import Login from "../pages/start/Login";
 import UploadImage from "./UploadImage";
 import PropTypes from 'prop-types';
-import PageNotFound from '../pages/404'
+import VerifyEmail from '../pages/start/EmailVerification';
+import PageNotFound from '../pages/404';
 
 
 function Body() {
@@ -46,7 +47,9 @@ function Body() {
         <Route path='/uploadimage' element={<PrivateRoute element={<UploadImage />} />} />
 
         <Route path='/register' element={<Register />} />
+        <Route path='/verify-your-email' element={<VerifyEmail />} />
         <Route path='/login' element={token? <Navigate to='/dashboard' /> :<Login />} />
+
 
         <Route path='*' element={<PageNotFound />} />
 
