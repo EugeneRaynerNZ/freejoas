@@ -38,13 +38,10 @@ function EmailVerification() {
       <NavLink className="back--button" to="/login"><ArrowBackIcon /><span>Login</span></NavLink>
 
       <div className="verify-your-email w-full">
-        <h1 className="text-center mb-4">Hi, {username}</h1>
-        <h1 className="text-center mb-4">A verification link has been sent to</h1>
-        <h1 className="text-center mb-4">{email}</h1>
+        <h1 className="text-center mb-4">Hi, {username}. A verification link has been sent to</h1>
         <img className="text-center" src={PaperPlane} alt="Paper Plane" />
-        <p className="text-center">Check your inbox for instructions from us on how to verify your account.</p>
-        <p className="text-center">Didn't receive the email?
-          Please check your Spam or Junk Mail folder, or <button style={{ borderBottom: '1px solid black' }} onClick={handleResend}>Resend</button>
+        <p className="text-center">Check your email inbox at {email} for instructions from us on how to verify your account.</p>
+        <p className="text-center">Didn't receive the email? Please check your Spam or Junk Mail folder, or <button onClick={handleResend}>Resend</button>
         </p>
       </div>
     </section>

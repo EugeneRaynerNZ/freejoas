@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   line-height: normal;
 }
 
-.verify-your-email p a {
+.verify-your-email p button {
   color: #20AE72;
   text-decoration: underline;
 }
