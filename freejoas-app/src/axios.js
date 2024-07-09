@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { CookieInstance } from './utils/CookieContext';
+import config from './utils/config';
 
-const URL = 'https://freejoas.azurewebsites.net/api/v1';
 // const URL = 'http://localhost:4000/api/v1';
+const URL = config.REACT_APP_BACKEND_URL;
 
 const axiosInstance = axios.create({
   baseURL: URL,
@@ -24,7 +25,7 @@ axiosInstance.interceptors.request.use(
     return axiosConfig;
   },
   (error) => {
-    return Promise.reject(error);
+    return Promise.reject(new Error(error));
   }
 );
 
