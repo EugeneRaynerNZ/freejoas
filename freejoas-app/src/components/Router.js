@@ -14,7 +14,7 @@ import UploadImage from "./UploadImage";
 import PropTypes from 'prop-types';
 import VerifyEmail from '../pages/start/EmailVerification';
 import PageNotFound from '../pages/404';
-
+import PlayWithMap from '../pages/app/PlayWithMap';
 
 function Body() {
   const { getCookie } = useCookie();
@@ -52,6 +52,9 @@ function Body() {
 
 
         <Route path='*' element={<PageNotFound />} />
+
+
+        <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} />} />
 
       </Routes>
     </main>
