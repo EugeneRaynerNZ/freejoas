@@ -299,7 +299,9 @@ function PlayWithMap() {
               </div>
                 
                 <ul className="locations-list">
-                <MapContainer></MapContainer>
+                <MapContainer 
+                  data={data}
+                ></MapContainer>
 
                   {data.map(item => (
                     <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
