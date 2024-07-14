@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 import ScrollNavLink from '../components/ScrollNavLink';
 import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
 import WebsiteNavigationLogoMobile from '../images/desktop/website/Mobile-Logo.svg';
-import WebsiteHome from '../images/desktop/website/feijoa--home.png';
-import WebsiteAbout from '../images/desktop/website/feijoas-about.png';
+// import WebsiteHome from '../images/desktop/website/feijoa--home.png';
+import WebsiteAbout from '../images/desktop/website/website-and-mobile.png';
 import WebsiteExplore from '../images/desktop/website/feijoa--walking.svg';
 
 
@@ -102,15 +102,10 @@ function Landing() {
       </nav>
       <section id="home" className="website--section">
         <div className="backgroundWash"></div>
-        <div className="website-page--container">
-          <div className="website-page--text-container">
-            <h1>Let's find some free Feijoas!</h1>
-            <p>If you live in New Zealand, sign up to find freejoas near you.</p>
-            <NavLink className="cta--button cta--button-primary" to="/home" >Explore Now</NavLink>
-          </div>
-          <div className="website-page--image-container">
-            <img style={{maxWidth: "350px"}} src={WebsiteHome} alt="Feijoa Tree"/>
-          </div>
+        <div className="website-page--title">
+          <h1>Play the game of find the Fejoa tree.</h1>
+          <p>Get rewarded with delicious freejoas</p>
+          <NavLink className="cta--button cta--button-primary" to="/home" >Explore Now</NavLink>
         </div>
       </section>
       <section id="about" className="website--section">
