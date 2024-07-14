@@ -5,7 +5,6 @@ import {
   AdvancedMarker,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-import mapStyles from "./GoogleMapStyles";
 import config from "../utils/config";
 
 const MapContainer = ({ data }) => {
@@ -19,14 +18,6 @@ const MapContainer = ({ data }) => {
   const myPosition = {
     lat: -36.8571789,
     lng: 174.7389711,
-  };
-
-  const mapOptions = {
-    styles: mapStyles,
-    streetViewControl: false,
-    fullscreenControl: false,
-    mapTypeControl: false,
-    mapTypeId: "terrain",
   };
 
   const handleMarkerClick = (point) => {
