@@ -16,8 +16,8 @@ import SmallLogo from './images/desktop/app/small-logo.svg';
 function Navigation() {
   return (
     <div className="navigation--container flex">
-      <div className="flex flex-col gap-12">
-        <img src={SmallLogo} alt="Freejoas Logo"/>
+      <div className="flex flex-col gap-12 w-full">
+        <img className="desktop-only" src={SmallLogo} alt="Freejoas Logo"/>
         <nav className="flex text-center">
           <li className="nav-link nav-link--home">
             <NavLink to="/dashboard" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
