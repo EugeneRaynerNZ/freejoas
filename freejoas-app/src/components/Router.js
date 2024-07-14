@@ -42,6 +42,7 @@ function Body() {
         {/* <Route path='/landing' element={<Landing />} /> */}
         <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
         <Route path='/play' element={<PrivateRoute element={<Play />} />} />
+        <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} />} />
         <Route path='/upload' element={<PrivateRoute element={<Upload />} />} />
         <Route path='/update' element={<PrivateRoute element={<UpdateTree />} />} />
         <Route path='/uploadimage' element={<PrivateRoute element={<UploadImage />} />} />
@@ -54,7 +55,6 @@ function Body() {
         <Route path='*' element={<PageNotFound />} />
 
 
-        <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} />} />
 
       </Routes>
     </main>
