@@ -6,13 +6,26 @@ import { UserProvider } from "./utils/UserContext";
 
 
 import './App.css';
+import Navigation from "./Navigation";
 
 function App() {
   return (
     <CookieProvider>
       <UserProvider>
         <RecentVisitedProvider>
-          <BrowserRouter>
+          <BrowserRouter>   
+          {/* 
+            the naviagtion component should be here,
+            so it will be displayed on the left side of the screen 
+            and will not be refreshed when the page is changed
+           */}
+           
+            {/* <Navigation /> */}
+
+            {/* 
+              the router is where to display the main contents, 
+              so we only refash the right side of the screen without change the navigation
+             */}
             <Router />
           </BrowserRouter>
         </RecentVisitedProvider>
