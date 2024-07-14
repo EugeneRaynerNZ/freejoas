@@ -403,10 +403,16 @@ h1, h2, h3, h4, h5, h6, span, p {
   z-index: 1;
 }
 
-.main-container--bottom {
+.login-container--bottom {
   position: fixed;
   bottom: 0;
   left: 0;
+  width: 100%;
+  padding: 16px;
+  z-index: 10;
+}
+
+.main-container--bottom {
   width: 100%;
   padding: 16px;
   z-index: 10;
