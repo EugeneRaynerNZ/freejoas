@@ -71,13 +71,14 @@ function Dashboard() {
         </div>
 
         <div className="dashboard--container">
+          <h1 class="desktop-only page-heading">Dashboard</h1>
           <div className="flex flex-col align-center justify-center text-center dashboard--welcome">
             <div className="flex align-center justify-center flex-col gap-2">
               {user && (
-                <div className="flex flex-col align-center justify-center text-center">
+                <div className="dashboard--header flex flex-col align-center justify-center text-center">
                   <div className="flex align-center justify-center flex-col gap-2">
                     <p>Welcome back</p>
-                    <h1>{user.firstname} {user.lastname}</h1>
+                    <h2>{user.firstname}</h2>
                     {/* <h2>username: {user.username}</h2>
                         <h2>email: {user.email}</h2> */}
                   </div>
@@ -93,7 +94,7 @@ function Dashboard() {
             (<></>):
               (
               <div className="dashboard--previous-activity flex flex-col gap-2">
-                <h2>Recent Activity</h2>
+                <h3>Recent Activity</h3>
                 <div className="dashboard--previous-activity--container pb-4 flex">
                 {recentVisited.map(item => (
                   <li className="locations-list--item" key={item._id}>

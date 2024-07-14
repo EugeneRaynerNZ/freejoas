@@ -88,7 +88,7 @@ function Upload() {
     }
 
     return (
-        <div className="flex flex-col w-full pt-8 main-container">
+        <div className="upload flex flex-col w-full pt-8 main-container">
             <div className="flex-1 flex flex-col gap-2 mx-8 main-container--top">
                 <div className="flex gap-8 flex-col max-w-xl my-0">
                     <div className="flex flex-col gap-8 w-full">
