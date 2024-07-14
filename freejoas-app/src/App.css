@@ -1308,4 +1308,15 @@ form {
   .website--navigation-logo {order: 1;}
   .website--navigation-hamburger {order: 3;}
   .website--navigation-buttons {order: 2;}
+
+  .website-page--title h1 {
+    color: #000;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 100%; /* 128px */
+    font-family: "Source Sans 3";
+    text-align: center;
+  }
+
 }

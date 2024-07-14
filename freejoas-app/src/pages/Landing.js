@@ -103,7 +103,7 @@ function Landing() {
       <section id="home" className="website--section">
         <div className="backgroundWash"></div>
         <div className="website-page--title">
-          <h1>Play the game of find the Fejoa tree.</h1>
+          <h1>Play the game of find the Feijoa tree.</h1>
           <p>Get rewarded with delicious freejoas</p>
           <NavLink className="cta--button cta--button-primary" to="/home" >Explore Now</NavLink>
         </div>
