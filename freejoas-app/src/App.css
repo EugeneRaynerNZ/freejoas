@@ -115,16 +115,32 @@ h1, h2, h3, h4, h5, h6, span, p {
   text-decoration: underline;
 }
 
-.landing-page {
+.website--section {
   height: 100vh;
   width: 100%;
-  background: var(--Sky-Gradient-10, linear-gradient(180deg, #B7EAFF 0%, #94DFFF 100%));
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
   position: relative;
 }
+
+#home {
+  background: var(--Sky-Gradient-10, linear-gradient(180deg, #B7EAFF 0%, #94DFFF 100%));
+}
+
+#about {
+  background-color: rgba(201, 255, 232, 1)
+}
+
+#explore {
+  background-color: #FFC9CC;
+} 
+
+#upload {
+  background-color: #FFEDC9;
+}
+
 
 .backgroundWash {
   z-index: 2;
@@ -134,7 +150,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   height: 100vh;
 }
 
-.landing-page--container {
+.website-page--container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,24 +160,36 @@ h1, h2, h3, h4, h5, h6, span, p {
   position: relative;
 }
 
-.landing-page--text-container {
+.website-page--container div {
+  flex: 0 0 50%;
+}
+
+.website-page--text-container {
   display: flex;
-  width: 500px;
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
 }
 
-.landing-page--text-container h1 {
+.website-page--text-container h1 {
   color: #000;
-  font-size: 72px;
+  font-size: 96px;
   font-style: normal;
   font-weight: 900;
   line-height: 100%; /* 128px */
   font-family: "Source Sans 3";
 }
 
-.landing-page--text-container p {
+.website-page--text-container h2 {
+  color: #000;
+  font-family: "Source Sans 3";
+  font-size: 72px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 100%; /* 96px */
+}
+
+.website-page--text-container p {
   color: #000;
   font-size: 24px;
   font-style: normal;
@@ -170,7 +198,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   font-family: "Source Sans 3";
 }
 
-.landing-page--text-container a {
+.website-page--text-container a {
   display: flex;
   padding: 16px 32px;
   justify-content: center;
@@ -182,11 +210,11 @@ h1, h2, h3, h4, h5, h6, span, p {
   transition: all 0.3s;
 }
 
-.landing-page--text-container a:hover {
+.website-page--text-container a:hover {
   background: black;
 }
 
-.landing-page--image-container {
+.website-page--image-container {
   display: flex;
   width: 360px;
   justify-content: center;
@@ -195,32 +223,37 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 @media (max-width: 940px) {
-  .landing-page--container {
+  .website-page--container {
     flex-direction: column;
   }
 
-  .landing-page--text-container {
+  .website-page--text-container {
     text-align: center;
     align-items: center;
     width: auto;
   }
 
-  .landing-page--text-container h1 {
+  .website-page--text-container h1 {
     padding: 0 16px;
     font-size: 48px;
   }
 
-  .landing-page--text-container p {
+  .website-page--text-container h2 {
+    padding: 0 16px;
+    font-size: 36px;
+  }
+
+  .website-page--text-container p {
     padding: 0 16px;
   }
 
-  .landing-page--image-container {
+  .website-page--image-container {
     max-width: 360px;
     width: auto;
     padding: 0 16px;
   }
 
-  .landing-page--image-container img {
+  .website-page--image-container img {
     width: 100%;
   }
 }
@@ -1055,4 +1088,73 @@ form {
 
   /* END: play */
   
+}
+
+
+
+
+
+
+
+/* Website css */
+
+.website {
+  width: 100%;
+}
+
+.website .website--navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  z-index: 10;
+  background: white;
+  display: flex;
+  align-items: center;
+}
+
+.website .website--navigation .website--navigation-container {
+  max-width: 1224px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.website .website--navigation .website--navigation-container .website--navigation-logo {
+  display: flex;
+  align-items: center;
+}
+
+.website .website--navigation .website--navigation-container ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.website .website--navigation .website--navigation-container .website--navigation-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.website--navigation-buttons button {
+  padding: 16px 32px;
+  font-size: 500;
+  border-radius: 8px;
+}
+
+.website--navigation-sign-in {
+  background: var(--secondary-color);
+  color: white;
+  font-size: 15px;
+}
+
+.website--navigation-sign-up {
+  background: var(--primary-color);
+  color: white;
+  font-size: 15px;
 }
