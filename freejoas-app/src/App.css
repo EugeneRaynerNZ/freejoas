@@ -153,9 +153,8 @@ h1, h2, h3, h4, h5, h6, span, p {
 .website-page--container {
   display: flex;
   align-items: center;
-  justify-content: center;
   max-width: 1224px;
-  gap: 48px;
+  /* gap: 48px; */
   z-index: 5;
   position: relative;
 }
@@ -169,6 +168,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
+  padding-right: 32px;
 }
 
 .website-page--text-container h1 {
@@ -231,6 +231,7 @@ h1, h2, h3, h4, h5, h6, span, p {
     text-align: center;
     align-items: center;
     width: auto;
+    padding-right: 0;
   }
 
   .website-page--text-container h1 {
@@ -257,6 +258,115 @@ h1, h2, h3, h4, h5, h6, span, p {
     width: 100%;
   }
 }
+
+.website--navigation-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* max-width: 1200px;  */
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* .website--navigation-logo {
+  flex: 1;
+} */
+
+.website--navigation-hamburger {
+  display: none; /* Hide hamburger on desktop */
+}
+
+.website--navigation-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+/* Hamburger Icon CSS */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.line {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 3px 0;
+  transition: transform 0.3s ease;
+}
+
+.line-open:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.line-open:nth-child(2) {
+  opacity: 0;
+}
+
+.line-open:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.mobile--logo {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .mobile--logo {
+    display: block;
+  }
+
+  .desktop--logo {
+    display: none;
+  }
+
+  .website--navigation {
+    height: 80px;
+  }
+
+  .website--navigation-hamburger {
+    display: block; /* Show hamburger on smaller screens */
+    cursor: pointer;
+  }
+
+  .website--navigation-links {
+    position: absolute;
+    top: 80px; /* Adjust based on your header height */
+    left: 0;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    height: 50px;
+    padding: 0 20px;
+  }
+
+  .website--navigation-links.open {
+    max-height: 300px; /* Adjust based on your menu height */
+   
+    background: white;
+  }
+
+  .website--navigation-container ul {
+    display: none; /* Hide menu by default on smaller screens */
+  }
+
+  .website--navigation-buttons {
+    display: none; /* Hide buttons on smaller screens */
+  }
+
+  .website--navigation-logo {order: 1;}
+  .website--navigation-hamburger {order: 3;}
+  .website--navigation-buttons {order: 2;}
+}
+
+
 
 .PageNotFound {
   height: 100vh;

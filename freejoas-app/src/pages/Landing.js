@@ -1,26 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import { NavLink } from "react-router-dom";
 import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
-import WebsiteHome from '../images/desktop/website/landing-image.png';
+import WebsiteNavigationLogoMobile from '../images/desktop/website/Mobile-Logo.svg';
+import WebsiteHome from '../images/desktop/website/feijoa--home.png';
 import WebsiteAbout from '../images/desktop/website/feijoas-about.png';
 import WebsiteExplore from '../images/desktop/website/feijoa--walking.svg';
 
 
 
 function Landing() {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="website">
       <nav className="website--navigation">
         <div className="website--navigation-container">
           <div className="website--navigation-logo">
-            <img src={WebsiteNavigationLogo} alt="Freejoas" />
+            <img src={WebsiteNavigationLogo} class="desktop--logo" alt="Freejoas" />
+            <img src={WebsiteNavigationLogoMobile} class="mobile--logo" alt="Freejoas" />
           </div>
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#explore">Explore</a></li>
-            <li><a href="#upload">Upload</a></li>
+          <div className="website--navigation-hamburger" onClick={toggleMenu}>
+            <div className="hamburger-icon">
+              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
+              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
+              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
+            </div>
+          </div>
+          <ul className={`website--navigation-links ${isOpen ? 'open' : ''}`}>
+            <li><a href="#home" onClick={toggleMenu}>Home</a></li>
+            <li><a href="#about" onClick={toggleMenu}>About</a></li>
+            <li><a href="#explore" onClick={toggleMenu}>Explore</a></li>
+            <li><a href="#upload" onClick={toggleMenu}>Upload</a></li>
           </ul>
           <div className="website--navigation-buttons">
             <button className="website--navigation-sign-in">Sign in</button>
