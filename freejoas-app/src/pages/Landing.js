@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { NavLink } from "react-router-dom";
+import ScrollNavLink from '../components/ScrollNavLink';
 import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
 import WebsiteNavigationLogoMobile from '../images/desktop/website/Mobile-Logo.svg';
 import WebsiteHome from '../images/desktop/website/feijoa--home.png';
@@ -12,18 +13,45 @@ import WebsiteExplore from '../images/desktop/website/feijoa--walking.svg';
 function Landing() {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('#home'); // Default active link
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  // Function to determine which section is in view
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const sections = document.querySelectorAll('section');
+    
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 60; // Adjust as needed for offset
+      const sectionId = `#${section.getAttribute('id')}`;
+      
+      if (
+        scrollPosition >= sectionTop &&
+        scrollPosition < sectionTop + section.offsetHeight
+      ) {
+        setActiveLink(sectionId);
+      }
+    });
+  };
+
+  // Add scroll event listener on component mount
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className="website">
       <nav className="website--navigation">
         <div className="website--navigation-container">
           <div className="website--navigation-logo">
-            <img src={WebsiteNavigationLogo} class="desktop--logo" alt="Freejoas" />
-            <img src={WebsiteNavigationLogoMobile} class="mobile--logo" alt="Freejoas" />
+            <img src={WebsiteNavigationLogo} className="desktop--logo" alt="Freejoas" />
+            <img src={WebsiteNavigationLogoMobile} className="mobile--logo" alt="Freejoas" />
           </div>
           <div className="website--navigation-hamburger" onClick={toggleMenu}>
             <div className="hamburger-icon">
@@ -33,14 +61,42 @@ function Landing() {
             </div>
           </div>
           <ul className={`website--navigation-links ${isOpen ? 'open' : ''}`}>
-            <li><a href="#home" onClick={toggleMenu}>Home</a></li>
-            <li><a href="#about" onClick={toggleMenu}>About</a></li>
-            <li><a href="#explore" onClick={toggleMenu}>Explore</a></li>
-            <li><a href="#upload" onClick={toggleMenu}>Upload</a></li>
+            <li>
+              <ScrollNavLink
+                to="#home"
+                activeLink={activeLink}
+              >
+                Home
+              </ScrollNavLink>
+            </li>
+            <li>
+              <ScrollNavLink
+                to="#about"
+                activeLink={activeLink}
+              >
+                About
+              </ScrollNavLink>
+            </li>
+            <li>
+              <ScrollNavLink
+                to="#explore"
+                activeLink={activeLink}
+              >
+                Explore
+              </ScrollNavLink>
+            </li>
+            <li>
+              <ScrollNavLink
+                to="#upload"
+                activeLink={activeLink}
+              >
+                Upload
+              </ScrollNavLink>
+            </li>
           </ul>
           <div className="website--navigation-buttons">
-            <button className="website--navigation-sign-in">Sign in</button>
-            <button className="website--navigation-sign-up">Sign up</button>
+          <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
+          <NavLink className="website--navigation-sign-up" to="/register" >Sign up</NavLink>
           </div>
         </div>
       </nav>

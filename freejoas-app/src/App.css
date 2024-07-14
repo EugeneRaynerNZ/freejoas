@@ -154,6 +154,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   display: flex;
   align-items: center;
   max-width: 1224px;
+  padding: 0 16px;
   /* gap: 48px; */
   z-index: 5;
   position: relative;
@@ -315,6 +316,26 @@ h1, h2, h3, h4, h5, h6, span, p {
   display: none;
 }
 
+.website--navigation a {
+  position: relative;
+}
+
+.website--navigation a:after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: black;
+  transition: width 0.3s;
+}
+
+.website--navigation a.active:after {
+  background: #000;
+  width: 100%;
+}
+
 @media (max-width: 768px) {
 
   .mobile--logo {
@@ -338,7 +359,7 @@ h1, h2, h3, h4, h5, h6, span, p {
     position: absolute;
     top: 80px; /* Adjust based on your header height */
     left: 0;
-    background-color: #f9f9f9;
+    background-color: #fff;
     width: 100%;
     max-height: 0;
     overflow: hidden;
@@ -1251,7 +1272,7 @@ form {
   gap: 16px;
 }
 
-.website--navigation-buttons button {
+.website--navigation-buttons a {
   padding: 16px 32px;
   font-size: 500;
   border-radius: 8px;
