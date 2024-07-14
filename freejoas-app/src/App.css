@@ -404,15 +404,15 @@ h1, h2, h3, h4, h5, h6, span, p {
 }
 
 .login-container--bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   padding: 16px;
   z-index: 10;
 }
 
 .main-container--bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
   padding: 16px;
   z-index: 10;
@@ -940,18 +940,14 @@ form {
   }
 
   .main-container--bottom .navigation--container {
-    gap: 48px;
+    justify-content: space-between;
     flex-direction: column;
+    height: 100%;
   }
 
   .main-container--bottom .navigation--container nav {
     flex-direction: column;
     gap: 16px;
-  }
-
-  .nav-link {
-    background: #25BE7E;
-    border-radius: 50%;
   }
 
   .nav-link span {
@@ -965,6 +961,7 @@ form {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    background: #25BE7E;
   }
 
   .nav-link a.active {
@@ -985,6 +982,16 @@ form {
   
   .nav-link a.active {
     color: var(--primary-color)
+  }
+
+  .navigation-logout {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: #25BE7E;
   }
 
   /* END: navigation */
@@ -1031,6 +1038,14 @@ form {
   /* START: play */
 
   .explore {
+    margin-left: 90px;
+  }
+
+  /* END: play */
+
+  /* START: play */
+
+  .upload {
     margin-left: 90px;
   }
 
