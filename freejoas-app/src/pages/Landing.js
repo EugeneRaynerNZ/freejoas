@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
+import '../Website.scss';
 import { NavLink } from "react-router-dom";
 import ScrollNavLink from '../components/ScrollNavLink';
 import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
@@ -12,13 +12,7 @@ import LandscapeNoClouds from '../images/desktop/landscape-no-clouds.svg'
 
 
 function Landing() {
-
-  const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('#home'); // Default active link
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   // Function to determine which section is in view
   const handleScroll = () => {
@@ -54,14 +48,7 @@ function Landing() {
             <img src={WebsiteNavigationLogo} className="desktop--logo" alt="Freejoas" />
             <img src={WebsiteNavigationLogoMobile} className="mobile--logo" alt="Freejoas" />
           </div>
-          <div className="website--navigation-hamburger" onClick={toggleMenu}>
-            <div className="hamburger-icon">
-              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
-              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
-              <div className={`line ${isOpen ? 'line-open' : ''}`}></div>
-            </div>
-          </div>
-          <ul className={`website--navigation-links ${isOpen ? 'open' : ''}`}>
+          <ul className="website--navigation-links">
             <li>
               <ScrollNavLink
                 to="#home"
@@ -120,7 +107,6 @@ function Landing() {
 
         <img className="landscape--container" src={LandscapeNoClouds} alt="background" />
 
-        {/* <div className="backgroundWash"></div> */}
         <div className="website-page--title">
           <h1>Play the game of<br />find the Feijoa tree.</h1>
           <p>Get rewarded with delicious freejoas</p>
@@ -128,7 +114,6 @@ function Landing() {
         </div>
       </section>
       <section id="about" className="website--section">
-        <div className="backgroundWash"></div>
         <div className="website-page--container">
           <div className="website-page--text-container">
             <h2>Feijoas are everywhere. We just need to find them.</h2>
@@ -141,7 +126,6 @@ function Landing() {
         </div>
       </section>
       <section id="explore" className="website--section">
-        <div className="backgroundWash"></div>
         <div className="website-page--container">
           <div className="website-page--image-container">
           <img style={{maxWidth: "250px"}} src={WebsiteExplore} alt="Feijoa Tree"/>
@@ -154,7 +138,6 @@ function Landing() {
         </div>
       </section>
       <section id="upload" className="website--section">
-        <div className="backgroundWash"></div>
         <div className="website-page--container">
           <div className="website-page--text-container">
             <h2>Know of a free Feijoa tree that no one ever visits?</h2>

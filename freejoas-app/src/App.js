@@ -5,7 +5,7 @@ import { RecentVisitedProvider } from './utils/RecentVisitedContext';
 import { UserProvider } from "./utils/UserContext";
 
 
-import './App.css';
+import './Reset.css';
 // import Navigation from "./Navigation";
 
 function App() {
