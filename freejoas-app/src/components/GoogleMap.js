@@ -41,6 +41,7 @@ const MapContainer = ({ data }) => {
           mapId={config.REACT_APP_GOOGLE_MAPS_ID}
           disableDefaultUI={true}
           zoomControl={true}
+          className="GoogleMap"
         >
           {data.map((point, index) => {
             const lat = parseFloat(point.latitude);
