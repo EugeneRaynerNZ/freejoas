@@ -11,6 +11,7 @@
   --secondary-color: #0A2E36;
   --secondary-color--highlight: #2390ac;
   --secondary-color--off: #125160;
+  --navigation-desktop--width: 70px;
 }
 
 /**** Base ****/
@@ -705,7 +706,7 @@ form {
     position: fixed;
     left: 0;
     height: 100vh;
-    width: 70px;
+    width: var(--navigation-desktop--width);
     flex-direction: column;
     background: var(--secondary-color);
     padding: 0;
@@ -780,7 +781,7 @@ form {
   /* START: dashboard */
 
   .dashboard {
-    margin-left: 90px;
+    margin-left: var(--navigation-desktop--width);
 
     .logo-mark {
       display: none;
@@ -819,7 +820,7 @@ form {
   /* START: play */
 
   .explore {
-    margin-left: 90px;
+    margin-left: var(--navigation-desktop--width);
 
     .explore-container {
       flex-direction: row;
@@ -850,7 +851,7 @@ form {
   /* START: play */
 
   .upload {
-    margin-left: 90px;
+    margin-left: var(--navigation-desktop--width);
   }
 
   /* END: play */
