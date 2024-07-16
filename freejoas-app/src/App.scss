@@ -562,6 +562,7 @@ form {
 
   .GoogleMap {
     height: 300px !important;
+    margin-bottom: 16px;
   }
 }
 
@@ -808,9 +809,15 @@ form {
   .explore {
     margin-left: 90px;
 
-    &-container {
+    .explore-container {
+      flex-direction: row;
       height: 100% !important;;
       container-type: size;
+    
+      .GoogleMap {
+        height: 100% !important;
+        margin-bottom: 0;
+      }
     }
 
     .location-list {
