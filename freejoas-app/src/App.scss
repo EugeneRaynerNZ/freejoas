@@ -803,6 +803,11 @@ form {
     .location-list {
       max-width: 370px;
       width: 100%;
+      padding-right: 16px;
+
+      &--item {
+        flex: 0 0 50%;
+      }
     }
   }
 

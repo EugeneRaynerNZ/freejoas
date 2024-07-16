@@ -212,7 +212,7 @@ function PlayWithMap() {
 
 
         <div className="flex-1 flex flex-col">
-          <section className="flex">
+          <div className="flex">
             {freejoaLocation ? (
               <div className="standout ">
                 <div className="movement">
@@ -265,10 +265,10 @@ function PlayWithMap() {
                 </div>
               </div>
             ) : (
-              <div className="py-8"></div>
+              <></>
             )}
-          </section>
-          <section>
+          </div>
+          <div style={{height: '100%'}}>
 
             {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
@@ -281,7 +281,7 @@ function PlayWithMap() {
               
             ) : (
               <>
-              <div className="explore-heading pb-4">
+              <div className="explore-heading pb-4 pt-8">
                 <div className="flex flex-row gap-2 items-center">
                   <h1>Select a location</h1>
                   <LuRefreshCw  onClick={handleSync} />
@@ -299,7 +299,7 @@ function PlayWithMap() {
                 <ul className="location-list">
                   
                   {data.map(item => (
-                    <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
+                    <li className="location-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
                       {item.image ? (
                         <div className="location-list--item-image" style={{
                           backgroundImage: `url(${item.image[0].data})`,
@@ -340,7 +340,7 @@ function PlayWithMap() {
               </div>
               </>
             )}
-          </section>
+          </div>
         </div>
       </div>
       <div className="main-container--bottom">
