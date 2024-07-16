@@ -9,8 +9,8 @@
   --primary-color: #20AE72;
   --primary-color-highlight: #69E0AE;
   --secondary-color: #0A2E36;
-  --secondary-color--highlight: #2390ac;
-  --secondary-color--off: #125160;
+  --secondary-color--highlight: #00c5f3;  
+  --secondary-color--off: #2390ac;
   --navigation-desktop--width: 70px;
 }
 
@@ -688,6 +688,10 @@ form {
     margin: 16px auto;
   }
 
+  .standout {
+    display: none;
+  }
+
   .login {
     max-width: 600px;
     width: 100%;
@@ -764,8 +768,6 @@ form {
     }
   }
 
-  
-
   .navigation-logout {
     width: 40px;
     height: 40px;
@@ -773,7 +775,7 @@ form {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background: #25BE7E;
+    background: var(--secondary-color--off);
   }
 
   /* END: navigation */

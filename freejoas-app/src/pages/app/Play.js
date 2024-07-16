@@ -210,36 +210,35 @@ function PlayWithMap() {
           <p className="page-title">Explore</p>
         </div>
 
-
         <div className="flex-1 flex flex-col">
           <div className="flex">
             {freejoaLocation ? (
+              // ----- START: Only show this for mobile (have used display:none) ------ //
               <div className="standout ">
                 <div className="movement">
                   <div className="movement--arrow w-full flex justify-center"><img src={ArrowUpwardIcon} alt="arrow" id="arrow" /></div>
-                  <div className="movement--text">
-                    <span className="text-lg">You are</span>
-                    <NumberToColorGradient number={distance} />
-                    <span className="text-lg">meters from your destination</span>
-                  </div>
-                  <Arrow
-                    targetLatitude={freejoaLocation.latitude}
-                    targetLongitude={freejoaLocation.longitude}
-                    currentLatitude={myCurrentCoordinates.latitude}
-                    currentLongitude={myCurrentCoordinates.longitude}
-                    deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
-                  />
-                </div>
-                <div className="locations-list--item selected">
-                  {selectedItem.image ? (
-                    <div className="location-list--item-image" style={{
-                      backgroundImage: `url(${selectedItem.image[0].data})`,
-                      backgroundSize: 'cover',
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'center',
-                    }}>
-
+                    <div className="movement--text">
+                      <span className="text-lg">You are</span>
+                      <NumberToColorGradient number={distance} />
+                      <span className="text-lg">meters from your destination</span>
                     </div>
+                    <Arrow
+                      targetLatitude={freejoaLocation.latitude}
+                      targetLongitude={freejoaLocation.longitude}
+                      currentLatitude={myCurrentCoordinates.latitude}
+                      currentLongitude={myCurrentCoordinates.longitude}
+                      deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
+                    />
+                  </div>
+                  <div className="locations-list--item selected">
+                    {selectedItem.image ? (
+                      <div className="location-list--item-image" style={{
+                        backgroundImage: `url(${selectedItem.image[0].data})`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                      }}>
+                  </div>
                   ) : (
                     <div className="location-list--item-image" style={{
                       backgroundImage: `url(${LogoPlaceholder})`,
@@ -264,6 +263,8 @@ function PlayWithMap() {
                   </div>
                 </div>
               </div>
+              // ----- END: Only show this for mobile (have used display:none) ------ //
+
             ) : (
               <></>
             )}
@@ -296,6 +297,9 @@ function PlayWithMap() {
               </div>
 
               <div className="explore-container">
+
+                {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
+
                 <ul className="location-list">
                   
                   {data.map(item => (
@@ -332,6 +336,8 @@ function PlayWithMap() {
                     </li>
                   ))}
                 </ul>
+
+                {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
 
                 <MapContainer 
                   data={data}
