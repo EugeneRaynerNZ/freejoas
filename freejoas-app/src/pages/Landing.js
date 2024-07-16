@@ -110,7 +110,7 @@ function Landing() {
         <div className="website-page--title">
           <h1>Play the game of<br />find the feijoa tree.</h1>
           <p>Get rewarded with delicious freejoas</p>
-          <NavLink className="cta--button cta--button-primary" to="/home" >Explore Now</NavLink>
+          <NavLink className="cta--button cta--button-primary" to="/login" >Explore Now</NavLink>
         </div>
       </section>
       <section id="about" className="website--section">

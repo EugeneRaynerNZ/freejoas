@@ -13,11 +13,11 @@ import ArrowUpwardIcon from '../../images/arrow.svg';
 import LogoPlaceholder from '../../images/example-2.svg'
 import SessionStorageManager, { FREEJOAS } from '../../utils/SessionStorageManager';
 import LocalStorageManager, { KEY_RECENT_VISITED } from '../../utils/LocalStorageManager';
-
+import MapContainer from '../../components/GoogleMap';
 
 // import Probability from '../../components/Probability';
 
-function Play() {
+function PlayWithMap() {
 
   const [freejoaLocation, setFreejoaLocation] = useState(null);
   const [myCurrentCoordinates, setCoordinates] = useState({ latitude: 0, longitude: 0 });
@@ -209,8 +209,10 @@ function Play() {
         <div className="flex flex-col gap-8 w-full">
           <p className="page-title">Explore</p>
         </div>
+
+
         <div className="flex-1 flex flex-col">
-          <section className="flex">
+          <div className="flex">
             {freejoaLocation ? (
               <div className="standout ">
                 <div className="movement">
@@ -228,7 +230,7 @@ function Play() {
                     deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
                   />
                 </div>
-                <div className="location-list--item selected">
+                <div className="locations-list--item selected">
                   {selectedItem.image ? (
                     <div className="location-list--item-image" style={{
                       backgroundImage: `url(${selectedItem.image[0].data})`,
@@ -263,13 +265,10 @@ function Play() {
                 </div>
               </div>
             ) : (
-              <div className="py-8"></div>
+              <></>
             )}
-          </section>
-          <section>
-            
-            <div>
-              
+          </div>
+          <div style={{height: '100%'}}>
 
             {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
@@ -282,7 +281,7 @@ function Play() {
               
             ) : (
               <>
-              <div className="explore-heading pb-4">
+              <div className="explore-heading pb-4 pt-8">
                 <div className="flex flex-row gap-2 items-center">
                   <h1>Select a location</h1>
                   <LuRefreshCw  onClick={handleSync} />
@@ -295,8 +294,10 @@ function Play() {
                   <div className="filter">Under 5 km</div>
                 </div> */}
               </div>
-                
+
+              <div className="explore-container">
                 <ul className="location-list">
+                  
                   {data.map(item => (
                     <li className="location-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
                       {item.image ? (
@@ -331,10 +332,15 @@ function Play() {
                     </li>
                   ))}
                 </ul>
+
+                <MapContainer 
+                  data={data}
+                ></MapContainer>
+                
+              </div>
               </>
             )}
-            </div>
-          </section>
+          </div>
         </div>
       </div>
       <div className="main-container--bottom">
@@ -344,4 +350,4 @@ function Play() {
   );
 }
 
-export default Play;
+export default PlayWithMap;
