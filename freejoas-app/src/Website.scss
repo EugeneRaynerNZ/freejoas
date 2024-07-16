@@ -149,8 +149,11 @@ h1, h2, h3, h4, h5, h6, span, p {
         width: 100%;
     }
 
+    .cloud {
+        z-index: 5;
+    }
+
     .cloud1 {
-        z-index: 3;
         position: absolute;
         left: 80px;
         top: 200px;
@@ -162,7 +165,6 @@ h1, h2, h3, h4, h5, h6, span, p {
     }
 
     .cloud2 {
-        z-index: 3;
         position: absolute;
         left: 180px;
         top: 40px;
@@ -173,7 +175,6 @@ h1, h2, h3, h4, h5, h6, span, p {
     }
 
     .cloud3 {
-        z-index: 3;
         position: absolute;
         right: 80px;
         top: 120px;

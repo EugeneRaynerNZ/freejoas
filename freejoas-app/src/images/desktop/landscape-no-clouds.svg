@@ -3277,8 +3277,14 @@
 <circle cx="992.797" cy="769.827" r="0.313456" fill="#030303"/>
 <circle cx="962.203" cy="775.595" r="0.313456" fill="#030303"/>
 <circle cx="992.797" cy="775.595" r="0.313456" fill="#030303"/>
+<circle cx="1397" cy="222" r="206" fill="url(#paint0_radial_123_1742)"/>
+<circle cx="1397" cy="222" r="43.8581" fill="#FFD88D"/>
 </g>
 <defs>
+<radialGradient id="paint0_radial_123_1742" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1397 222) rotate(90) scale(206)">
+<stop stop-color="#FFD88D"/>
+<stop offset="1" stop-color="#FFD88D" stop-opacity="0"/>
+</radialGradient>
 <clipPath id="clip0_123_1742">
 <rect width="1728" height="1117" fill="white"/>
 </clipPath>
