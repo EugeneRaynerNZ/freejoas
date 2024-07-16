@@ -340,7 +340,9 @@ function PlayWithMap() {
                 {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
 
                 <MapContainer 
-                  data={data}
+                  markerData={data}
+                  defaultPosition={{ lat: -36.848461,
+                    lng: 174.763336,}}
                 ></MapContainer>
                 
               </div>
