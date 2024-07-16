@@ -4,6 +4,7 @@
 :root {
   --primary-color: #20AE72;
   --secondary-color: #0A2E36;
+  --website-header-height: 90px;
 }
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -127,6 +128,9 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 #home {
   background: var(--Sky-Gradient-10, linear-gradient(180deg, #B7EAFF 0%, #94DFFF 100%));
+  position: relative;
+  height: auto;
+  margin-top: var(--website-header-height);
 }
 
 #about {
@@ -998,7 +1002,7 @@ form {
   top: 0;
   left: 0;
   width: 100%;
-  height: 90px;
+  height: var(--website-header-height);
   z-index: 10;
   background: white;
   display: flex;
@@ -1050,12 +1054,71 @@ form {
   font-size: 15px;
 }
 
+.landscape--container {
+  z-index: 3;
+  margin-left: auto; 
+  margin-right: auto;
+  width: 100%;
+}
+
+.cloud1 {
+  z-index: 3;
+  position: absolute;
+  left: 80px;
+  top: 200px;
+  animation-name: cloud1Move;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-delay: -2s;
+}
+
+.cloud2 {
+  z-index: 3;
+  position: absolute;
+  left: 180px;
+  top: 40px;
+  animation-name: cloud2Move;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.cloud3 {
+  z-index: 3;
+  position: absolute;
+  right: 80px;
+  top: 120px;
+  animation-name: cloud3Move;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes cloud1Move {
+  0%   {top:200px;}
+  50%  {top:205px;}
+  100% {top:200px;}
+}
+
+@keyframes cloud2Move {
+  0%   {top:40px;}
+  50%  {top:45px;}
+  100% {top:40px;}
+}
+
+@keyframes cloud3Move {
+  0%   {top:120px;}
+  50%  {top:125px;}
+  100% {top:120px;}
+}
+
 .backgroundWash {
   z-index: 2;
   position: absolute;
   background: rgba(255, 255, 255, 0.51);
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .website-page--container {
@@ -1063,7 +1126,6 @@ form {
   align-items: center;
   max-width: 1224px;
   padding: 0 16px;
-  /* gap: 48px; */
   z-index: 5;
   position: relative;
 }
@@ -1083,16 +1145,23 @@ form {
 .website-page--title {
   z-index: 4;
   position: relative;
-  max-width: 1000px;
   display: flex;
   gap: 32px;
   flex-direction: column;
   align-items: center;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  top: 0;
+  width: 100%;
+  padding-top: 10vw;
 }
 
 .website-page--title h1 {
-  color: #000;
-  font-size: 96px;
+  color: rgb(60, 60, 67);
+  font-size: 3.75rem;
   font-style: normal;
   font-weight: 900;
   line-height: 100%; /* 128px */
@@ -1309,14 +1378,12 @@ form {
   .website--navigation-hamburger {order: 3;}
   .website--navigation-buttons {order: 2;}
 
+  .website-page--title {
+    gap: 16px;
+  }
+
   .website-page--title h1 {
-    color: #000;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 100%; /* 128px */
-    font-family: "Source Sans 3";
-    text-align: center;
+    font-size: 32px;
   }
 
 }
