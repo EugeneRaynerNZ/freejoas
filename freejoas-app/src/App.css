@@ -6,6 +6,12 @@
   --secondary-color: #0A2E36;
   --website-header-height: 90px;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --website-header-height: 60px;
+  }
+}
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -1343,13 +1349,13 @@ form {
   }
 
   .website--navigation-hamburger {
-    display: block; /* Show hamburger on smaller screens */
+    display: block; 
     cursor: pointer;
   }
 
   .website--navigation-links {
     position: absolute;
-    top: 80px; /* Adjust based on your header height */
+    top: var(--website-header-height); 
     left: 0;
     background-color: #fff;
     width: 100%;
@@ -1361,8 +1367,7 @@ form {
   }
 
   .website--navigation-links.open {
-    max-height: 300px; /* Adjust based on your menu height */
-   
+    max-height: 300px; 
     background: white;
   }
 
@@ -1370,7 +1375,7 @@ form {
     display: none; /* Hide menu by default on smaller screens */
   }
 
-  .website--navigation-buttons {
+  .website .website--navigation .website--navigation-container .website--navigation-buttons {
     display: none; /* Hide buttons on smaller screens */
   }
 
@@ -1384,6 +1389,10 @@ form {
 
   .website-page--title h1 {
     font-size: 32px;
+  }
+
+  .cloud {
+    display: none;
   }
 
 }
