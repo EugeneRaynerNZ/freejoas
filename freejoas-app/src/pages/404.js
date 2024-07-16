@@ -15,7 +15,7 @@ function PageNotFound() {
             </div>
             <div className="PageNotFound--image-container">
                 <img src={Image404} alt="Empty Tree"/>
-                <NavLink className="cta--button cta--button-primary" to="/dashboard" >Take Me Home</NavLink>
+                <NavLink className="cta--button cta--button-primary" to="/" >Take Me Home</NavLink>
             </div>
         </div>
     </section>

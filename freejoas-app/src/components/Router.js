@@ -4,7 +4,7 @@ import { useCookie, KEY_TOKEN } from '../utils/CookieContext';
 //pages
 import Landing from '../pages/Landing'
 import Home from "../pages/Home";
-import Dashboard from "../pages/app/Dashboard";
+// import Dashboard from "../pages/app/Dashboard";
 import Play from "../pages/app/Play";
 import Upload from "../pages/app/Upload";
 import UpdateTree from "../pages/app/UpdateTree";
@@ -40,7 +40,7 @@ function Body() {
         <Route path='/' element={<Landing />} />
         <Route path='/home' element={<Home />} />
         {/* <Route path='/landing' element={<Landing />} /> */}
-        <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} />
+        {/* <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} /> */}
         <Route path='/play' element={<PrivateRoute element={<Play />} />} />
         <Route path='/upload' element={<PrivateRoute element={<Upload />} />} />
         <Route path='/update' element={<PrivateRoute element={<UpdateTree />} />} />

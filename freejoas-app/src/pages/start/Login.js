@@ -63,7 +63,7 @@ function Login() {
     useEffect(() => {
         if (user) {
             setLoading(false);
-            navigate('/dashboard');
+            navigate('/play');
         }
     }, [user, navigate]);
 

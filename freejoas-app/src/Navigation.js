@@ -1,6 +1,6 @@
 import './App.scss';
 import { NavLink } from "react-router-dom";
-import { ReactComponent as HomeIcon } from './images/navigation/home.svg';
+// import { ReactComponent as HomeIcon } from './images/navigation/home.svg';
 import { ReactComponent as ExploreIcon } from './images/navigation/explore.svg';
 import { ReactComponent as UploadIcon } from './images/navigation/upload.svg';
 import SmallLogo from './images/desktop/app/small-logo.svg';
@@ -19,13 +19,13 @@ function Navigation() {
       <div className="flex flex-col gap-12 w-full">
         <img className="desktop-only" src={SmallLogo} alt="Freejoas Logo"/>
         <nav className="flex text-center">
-          <li className="nav-link nav-link--home">
+          {/* <li className="nav-link nav-link--home">
             <NavLink to="/dashboard" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
               {({ isActive }) => (
                 <>{isActive ? <HomeIcon fontSize="large" /> : <HomeIcon fontSize="large" />} <span>Home</span></>
               )}
             </NavLink>
-          </li>
+          </li> */}
           <li className="nav-link nav-link--play">
             <NavLink to="/play" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
               {({ isActive }) => (
