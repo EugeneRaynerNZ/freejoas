@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import '../App.scss';
 import { NavLink } from "react-router-dom";
 import Image404 from '../images/404-image.png';
 

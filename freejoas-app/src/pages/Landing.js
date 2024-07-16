@@ -117,7 +117,7 @@ function Landing() {
         <div className="website-page--container">
           <div className="website-page--text-container">
             <h2>Feijoas are everywhere. We just need to find them.</h2>
-            <p>Supermarkets sell Feijoas only during feijoa season, but did you know that there are plenty of free feijoa trees near you? Find some Feijoas today!</p>
+            <p>Supermarkets sell feijoas only during feijoa season, but did you know that there are plenty of free feijoa trees near you? Find some feijoas today!</p>
             <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
           <div className="website-page--image-container">

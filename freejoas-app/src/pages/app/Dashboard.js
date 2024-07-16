@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Navigation from "../../Navigation";
 // import MeterToKilometerConverter from "../../components/KilometerConverter";
 // import PreviousActivityExample from "../../previousActivity.json";
-import '../../App.css';
+import '../../App.scss';
 import { CookieInstance, KEY_USER } from '../../utils/CookieContext';
 import { useNavigate } from 'react-router-dom';
 import { useRecentVisited } from '../../utils/RecentVisitedContext';

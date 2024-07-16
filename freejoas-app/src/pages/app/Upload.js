@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../App.css';
+import '../../App.scss';
 import axios from '../../axios';
 import Navigation from "../../Navigation";
 import ImageUpload from "../../components/UploadImage";

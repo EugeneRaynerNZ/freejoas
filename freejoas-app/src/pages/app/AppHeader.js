@@ -1,4 +1,4 @@
-import '../../App.css';
+import '../../App.scss';
 import { NavLink } from "react-router-dom";
 
 import image from '../../images/example-2.svg';

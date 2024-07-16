@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../App.css';
+import '../../App.scss';
 import PaperPlane from '../../images/paper-plane.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useLocation, NavLink, useNavigate } from "react-router-dom";

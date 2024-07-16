@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { NavLink } from "react-router-dom";
 import { ReactComponent as HomeIcon } from './images/navigation/home.svg';
 import { ReactComponent as ExploreIcon } from './images/navigation/explore.svg';

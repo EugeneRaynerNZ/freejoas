@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { useUser } from '../../utils/UserContext';
-import '../../App.css';
+import '../../App.scss';
 import axios from '../../axios';
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
@@ -228,7 +228,7 @@ function Play() {
                     deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
                   />
                 </div>
-                <div className="locations-list--item selected">
+                <div className="location-list--item selected">
                   {selectedItem.image ? (
                     <div className="location-list--item-image" style={{
                       backgroundImage: `url(${selectedItem.image[0].data})`,
@@ -296,9 +296,9 @@ function Play() {
                 </div> */}
               </div>
                 
-                <ul className="locations-list">
+                <ul className="location-list">
                   {data.map(item => (
-                    <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
+                    <li className="location-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
                       {item.image ? (
                         <div className="location-list--item-image" style={{
                           backgroundImage: `url(${item.image[0].data})`,
