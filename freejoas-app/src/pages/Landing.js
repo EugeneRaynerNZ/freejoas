@@ -84,7 +84,7 @@ function Landing() {
           </ul>
           <div className="website--navigation-buttons">
           <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
-          <NavLink className="website--navigation-sign-up" to="/register" >Sign up</NavLink>
+          <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
           </div>
         </div>
       </nav>
@@ -118,7 +118,7 @@ function Landing() {
           <div className="website-page--text-container">
             <h2>Feijoas are everywhere. We just need to find them.</h2>
             <p>Supermarkets sell Feijoas only during Feijoa season, but did you know that there are plenty of free Feijoa trees near you? Find some Feijoas today!</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up</NavLink>
+            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
           <div className="website-page--image-container">
             <img src={WebsiteAbout} alt="Feijoa Tree"/>
@@ -133,7 +133,7 @@ function Landing() {
           <div className="website-page--text-container">
             <h2>Take your friends and family for a walk.</h2>
             <p>Use Freejoas to locate a Feijoa tree near you, then use the find functionality to make your way there. Treasure hunt's not your thing? Use the map instead.</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up</NavLink>
+            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
         </div>
       </section>
@@ -142,7 +142,7 @@ function Landing() {
           <div className="website-page--text-container">
             <h2>Know of a free Feijoa tree that no one ever visits?</h2>
             <p>Locate the Feijoa tree on the map and upload it's location. Or walk to the location and upload it once you're there.</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up</NavLink>
+            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
           <div className="website-page--image-container">
             <img src={WebsiteAbout} alt="Feijoa Tree"/>

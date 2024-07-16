@@ -313,6 +313,8 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 @media (max-width: 940px) {
     .website--section {
+        height: auto;
+        padding: 32px 0;
 
         .website-page--container {
             flex-direction: column;
@@ -322,6 +324,8 @@ h1, h2, h3, h4, h5, h6, span, p {
                 align-items: center;
                 width: auto;
                 padding-right: 0;
+                order: 2;
+                margin-top: 24px;
     
                 h1 {
                     padding: 0 16px;
@@ -334,7 +338,14 @@ h1, h2, h3, h4, h5, h6, span, p {
                 }
     
                 p {
+                    font-size: 20px;
                     padding: 0 16px;
+                    line-height: 1.2;
+                }
+
+                .cta--button {
+                    font-size: 14px;
+                    padding: 8px 16px;
                 }
             }
     
@@ -397,8 +408,8 @@ h1, h2, h3, h4, h5, h6, span, p {
         }
 
         #home {
-            padding-top: 100px;
-            
+            padding: 100px 0 0 0;
+
             .website-page--title {
                 gap: 16px;
             
@@ -410,6 +421,11 @@ h1, h2, h3, h4, h5, h6, span, p {
             .cloud {
                 display: none;
             }
+        }
+
+        .cta--button {
+            font-size: 14px;
+            padding: 8px 16px;
         }
     }
 }
