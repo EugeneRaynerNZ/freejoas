@@ -14,7 +14,7 @@ import UploadImage from "./UploadImage";
 import PropTypes from 'prop-types';
 import VerifyEmail from '../pages/start/EmailVerification';
 import PageNotFound from '../pages/404';
-import PlayWithMap from '../pages/app/PlayWithMap';
+// import PlayWithMap from '../pages/app/PlayWithMap';
 
 function Body() {
   const { getCookie } = useCookie();
@@ -42,7 +42,7 @@ function Body() {
         {/* <Route path='/landing' element={<Landing />} /> */}
         {/* <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} />} /> */}
         <Route path='/play' element={<PrivateRoute element={<Play />} />} />
-        <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} />} />
+        {/* <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} />} /> */}
         <Route path='/upload' element={<PrivateRoute element={<Upload />} />} />
         <Route path='/update' element={<PrivateRoute element={<UpdateTree />} />} />
         <Route path='/uploadimage' element={<PrivateRoute element={<UploadImage />} />} />

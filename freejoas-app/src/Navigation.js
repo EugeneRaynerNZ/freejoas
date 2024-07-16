@@ -19,7 +19,7 @@ function Navigation() {
             </NavLink>
           </li> */}
           <li className="nav-link nav-link--play">
-            <NavLink to="/playwithmap" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
+            <NavLink to="/play" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
               {({ isActive }) => (
                 <>{isActive ? <ExploreIcon fontSize="large" /> : <ExploreIcon fontSize="large" />} <span>Explore</span></>
               )}
