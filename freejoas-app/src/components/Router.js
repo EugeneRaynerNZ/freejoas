@@ -46,15 +46,10 @@ function Body() {
         <Route path='/upload' element={<PrivateRoute element={<Upload />} />} />
         <Route path='/update' element={<PrivateRoute element={<UpdateTree />} />} />
         <Route path='/uploadimage' element={<PrivateRoute element={<UploadImage />} />} />
-
         <Route path='/register' element={<Register />} />
         <Route path='/verify-your-email' element={<VerifyEmail />} />
-        <Route path='/login' element={token? <Navigate to='/dashboard' /> :<Login />} />
-
-
+        <Route path='/login' element={token? <Navigate to='/play' /> :<Login />} />
         <Route path='*' element={<PageNotFound />} />
-
-
 
       </Routes>
     </main>

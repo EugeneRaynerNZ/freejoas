@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { useUser } from '../../utils/UserContext';
-import '../../App.css';
+import '../../App.scss';
 import axios from '../../axios';
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";

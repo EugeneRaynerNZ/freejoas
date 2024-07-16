@@ -5,14 +5,6 @@ import { ReactComponent as ExploreIcon } from './images/navigation/explore.svg';
 import { ReactComponent as UploadIcon } from './images/navigation/upload.svg';
 import SmallLogo from './images/desktop/app/small-logo.svg';
 
-// import HomeIcon from '@mui/icons-material/Home';
-// import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
-// import UploadIcon from '@mui/icons-material/Upload';
-
-// import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-// import DirectionsWalkOutlinedIcon from '@mui/icons-material/DirectionsWalkOutlined';
-// import UploadOutlinedIcon from '@mui/icons-material/UploadOutlined';
-
 function Navigation() {
   return (
     <div className="navigation--container flex">
