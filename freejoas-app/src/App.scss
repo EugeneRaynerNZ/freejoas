@@ -9,6 +9,8 @@
   --primary-color: #20AE72;
   --primary-color-highlight: #69E0AE;
   --secondary-color: #0A2E36;
+  --secondary-color--highlight: #2390ac;
+  --secondary-color--off: #125160;
 }
 
 /**** Base ****/
@@ -681,6 +683,7 @@ form {
 
   .desktop-only {
     display: block;
+    max-width: 40px;
   }
 
   .login {
@@ -701,9 +704,9 @@ form {
     position: fixed;
     left: 0;
     height: 100vh;
-    width: 90px;
+    width: 70px;
     flex-direction: column;
-    background: var(--primary-color);
+    background: var(--secondary-color);
 
     .navigation--container {
       justify-content: space-between;
@@ -721,16 +724,21 @@ form {
           }
       
           a {
-            width: 56px;
-            height: 56px;
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
-            background: #25BE7E;
+            background: var(--secondary-color--off);
       
             &.active {
-              background: var(--primary-color-highlight);
+              background: var(--secondary-color-highlight);
+            }
+
+            svg {
+              width: 28px;
+              height: 28px;
             }
           }
 
@@ -754,8 +762,8 @@ form {
   
 
   .navigation-logout {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
