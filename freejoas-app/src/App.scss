@@ -800,13 +800,20 @@ form {
   .explore {
     margin-left: 90px;
 
+    &-container {
+      height: 100%;
+      container-type: size;
+    }
+
     .location-list {
       max-width: 370px;
       width: 100%;
       padding-right: 16px;
+      overflow-y: scroll;
 
       &--item {
-        flex: 0 0 50%;
+        flex: 0 1 47%;
+        align-content: start;
       }
     }
   }
