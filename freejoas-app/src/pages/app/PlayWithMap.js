@@ -269,9 +269,6 @@ function PlayWithMap() {
             )}
           </section>
           <section>
-            
-            <div>
-              
 
             {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
@@ -297,12 +294,10 @@ function PlayWithMap() {
                   <div className="filter">Under 5 km</div>
                 </div> */}
               </div>
-                
-                <ul className="locations-list">
-                <MapContainer 
-                  data={data}
-                ></MapContainer>
 
+              <div className="explore-container">
+                <ul className="location-list">
+                  
                   {data.map(item => (
                     <li className="locations-list--item" key={item._id} onClick={() => handleSelectItem(item.latitude, item.longitude, item)}>
                       {item.image ? (
@@ -337,9 +332,14 @@ function PlayWithMap() {
                     </li>
                   ))}
                 </ul>
+
+                <MapContainer 
+                  data={data}
+                ></MapContainer>
+                
+              </div>
               </>
             )}
-            </div>
           </section>
         </div>
       </div>

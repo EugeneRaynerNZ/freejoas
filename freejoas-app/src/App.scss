@@ -520,6 +520,10 @@ form {
     }
   }
 
+  &-container {
+    display: flex;
+  }
+
   .standout {
     display: flex;
     flex-direction: column;
@@ -795,6 +799,11 @@ form {
 
   .explore {
     margin-left: 90px;
+
+    .location-list {
+      max-width: 370px;
+      width: 100%;
+    }
   }
 
   /* END: play */
