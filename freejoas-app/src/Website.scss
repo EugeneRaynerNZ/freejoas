@@ -20,11 +20,13 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 
 #about {
-  background-color: rgba(201, 255, 232, 1)
+//   background-color: rgba(201, 255, 232, 1)
+    background: rgb(22,101,68);
+    // background: linear-gradient(180deg, rgba(22,101,68,1) 0%, rgba(32,174,114,1) 100%);
 }
 
 #explore {
-  background-color: #FFC9CC;
+    background-color: rgba(201, 255, 232, 1)
 } 
 
 #upload {
@@ -137,7 +139,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 
 
 #home {
-    background: var(--Sky-Gradient-10, linear-gradient(180deg, #B7EAFF 0%, #94DFFF 100%));
+    background: linear-gradient(180deg, rgba(183,234,255,1) 0%, rgba(255,237,201,1) 100%);
     position: relative;
     height: auto;
     margin-top: var(--website-header-height);
@@ -210,8 +212,27 @@ h1, h2, h3, h4, h5, h6, span, p {
             text-align: center;
         }
 
-        .cta--button {
+        a {
+            display: flex;
+            padding: 16px 32px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex: 1 0 0;
             width: auto;
+            font-family: "Source Sans 3";
+            transition: all 0.3s;
+            background: var(--primary-color);
+            border-radius: 8px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+            color: white;
+            font-weight: 500;
+    
+            &:hover {
+                background: var(--secondary-color);
+                
+                box-shadow: 0 0 0 rgba(0,0,0,0);
+            }
         }
     }
 }
@@ -429,4 +450,9 @@ h1, h2, h3, h4, h5, h6, span, p {
             padding: 8px 16px;
         }
     }
+}
+
+
+.text-white {
+    color: white !important;
 }

@@ -6,8 +6,9 @@ import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
 import WebsiteNavigationLogoMobile from '../images/desktop/website/Mobile-Logo.svg';
 // import WebsiteHome from '../images/desktop/website/feijoa--home.png';
 import WebsiteAbout from '../images/desktop/website/website-and-mobile.png';
-import WebsiteExplore from '../images/desktop/website/feijoa--walking.svg';
-import LandscapeNoClouds from '../images/desktop/landscape-no-clouds.svg'
+import WebsiteExplore from '../images/desktop/website/feijoa-mascot.svg';
+import WebsiteUpload from '../images/desktop/Upload.png';
+import LandscapeNoClouds from '../images/desktop/bg.png'
 
 
 
@@ -109,15 +110,15 @@ function Landing() {
 
         <div className="website-page--title">
           <h1>Play the game of<br />find the feijoa tree.</h1>
-          <p>Get rewarded with delicious freejoas</p>
-          <NavLink className="cta--button cta--button-primary" to="/login" >Explore Now</NavLink>
+          <p>Get rewarded with delicious free feijoas</p>
+          <NavLink to="/register" >Sign up for free</NavLink>
         </div>
       </section>
       <section id="about" className="website--section">
         <div className="website-page--container">
           <div className="website-page--text-container">
-            <h2>Feijoas are everywhere. We just need to find them.</h2>
-            <p>Supermarkets sell feijoas only during feijoa season, but did you know that there are plenty of free feijoa trees near you? Find some feijoas today!</p>
+            <h2 className="text-white">Feijoas are everywhere. We just need to find them.</h2>
+            <p className="text-white">Supermarkets sell feijoas only during feijoa season, but did you know that there are plenty of free feijoa trees near you? Find some feijoas today!</p>
             <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
           <div className="website-page--image-container">
@@ -145,7 +146,7 @@ function Landing() {
             <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
           </div>
           <div className="website-page--image-container">
-            <img src={WebsiteAbout} alt="Feijoa Tree"/>
+            <img src={WebsiteUpload} alt="Feijoa Tree"/>
           </div>
         </div>
       </section>
