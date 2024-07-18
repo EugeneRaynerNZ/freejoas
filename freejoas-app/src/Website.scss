@@ -80,11 +80,7 @@ h1, h2, h3, h4, h5, h6, span, p {
 
         .website--navigation-logo {
             display: flex;
-            align-items: center;
-
-            .mobile--logo {
-                display: none;
-            }
+            align-items: center;   
         }
 
         ul {
@@ -98,10 +94,6 @@ h1, h2, h3, h4, h5, h6, span, p {
             display: flex;
             flex-direction: row;
             gap: 16px;
-        }
-
-        .website--navigation-buttons {
-            padding: 16px 32px;
             font-weight: 500;
             border-radius: 8px;
 
@@ -135,6 +127,10 @@ h1, h2, h3, h4, h5, h6, span, p {
         }
     }
   }
+}
+
+.mobile--logo {
+    display: none;
 }
 
 
@@ -209,6 +205,11 @@ h1, h2, h3, h4, h5, h6, span, p {
             font-weight: 900;
             line-height: 100%; /* 128px */
             font-family: "Source Sans 3";
+            text-align: center;
+        }
+
+        p{
+            font-size: 24px;
             text-align: center;
         }
 
@@ -331,6 +332,27 @@ h1, h2, h3, h4, h5, h6, span, p {
     }
 }
 
+.website-footer {
+    background: var(--secondary-color);
+    
+    &--container {
+        padding: 48px 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        max-width: 1224px;
+        margin: 0 auto;
+    }
+
+    &--links {
+        display: flex;
+        flex-direction: row;
+        gap: 32px;
+    }
+}
+
 
 
 @media (max-width: 940px) {
@@ -391,18 +413,6 @@ h1, h2, h3, h4, h5, h6, span, p {
             height: var(--website-header-height);
       
           .website--navigation-container {
-              
-      
-              .website--navigation-logo {
-                  
-                .desktop--logo {
-                    display: none;
-                }
-      
-                .mobile--logo {
-                    display: block;
-                }
-              }
       
               ul {
                 display: none; 
@@ -410,22 +420,18 @@ h1, h2, h3, h4, h5, h6, span, p {
       
               .website--navigation-buttons {
                 display: none; 
-
-                a {
-                  
-      
-                    .website--navigation-sign-in {
-                        
-                    }
-        
-                    .website--navigation-sign-up {
-                        
-                    }
-                }
               }
 
                 .website--navigation-logo {order: 1;}
                 .website--navigation-links {order: 2;}
+            }
+        }
+
+        .website-footer {
+        
+            &--container {
+                flex-direction: column;
+                justify-content: flex-start;
             }
         }
 
@@ -438,6 +444,10 @@ h1, h2, h3, h4, h5, h6, span, p {
                 h1 {
                     font-size: 32px;
                 }
+
+                p {
+                    font-size: 16px;
+                }
             }
     
             .cloud {
@@ -449,6 +459,14 @@ h1, h2, h3, h4, h5, h6, span, p {
             font-size: 14px;
             padding: 8px 16px;
         }
+    }
+
+    .desktop--logo {
+        display: none;
+    }
+
+    .mobile--logo {
+        display: block;
     }
 }
 

@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import ScrollNavLink from '../components/ScrollNavLink';
 import WebsiteNavigationLogo from '../images/desktop/website/Logo.svg';
 import WebsiteNavigationLogoMobile from '../images/desktop/website/Mobile-Logo.svg';
+import WebsiteFooterLogo from '../images/desktop/website/Logo-white.svg';
 // import WebsiteHome from '../images/desktop/website/feijoa--home.png';
 import WebsiteAbout from '../images/desktop/website/website-and-mobile.png';
 import WebsiteExplore from '../images/desktop/website/feijoa-mascot.svg';
@@ -110,7 +111,7 @@ function Landing() {
 
         <div className="website-page--title">
           <h1>Play the game of<br />find the feijoa tree.</h1>
-          <p>Get rewarded with delicious free feijoas</p>
+          <p>Get rewarded with delicious free feijoas.</p>
           <NavLink to="/register" >Sign up for free</NavLink>
         </div>
       </section>
@@ -150,7 +151,20 @@ function Landing() {
           </div>
         </div>
       </section>
-      {/* <footer></footer> */}
+      <footer className="website-footer">
+        <div className="website-footer--container">
+          <div>
+            <img src={WebsiteFooterLogo} alt="Freejoas" />
+          </div>
+          <div>
+            <ul className='website-footer--links'>
+              <li className="text-white"><a href="mailto:rayner.euge@gmail.com">Contact us</a></li>
+              <li className="text-white"><NavLink to="/register" >Sign up for free</NavLink></li>
+              <li className="text-white"><NavLink to="/login" >Login</NavLink></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
