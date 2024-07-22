@@ -111,10 +111,10 @@ function Login() {
             {errorMessage && <div className="error-message">{errorMessage}</div>}
 
             <div className="flex w-full justify-center">
-                <div className={`login--button cta--button-primary ${loading ? "login--button-loading" : ""}`} onClick={handleClick}>
+                <button className={`login--button cta--button-primary ${loading ? "login--button-loading" : ""}`} onClick={handleClick}>
                     {loading && <LoadingAnimation />}
                     <span>Login</span>
-                </div>
+                </button>
             </div>
 
 

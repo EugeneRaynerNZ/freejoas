@@ -20,6 +20,10 @@ h1, h2, h3, h4, h5, h6, span, p {
   color: var(--secondary-color)
 }
 
+a, button {
+  cursor: pointer;
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -146,6 +150,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   border-radius: 32px;
   font-weight: 500;
   text-align: center;
+  cursor: pointer;
 
   &-primary {
     background: var(--secondary-color);
@@ -582,6 +587,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    cursor: pointer;
 
     &-image {
       height: 160px;
@@ -688,7 +694,7 @@ form {
     margin: 16px auto;
   }
 
-  .standout {
+  .explore .standout {
     display: none;
   }
 
@@ -803,7 +809,7 @@ form {
         }
       }
 
-      .dashboard--previous-activity .locations-list--item {
+      .dashboard--previous-activity .location-list--item {
         max-width: 200px;
       }
     }

@@ -97,7 +97,7 @@ function Dashboard() {
                 <h3>Recent Activity</h3>
                 <div className="dashboard--previous-activity--container pb-4 flex">
                 {recentVisited.map(item => (
-                  <li className="locations-list--item" key={item._id}>
+                  <li className="location-list--item" key={item._id}>
                     {item.image ? (
                       <div className="location-list--item-image" style={{
                         backgroundImage: `url(${item.image[0].data})`,
