@@ -230,7 +230,7 @@ function PlayWithMap() {
                       deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
                     />
                   </div>
-                  <div className="locations-list--item selected">
+                  <div className="location-list--item selected">
                     {selectedItem.image ? (
                       <div className="location-list--item-image" style={{
                         backgroundImage: `url(${selectedItem.image[0].data})`,

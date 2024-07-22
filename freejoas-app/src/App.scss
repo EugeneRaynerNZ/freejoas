@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6, span, p {
   color: var(--secondary-color)
 }
 
-a {
+a, button {
   cursor: pointer;
 }
 
@@ -693,7 +693,7 @@ form {
     margin: 16px auto;
   }
 
-  .standout {
+  .explore .standout {
     display: none;
   }
 
@@ -808,7 +808,7 @@ form {
         }
       }
 
-      .dashboard--previous-activity .locations-list--item {
+      .dashboard--previous-activity .location-list--item {
         max-width: 200px;
       }
     }
