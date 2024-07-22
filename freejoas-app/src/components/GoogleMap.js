@@ -8,14 +8,31 @@ import {
 } from "@vis.gl/react-google-maps";
 import config from "../utils/config";
 
-const MapContainer = ({ markerData, defaultPosition }) => {
+
+const MyMap = ({ point }) => {
+  // to get the map object instance
   const map = useMap("freejoaMap");
+
+  useEffect(() => {
+    if (map) {
+      console.log("map loaded");
+    }
+
+    if (point) {
+      // recenter the map to the selected point
+      console.log("Selected Point",point);
+      map.setCenter({
+        lat: parseFloat(point.latitude),
+        lng: parseFloat(point.longitude),
+      });
+      map.setZoom(16);
+    }
+  }, [map]);
+};
+
+
+const MapContainer = ({ markerData, defaultPosition }) => {
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const [center, setCenter] = useState(defaultPosition);
-  const [zoom, setZoom] = useState(6);
-
-  const [camera, setCamera] = useState(null);
-
   const containerStyle = {
     width: "100%",
   };
@@ -27,16 +44,8 @@ const MapContainer = ({ markerData, defaultPosition }) => {
 
   // we need to change this so that we get the users current location which should be passed down from the Geolocation
 
-  const updateCamera = (lat, lng, newZoom) => {
-    setCamera({
-      center: { lat: lat, lng: lng },
-      zoom: newZoom,
-    });
-  };
-
   const handleMarkerClick = (point) => {
     setSelectedMarker(point);
-    updateCamera({ lat: point.latitude, lng: point.longitude }, 15);
   };
 
   const handleInfoWindowClose = () => {
@@ -49,7 +58,7 @@ const MapContainer = ({ markerData, defaultPosition }) => {
 
   return (
     <APIProvider apiKey={config.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <div style={containerStyle}>
+      <div style={containerStyle}>
         <Map
           id="freejoaMap"
           defaultZoom={initalCameraProps.zoom}
@@ -57,9 +66,6 @@ const MapContainer = ({ markerData, defaultPosition }) => {
           mapId={config.REACT_APP_GOOGLE_MAPS_ID}
           disableDefaultUI={true}
           zoomControl={true}
-          camera={camera}
-          onCameraChange={(newCamera) => setCamera(newCamera)}
-          className="GoogleMap"
         >
           {markerData.map((point, index) => {
             const lat = parseFloat(point.latitude);
@@ -78,25 +84,40 @@ const MapContainer = ({ markerData, defaultPosition }) => {
           })}
 
           {selectedMarker && (
-            <InfoWindow
-              position={{
-                lat: parseFloat(selectedMarker.latitude),
-                lng: parseFloat(selectedMarker.longitude),
-              }}
-              onCloseClick={handleInfoWindowClose}
-            >
-              <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
-                <img style={{width: '150px'}} src={selectedMarker.image[0].data} alt="feijoa tree"/>
-                <h2>{selectedMarker.title}</h2>
-                {/* <p>{selectedMarker.latitude}</p>
+            <>
+              <InfoWindow
+                position={{
+                  lat: parseFloat(selectedMarker.latitude),
+                  lng: parseFloat(selectedMarker.longitude),
+                }}
+                onCloseClick={handleInfoWindowClose}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <img
+                    style={{ width: "150px" }}
+                    src={selectedMarker.image[0].data}
+                    alt="feijoa tree"
+                  />
+                  <h2>{selectedMarker.title}</h2>
+                  {/* <p>{selectedMarker.latitude}</p>
                 <p>{selectedMarker.longitude}</p> */}
-              </div>
-            </InfoWindow>
+                </div>
+              </InfoWindow>
+              {/* This is the map that will recenter to the selected marker */}
+              <MyMap point={selectedMarker} />
+            </>
           )}
         </Map>
-    </div>
-      </APIProvider>
+      </div>
+    </APIProvider>
   );
 };
 
 export default MapContainer;
+

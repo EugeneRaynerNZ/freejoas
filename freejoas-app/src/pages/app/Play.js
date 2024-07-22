@@ -14,6 +14,7 @@ import LogoPlaceholder from '../../images/example-2.svg'
 import SessionStorageManager, { FREEJOAS } from '../../utils/SessionStorageManager';
 import LocalStorageManager, { KEY_RECENT_VISITED } from '../../utils/LocalStorageManager';
 import MapContainer from '../../components/GoogleMap';
+import { useMap } from '@vis.gl/react-google-maps';
 
 // import Probability from '../../components/Probability';
 
@@ -28,6 +29,8 @@ function PlayWithMap() {
   const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [deviceOrientation, setDeviceOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
+
+  // const [map, setMap] = useMap();
 
   function handleRecentVisited(item) {
     setRecentVisited(prevVisited => {
@@ -53,6 +56,9 @@ function PlayWithMap() {
     if (user) {
       LocalStorageManager.saveUserData(user._id, KEY_RECENT_VISITED, recentVisited);
     }
+    // if(map){
+    //   // console.log("Map: ", map);
+    // }
   }, [recentVisited, user]);
 
   const fetchData = async () => {
