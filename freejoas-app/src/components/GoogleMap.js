@@ -7,53 +7,67 @@ import {
   useMap,
 } from "@vis.gl/react-google-maps";
 import config from "../utils/config";
-
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 
 const MyMap = ({ point }) => {
   // to get the map object instance
   const map = useMap("freejoaMap");
 
   useEffect(() => {
-    if (map) {
-      console.log("map loaded");
+    if (!map) {
+      return;
     }
-
+    // if the map and point are available
     if (point) {
       // recenter the map to the selected point
-      console.log("Selected Point",point);
+      console.log("Selected Point", point);
       map.setCenter({
         lat: parseFloat(point.latitude),
         lng: parseFloat(point.longitude),
       });
+      /**
+       *  adjust the zoom level here
+       */
       map.setZoom(16);
     }
-  }, [map]);
+  }, [map, point]);
 };
 
+const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
+  const [userLocation, setUserLocation] = useState(null);
 
-const MapContainer = ({ markerData, defaultPosition }) => {
-  const [selectedMarker, setSelectedMarker] = useState(null);
   const containerStyle = {
     width: "100%",
   };
 
   const initalCameraProps = {
-    center: defaultPosition,
-    zoom: 6,
+    center: { lat: -36.848461, lng: 174.763336 }, // Auckland City
+    zoom: 6, // default zoom level, New Zealand
   };
 
-  // we need to change this so that we get the users current location which should be passed down from the Geolocation
-
   const handleMarkerClick = (point) => {
-    setSelectedMarker(point);
+    setSelectedItem(point);
   };
 
   const handleInfoWindowClose = () => {
-    setSelectedMarker(null);
+    setSelectedItem(null);
   };
 
   useEffect(() => {
-    console.log("Goole Map started");
+    let watchId;
+    if (navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+      });
+    }
+
+    // clean up the watch when the component unmounts
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
   }, []);
 
   return (
@@ -62,11 +76,20 @@ const MapContainer = ({ markerData, defaultPosition }) => {
         <Map
           id="freejoaMap"
           defaultZoom={initalCameraProps.zoom}
-          defaultCenter={initalCameraProps.center}
+          defaultCenter={userLocation || initalCameraProps.center}
           mapId={config.REACT_APP_GOOGLE_MAPS_ID}
           disableDefaultUI={true}
           zoomControl={true}
         >
+          {userLocation && (
+            /**
+             *  This is the user location marker
+             */
+            <AdvancedMarker position={userLocation}>
+              {/* **put your custom icon here   *********************************************************************/}
+              <MyLocationIcon color="primary" />
+            </AdvancedMarker>
+          )}
           {markerData.map((point, index) => {
             const lat = parseFloat(point.latitude);
             const lng = parseFloat(point.longitude);
@@ -83,14 +106,17 @@ const MapContainer = ({ markerData, defaultPosition }) => {
             return null;
           })}
 
-          {selectedMarker && (
+          {selectedItem && (
             <>
+              {/* This is the map that will recenter to the selected marker */}
+              <MyMap point={selectedItem} />
+
               <InfoWindow
                 position={{
-                  lat: parseFloat(selectedMarker.latitude),
-                  lng: parseFloat(selectedMarker.longitude),
+                  lat: parseFloat(selectedItem.latitude),
+                  lng: parseFloat(selectedItem.longitude),
                 }}
-                onCloseClick={handleInfoWindowClose}
+                onCloseClick={()=>{handleInfoWindowClose()}}
               >
                 <div
                   style={{
@@ -101,16 +127,14 @@ const MapContainer = ({ markerData, defaultPosition }) => {
                 >
                   <img
                     style={{ width: "150px" }}
-                    src={selectedMarker.image[0].data}
+                    src={selectedItem.image[0].data}
                     alt="feijoa tree"
                   />
-                  <h2>{selectedMarker.title}</h2>
+                  <h2>{selectedItem.title}</h2>
                   {/* <p>{selectedMarker.latitude}</p>
                 <p>{selectedMarker.longitude}</p> */}
                 </div>
               </InfoWindow>
-              {/* This is the map that will recenter to the selected marker */}
-              <MyMap point={selectedMarker} />
             </>
           )}
         </Map>
@@ -120,4 +144,3 @@ const MapContainer = ({ markerData, defaultPosition }) => {
 };
 
 export default MapContainer;
-
