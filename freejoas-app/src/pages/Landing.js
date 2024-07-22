@@ -85,8 +85,8 @@ function Landing() {
             </li>
           </ul>
           <div className="website--navigation-buttons">
-          <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
-          <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
+            <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
+            <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
           </div>
         </div>
       </nav>
@@ -112,7 +112,9 @@ function Landing() {
         <div className="website-page--title">
           <h1>Play the game of<br />find the feijoa tree.</h1>
           <p>Get rewarded with delicious free feijoas.</p>
-          <NavLink to="/register" >Sign up for free</NavLink>
+          <div className="website--navigation-buttons">
+            <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
+          </div>
         </div>
       </section>
       <section id="about" className="website--section">
@@ -120,7 +122,10 @@ function Landing() {
           <div className="website-page--text-container">
             <h2 className="text-white">Feijoas are everywhere. We just need to find them.</h2>
             <p className="text-white">Supermarkets sell feijoas only during feijoa season, but did you know that there are plenty of free feijoa trees near you? Find some feijoas today!</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
+            <div className="website--navigation-buttons">
+              <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
+              <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
+            </div>
           </div>
           <div className="website-page--image-container">
             <img src={WebsiteAbout} alt="Feijoa Tree"/>
@@ -135,7 +140,10 @@ function Landing() {
           <div className="website-page--text-container">
             <h2>Take your friends and family for a walk.</h2>
             <p>Use Freejoas to locate a feijoa tree near you, then use the find functionality to make your way there. Treasure hunt's not your thing? Use the map instead.</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
+            <div className="website--navigation-buttons">
+              <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
+              <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
+            </div>
           </div>
         </div>
       </section>
@@ -144,7 +152,10 @@ function Landing() {
           <div className="website-page--text-container">
             <h2>Know of a free feijoa tree that no one ever visits?</h2>
             <p>Locate the feijoa tree on the map and upload it's location. Or walk to the location and upload it once you're there.</p>
-            <NavLink className="cta--button cta--button-primary" to="/register" >Sign up for free</NavLink>
+            <div className="website--navigation-buttons">
+              <NavLink className="website--navigation-sign-up" to="/register" >Sign up for free</NavLink>
+              <NavLink className="website--navigation-sign-in" to="/login" >Sign in</NavLink>
+            </div>
           </div>
           <div className="website-page--image-container">
             <img src={WebsiteUpload} alt="Feijoa Tree"/>
