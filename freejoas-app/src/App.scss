@@ -587,6 +587,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    cursor: pointer;
 
     &-image {
       height: 160px;

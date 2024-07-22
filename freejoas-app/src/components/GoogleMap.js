@@ -69,8 +69,8 @@ const MapContainer = ({ data }) => {
               }}
               onCloseClick={handleInfoWindowClose}
             >
-              <div>
-                <img src={selectedMarker.image[0].data} alt="feijoa tree"/>
+              <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
+                <img style={{width: '150px'}} src={selectedMarker.image[0].data} alt="feijoa tree"/>
                 <h2>{selectedMarker.title}</h2>
                 {/* <p>{selectedMarker.latitude}</p>
                 <p>{selectedMarker.longitude}</p> */}
