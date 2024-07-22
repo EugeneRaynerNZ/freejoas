@@ -1,4 +1,9 @@
 import React from "react";
+import Arrow from "../../components/Arrow";
+import NumberToColorGradient from "../../components/NumberToColorGradient";
+import ArrowUpwardIcon from "../../images/arrow.svg";
+import LogoPlaceholder from "../../images/logo-placeholder.png";
+import { FaTree } from "react-icons/fa";
 
 import "../../App.scss";
 
@@ -18,8 +23,8 @@ function PlayMobile({selectedItem}) {
                     </span>
                   </div>
                   <Arrow
-                    targetLatitude={freejoaLocation.latitude}
-                    targetLongitude={freejoaLocation.longitude}
+                    targetLatitude={selectedItem.latitude}
+                    targetLongitude={selectedItem.longitude}
                     currentLatitude={myCurrentCoordinates.latitude}
                     currentLongitude={myCurrentCoordinates.longitude}
                     deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
@@ -30,9 +35,7 @@ function PlayMobile({selectedItem}) {
                     <div
                       className="location-list--item-image"
                       style={{
-                        // backgroundImage: `url(${selectedItem.image[0].data})`,
-                        backgroundImage: `url(${LogoPlaceholder})`,
-
+                        backgroundImage: `url(${selectedItem.image[0].data})`,
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
@@ -53,12 +56,12 @@ function PlayMobile({selectedItem}) {
                     <div className="location-list--item-filter">
                       {/* <span>Under 1 km</span> */}
                       <div className="location-list--item-tree">
-                        {/* <span>{selectedItem.amount}</span> */}
+                        <span>{selectedItem.amount}</span>
                         <FaTree />
                       </div>
                     </div>
                     <span className="location-list--item-title">
-                      {/* {selectedItem.title} */}
+                      {selectedItem.title}
                     </span>
                     {/* <Probability text="High Probability" type="high" />
                     <div className="location-list--item-visited">

@@ -53,7 +53,7 @@ const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
     setSelectedItem(null);
   };
 
-  useEffect(() => {
+  function watchMyPosition() {
     let watchId;
     if (navigator.geolocation) {
       watchId = navigator.geolocation.watchPosition((position) => {
@@ -68,6 +68,10 @@ const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
         navigator.geolocation.clearWatch(watchId);
       }
     };
+  }
+
+  useEffect(() => {
+    return watchMyPosition();
   }, []);
 
   return (
