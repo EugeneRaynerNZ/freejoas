@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   APIProvider,
   Map,
@@ -8,6 +8,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import config from "../utils/config";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import { useUserLocation, useSelectedItem } from "../utils/AppContext";
 
 const MyMap = ({ point }) => {
   // to get the map object instance
@@ -26,15 +27,18 @@ const MyMap = ({ point }) => {
         lng: parseFloat(point.longitude),
       });
       /**
-       *  adjust the zoom level here
+       *  adjust the zoom level to the selected point
        */
       map.setZoom(16);
     }
   }, [map, point]);
 };
 
-const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
-  const [userLocation, setUserLocation] = useState(null);
+const MapContainer = ({ markerData }) => {
+
+  const { userLocation } = useUserLocation();
+  const { selectedItem, setSelectedItem } = useSelectedItem();
+
 
   const containerStyle = {
     width: "100%",
@@ -42,7 +46,7 @@ const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
 
   const initalCameraProps = {
     center: { lat: -36.848461, lng: 174.763336 }, // Auckland City
-    zoom: 6, // default zoom level, New Zealand
+    zoom: 12, // default zoom level, New Zealand
   };
 
   const handleMarkerClick = (point) => {
@@ -52,27 +56,6 @@ const MapContainer = ({ markerData, selectedItem, setSelectedItem }) => {
   const handleInfoWindowClose = () => {
     setSelectedItem(null);
   };
-
-  function watchMyPosition() {
-    let watchId;
-    if (navigator.geolocation) {
-      watchId = navigator.geolocation.watchPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ lat: latitude, lng: longitude });
-      });
-    }
-
-    // clean up the watch when the component unmounts
-    return () => {
-      if (watchId) {
-        navigator.geolocation.clearWatch(watchId);
-      }
-    };
-  }
-
-  useEffect(() => {
-    return watchMyPosition();
-  }, []);
 
   return (
     <APIProvider apiKey={config.REACT_APP_GOOGLE_MAPS_API_KEY}>

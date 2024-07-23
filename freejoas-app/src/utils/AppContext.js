@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 // user context
 const UserContext = createContext();
@@ -18,6 +18,28 @@ export const AppProvider = ({ children }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [recentVisited, setRecentVisited] = useState([]);
+
+  const watchMyPosition = () =>{
+    let watchId;
+    if (navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+      });
+    }
+
+    // clean up the watch when the component unmounts
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }
+
+  useEffect(() => {
+     // watch user location
+     watchMyPosition();
+  }, [userLocation]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

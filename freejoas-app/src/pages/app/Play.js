@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useRecentVisited, useUser } from "../../utils/AppContext";
+import {
+  useRecentVisited,
+  useUser,
+  useSelectedItem,
+} from "../../utils/AppContext";
 import "../../App.scss";
 import axios from "../../axios";
 import { LuRefreshCw } from "react-icons/lu";
@@ -13,28 +17,17 @@ import LocalStorageManager, {
   KEY_RECENT_VISITED,
 } from "../../utils/LocalStorageManager";
 import MapContainer from "../../components/GoogleMap";
-import ActiveListItem from "../../components/active-list—item";
+import NavigationCard from "../../components/NavigationCard";
 
 // import Probability from '../../components/Probability';
 
 function PlayWithMap() {
-  const [freejoaLocation, setFreejoaLocation] = useState(null);
-  const [myCurrentCoordinates, setCoordinates] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
-  const [distance, setDistance] = useState(0);
-  const [data, setData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const { recentVisited, setRecentVisited } = useRecentVisited();
-  const { user } = useUser();
-  const [loading, setLoading] = useState(true);
-  const [deviceOrientation, setDeviceOrientation] = useState({
-    alpha: 0,
-    beta: 0,
-    gamma: 0,
-  });
+  const { user } = useUser(); // get the user from the context
+  const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
+  const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
 
+  const [data, setData] = useState([]); // freejoas data from the server
+  const [loading, setLoading] = useState(true); // loading state
 
   function handleRecentVisited(item) {
     setRecentVisited((prevVisited) => {
@@ -102,88 +95,6 @@ function PlayWithMap() {
     console.log("Fetching data: ");
   }, []);
 
-  useEffect(() => {
-    const handleDeviceOrientation = (event) => {
-      setDeviceOrientation({
-        alpha: event.alpha,
-        beta: event.beta,
-        gamma: event.gamma,
-      });
-    };
-
-    window.addEventListener("deviceorientation", handleDeviceOrientation);
-
-    return () => {
-      window.removeEventListener("deviceorientation", handleDeviceOrientation);
-    };
-  }, []);
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      const watchId = navigator.geolocation.watchPosition(
-        function (position) {
-          setCoordinates({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        function (error) {
-          console.error(`Error getting location: ${error.message}`);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        }
-      );
-
-      return () => {
-        navigator.geolocation.clearWatch(watchId);
-      };
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (
-      freejoaLocation &&
-      myCurrentCoordinates.latitude &&
-      myCurrentCoordinates.longitude
-    ) {
-      const distanceInKmBetweenEarthCoordinates = (lat1, lon1, lat2, lon2) => {
-        var earthRadiusKm = 6371;
-
-        var dLat = degreesToRadians(lat2 - lat1);
-        var dLon = degreesToRadians(lon2 - lon1);
-
-        lat1 = degreesToRadians(lat1);
-        lat2 = degreesToRadians(lat2);
-
-        var a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.sin(dLon / 2) *
-            Math.sin(dLon / 2) *
-            Math.cos(lat1) *
-            Math.cos(lat2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return Math.floor(earthRadiusKm * c * 1000);
-      };
-
-      const distanceInKm = distanceInKmBetweenEarthCoordinates(
-        freejoaLocation.latitude,
-        freejoaLocation.longitude,
-        myCurrentCoordinates.latitude,
-        myCurrentCoordinates.longitude
-      );
-      setDistance(distanceInKm);
-    }
-  }, [freejoaLocation, myCurrentCoordinates]);
-
-  function degreesToRadians(degrees) {
-    return (degrees * Math.PI) / 180;
-  }
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -191,12 +102,7 @@ function PlayWithMap() {
     });
   };
 
-  function handleSelectItem(lat, lng, item) {
-    setFreejoaLocation({
-      latitude: lat,
-      longitude: lng,
-    });
-
+  function handleSelectItem(item) {
     setSelectedItem(item);
     handleRecentVisited(item);
     console.log("Recent visited: ", recentVisited);
@@ -219,74 +125,16 @@ function PlayWithMap() {
 
         <div className="flex-1 flex flex-col">
           <div className="flex">
-            {freejoaLocation ? (
-              <></>
-              // ----- START: Only show this for mobile (have used display:none) ------ //
-              // <div className="standout ">
-              //   <div className="movement">
-              //     <div className="movement--arrow w-full flex justify-center">
-              //       <img src={ArrowUpwardIcon} alt="arrow" id="arrow" />
-              //     </div>
-              //     <div className="movement--text">
-              //       <span className="text-lg">You are</span>
-              //       <NumberToColorGradient number={distance} />
-              //       <span className="text-lg">
-              //         meters from your destination
-              //       </span>
-              //     </div>
-              //     <Arrow
-              //       targetLatitude={freejoaLocation.latitude}
-              //       targetLongitude={freejoaLocation.longitude}
-              //       currentLatitude={myCurrentCoordinates.latitude}
-              //       currentLongitude={myCurrentCoordinates.longitude}
-              //       deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
-              //     />
-              //   </div>
-              //   <div className="location-list--item selected">
-              //     {selectedItem ? (
-              //       <div
-              //         className="location-list--item-image"
-              //         style={{
-              //           // backgroundImage: `url(${selectedItem.image[0].data})`,
-              //           backgroundImage: `url(${LogoPlaceholder})`,
-
-              //           backgroundSize: "cover",
-              //           backgroundRepeat: "no-repeat",
-              //           backgroundPosition: "center",
-              //         }}
-              //       ></div>
-              //     ) : (
-              //       <div
-              //         className="location-list--item-image"
-              //         style={{
-              //           backgroundImage: `url(${LogoPlaceholder})`,
-              //           backgroundSize: "cover",
-              //           backgroundRepeat: "no-repeat",
-              //           backgroundPosition: "center",
-              //         }}
-              //       ></div>
-              //     )}
-              //     <div className="location-list--item-container">
-              //       <div className="location-list--item-filter">
-              //         {/* <span>Under 1 km</span> */}
-              //         <div className="location-list--item-tree">
-              //           {/* <span>{selectedItem.amount}</span> */}
-              //           <FaTree />
-              //         </div>
-              //       </div>
-              //       <span className="location-list--item-title">
-              //         {/* {selectedItem.title} */}
-              //       </span>
-              //       {/* <Probability text="High Probability" type="high" />
-              //       <div className="location-list--item-visited">
-              //         <em>Visited on 28/02/2024</em>
-              //       </div> */}
-              //     </div>
-              //   </div>
-              // </div>
+            {selectedItem ? (
+              /**
+               *  When a freejoa has been selected, show the navigation arrow.
+               *  this feature is only available on mobile devices
+               */
+              <NavigationCard />
             ) : (
-              // ----- END: Only show this for mobile (have used display:none) ------ //
-
+              /**
+               * do nothing when no freejoa has been selected
+               */
               <></>
             )}
           </div>
@@ -329,26 +177,13 @@ function PlayWithMap() {
 
                 <div className="explore-container">
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
-                  
-                  <ul className="location-list">
-                    {/* /**
-                     *
-                     * ****************************************************************************************************
-                     * This is the selected item that will be displayed on the left side of the screen
-                     * do your magic in this ActiveListItem component.
-                     * ****************************************************************************************************
-                     */}
-                    {selectedItem && (
-                      <ActiveListItem item={selectedItem}/>
-                    )}
 
+                  <ul className="location-list">
                     {data.map((item) => (
                       <li
                         className="location-list--item"
                         key={item._id}
-                        onClick={() =>
-                          handleSelectItem(item.latitude, item.longitude, item)
-                        }
+                        onClick={() => handleSelectItem(item)}
                       >
                         {item.image ? (
                           <div
@@ -392,11 +227,7 @@ function PlayWithMap() {
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer
-                    markerData={data}
-                    selectedItem={selectedItem}
-                    setSelectedItem={setSelectedItem}
-                  ></MapContainer>
+                  <MapContainer markerData={data}></MapContainer>
                 </div>
               </>
             )}
