@@ -3,6 +3,7 @@ import {
   useRecentVisited,
   useUser,
   useSelectedItem,
+  useUserLocation,
 } from "../../utils/AppContext";
 import "../../App.scss";
 import axios from "../../axios";
@@ -25,6 +26,7 @@ function PlayWithMap() {
   const { user } = useUser(); // get the user from the context
   const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
   const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
+  const { userLocation } = useUserLocation(); // get the user location from the context
 
   const [data, setData] = useState([]); // freejoas data from the server
   const [loading, setLoading] = useState(true); // loading state
@@ -125,18 +127,17 @@ function PlayWithMap() {
 
         <div className="flex-1 flex flex-col">
           <div className="flex">
-            {selectedItem ? (
-              /**
-               *  When a freejoa has been selected, show the navigation arrow.
-               *  this feature is only available on mobile devices
-               */
-              <NavigationCard />
-            ) : (
-              /**
-               * do nothing when no freejoa has been selected
-               */
-              <></>
-            )}
+            {
+              // check all the props are available before rendering the NavigationCard component
+              // might need a notification to tell user that location access is required
+              selectedItem && userLocation && (
+                /**
+                 *  When a freejoa has been selected, show the navigation arrow.
+                 *  this feature is only available on mobile devices
+                 */
+                <NavigationCard />
+              )
+            }
           </div>
           <div style={{ height: "100%" }}>
             {loading ? (
@@ -167,12 +168,12 @@ function PlayWithMap() {
                     <LuRefreshCw onClick={handleSync} />
                   </div>
 
-                  {/* <h2>Filters</h2>
-                <div className="filters">
-                  <div className="filter">Under 1 km</div>
-                  <div className="filter">Under 3 km</div>
-                  <div className="filter">Under 5 km</div>
-                </div> */}
+                  <h2>Filters</h2>
+                  <div className="filters">
+                    <div className="filter">Under 1 km</div>
+                    <div className="filter">Under 3 km</div>
+                    <div className="filter">Under 5 km</div>
+                  </div>
                 </div>
 
                 <div className="explore-container">
@@ -182,7 +183,11 @@ function PlayWithMap() {
                     {data.map((item) => (
                       <li
                         key={item._id}
-                        className={`location-list--item${selectedItem && item._id === selectedItem._id ? ' active-list—item' : ''}`}
+                        className={`location-list--item${
+                          selectedItem && item._id === selectedItem._id
+                            ? " active-list—item"
+                            : ""
+                        }`}
                         onClick={() => handleSelectItem(item)}
                       >
                         {item.image ? (

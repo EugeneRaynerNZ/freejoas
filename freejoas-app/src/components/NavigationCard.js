@@ -82,13 +82,18 @@ function NavigationCard() {
             <NumberToColorGradient number={distance} />
             <span className="text-lg">meters from your destination</span>
           </div>
-          <Arrow
-            targetLatitude={selectedItem.latitude}
-            targetLongitude={selectedItem.longitude}
-            currentLatitude={userLocation.latitude}
-            currentLongitude={userLocation.longitude}
-            deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
-          />
+          {
+            // check all the props are available before rendering the Arrow component
+            userLocation && selectedItem && deviceOrientation && (
+              <Arrow
+                targetLatitude={selectedItem.latitude}
+                targetLongitude={selectedItem.longitude}
+                currentLatitude={userLocation.lat}
+                currentLongitude={userLocation.lng}
+                deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
+                />
+            )
+          }
         </div>
         <div className="location-list--item selected">
           {selectedItem ? (
