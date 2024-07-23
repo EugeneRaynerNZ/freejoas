@@ -181,8 +181,8 @@ function PlayWithMap() {
                   <ul className="location-list">
                     {data.map((item) => (
                       <li
-                        className="location-list--item"
                         key={item._id}
+                        className={`location-list--item${selectedItem && item._id === selectedItem._id ? ' active-list—item' : ''}`}
                         onClick={() => handleSelectItem(item)}
                       >
                         {item.image ? (
