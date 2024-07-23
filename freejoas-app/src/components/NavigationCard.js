@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Arrow from "./Arrow";
 import NumberToColorGradient from "./ColourGenerator";
-import ArrowUpwardIcon from '../images/arrow.svg';
+import ArrowUpwardIcon from "../images/arrow.svg";
 import LogoPlaceholder from "../images/example-2.svg";
 import { FaTree } from "react-icons/fa";
 import { useUserLocation, useSelectedItem } from "../utils/AppContext";
+import useDistance from "../utils/DistanceFilter";
 
 function NavigationCard() {
   const { userLocation } = useUserLocation();
   const { selectedItem } = useSelectedItem();
+  const { calculateDistance } = useDistance();
 
   const [distance, setDistance] = useState(0); // distance between the user and the selected item
 
@@ -18,40 +20,14 @@ function NavigationCard() {
     gamma: 0,
   });
 
-  function degreesToRadians(degrees) {
-    return (degrees * Math.PI) / 180;
-  }
-
   useEffect(() => {
-    const distanceInKmBetweenEarthCoordinates = (lat1, lon1, lat2, lon2) => {
-      let earthRadiusKm = 6371;
-  
-      let dLat = degreesToRadians(lat2 - lat1);
-      let dLon = degreesToRadians(lon2 - lon1);
-  
-      lat1 = degreesToRadians(lat1);
-      lat2 = degreesToRadians(lat2);
-  
-      let a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return Math.floor(earthRadiusKm * c * 1000);
-    };
-
-    // calculate the distance between the user and the selected item
+    console.log("NavigationCard loaded");
     if (userLocation && selectedItem) {
-      const distance = distanceInKmBetweenEarthCoordinates(
-        userLocation.lat,
-        userLocation.lng,
-        selectedItem.latitude,
-        selectedItem.longitude
-      );
-
+      const distance = calculateDistance(userLocation, selectedItem);
       setDistance(distance);
+      console.log("distance", distance);
     }
-
-   
+    // eslint-disable-next-line
   }, [userLocation, selectedItem]);
 
   useEffect(() => {
@@ -91,7 +67,7 @@ function NavigationCard() {
                 currentLatitude={userLocation.lat}
                 currentLongitude={userLocation.lng}
                 deviceOrientation={deviceOrientation} // Make sure you have deviceOrientation state in your Play component
-                />
+              />
             )
           }
         </div>

@@ -12,12 +12,21 @@ const UserLocationContext = createContext();
 // recent visited context
 const RecentVisitedContext = createContext();
 
+// freejoas data context
+const FreejoasDataContext = createContext();
+
+// loading context
+const LoadingContext = createContext();
+
+
 // create combined context
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [recentVisited, setRecentVisited] = useState([]);
+  const [freejoasData, setFreejoasData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const watchMyPosition = () =>{
     let watchId;

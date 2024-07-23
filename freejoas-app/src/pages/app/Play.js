@@ -19,7 +19,8 @@ import LocalStorageManager, {
 } from "../../utils/LocalStorageManager";
 import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
-
+import useDistance from "../../utils/DistanceFilter";
+import { useMap } from "@vis.gl/react-google-maps";
 // import Probability from '../../components/Probability';
 
 function PlayWithMap() {
@@ -27,9 +28,12 @@ function PlayWithMap() {
   const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
   const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
   const { userLocation } = useUserLocation(); // get the user location from the context
-
+  const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
   const [data, setData] = useState([]); // freejoas data from the server
+  const [filteredData, setFilteredData] = useState(data); // filtered data based on the distance
+  const [currentFilter, setCurrentFilter] = useState(null); // filter state
   const [loading, setLoading] = useState(true); // loading state
+  const map = useMap("freejoaMap"); // get the map object instance
 
   function handleRecentVisited(item) {
     setRecentVisited((prevVisited) => {
@@ -76,6 +80,7 @@ function PlayWithMap() {
           return;
         }
         setData(() => response.data.data);
+        setFilteredData(() => response.data.data);
         SessionStorageManager().setItem(FREEJOAS, response.data.data);
       });
     } catch (error) {
@@ -89,6 +94,7 @@ function PlayWithMap() {
     const cachedData = SessionStorageManager().getItem(FREEJOAS);
     if (cachedData) {
       setData(() => cachedData);
+      setFilteredData(() => cachedData);
       setLoading(false);
       console.log("Cached data: ");
       return;
@@ -115,6 +121,60 @@ function PlayWithMap() {
   const handleSync = () => {
     console.log("Syncing data");
     fetchData();
+  };
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+    if (!userLocation) {
+      return;
+    }
+
+    if (currentFilter) {
+      console.log("Current filter: ", currentFilter);
+      map.setCenter(userLocation);
+
+      switch (currentFilter) {
+        case 1000:
+          map.setZoom(16);
+          break;
+        case 1200:
+          map.setZoom(15);
+          break;
+        case 5000:
+          map.setZoom(13);
+          break;
+      }
+    }
+  }, [map, currentFilter]);
+
+  const handleDistanceFilter = (maxDistance) => {
+    // filter the data based on the distance
+    console.log("Filtering data");
+
+    // if the current filter is the same as the one user clicked, remove the filter
+    if (currentFilter === maxDistance) {
+      // remove the filter
+      setFilteredData(data);
+      setCurrentFilter(null);
+      console.log("filter state removed");
+      return;
+    }
+
+    if (userLocation) {
+      const filteredData = filterPointsByDistance(
+        userLocation,
+        data,
+        maxDistance
+      );
+
+      setFilteredData(filteredData);
+      setCurrentFilter(maxDistance);
+      console.log("Filtered data: ", filteredData);
+      console.log("Current filter: ", maxDistance);
+    }
+    // return the filtered data
   };
 
   return (
@@ -170,9 +230,45 @@ function PlayWithMap() {
 
                   <h2>Filters</h2>
                   <div className="filters">
-                    <div className="filter">Under 1 km</div>
-                    <div className="filter">Under 3 km</div>
-                    <div className="filter">Under 5 km</div>
+                    <div
+                      className="filter"
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          currentFilter === 1000 ? "#69E0AE" : "",
+                      }}
+                      onClick={() => {
+                        handleDistanceFilter(1000);
+                      }}
+                    >
+                      Under 1 km
+                    </div>
+                    <div
+                      className="filter"
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          currentFilter === 1200 ? "#69E0AE" : "",
+                      }}
+                      onClick={() => {
+                        handleDistanceFilter(1200);
+                      }}
+                    >
+                      Under 1.2 km
+                    </div>
+                    <div
+                      className="filter"
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          currentFilter === 5000 ? "#69E0AE" : "",
+                      }}
+                      onClick={() => {
+                        handleDistanceFilter(5000);
+                      }}
+                    >
+                      Under 5 km
+                    </div>
                   </div>
                 </div>
 
@@ -180,7 +276,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {data.map((item) => (
+                    {filteredData.map((item) => (
                       <li
                         key={item._id}
                         className={`location-list--item${
@@ -232,7 +328,7 @@ function PlayWithMap() {
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={data}></MapContainer>
+                  <MapContainer markerData={filteredData}></MapContainer>
                 </div>
               </>
             )}
