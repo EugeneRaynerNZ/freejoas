@@ -1,8 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./components/Router";
 import { CookieProvider } from './utils/CookieContext';
-import { RecentVisitedProvider } from './utils/RecentVisitedContext';
-import { UserProvider } from "./utils/UserContext";
+import { AppProvider } from "./utils/AppContext";
 
 
 import './Reset.css';
@@ -11,8 +10,7 @@ import './Reset.css';
 function App() {
   return (
     <CookieProvider>
-      <UserProvider>
-        <RecentVisitedProvider>
+      <AppProvider>
           <BrowserRouter>   
           {/* 
             the naviagtion component should be here,
@@ -28,8 +26,7 @@ function App() {
              */}
             <Router />
           </BrowserRouter>
-        </RecentVisitedProvider>
-      </UserProvider>
+      </AppProvider>
     </CookieProvider>
   );
 }

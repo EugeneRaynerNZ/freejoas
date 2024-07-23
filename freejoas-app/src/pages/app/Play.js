@@ -1,15 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useRecentVisited } from "../../utils/RecentVisitedContext";
-import { useUser } from "../../utils/UserContext";
+import React, { useState, useEffect } from "react";
+import { useRecentVisited, useUser } from "../../utils/AppContext";
 import "../../App.scss";
 import axios from "../../axios";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
-// import NumberToColorGradient from "../../components/ColourGenerator";
-// import Arrow from "../../components/Arrow";
-// import ArrowUpwardIcon from "../../images/arrow.svg";
 import LogoPlaceholder from "../../images/example-2.svg";
 import SessionStorageManager, {
   FREEJOAS,
