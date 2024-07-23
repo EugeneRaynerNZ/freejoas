@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CookieInstance, KEY_USER, KEY_TOKEN } from '../../utils/CookieContext';
 import LoadingAnimation from '../../components/LoadingAnimation';
-import { useUser } from '../../utils/UserContext';
+import { useUser } from '../../utils/AppContext';
 
 
 function Login() {

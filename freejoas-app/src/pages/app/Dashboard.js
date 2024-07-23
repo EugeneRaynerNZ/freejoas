@@ -5,12 +5,10 @@ import Navigation from "../../Navigation";
 import '../../App.scss';
 import { CookieInstance, KEY_USER } from '../../utils/CookieContext';
 import { useNavigate } from 'react-router-dom';
-import { useRecentVisited } from '../../utils/RecentVisitedContext';
 import { FaTree } from "react-icons/fa";
 import LogoPlaceholder from '../../images/example-2.svg'
 import LocalStorageManager, { KEY_RECENT_VISITED } from '../../utils/LocalStorageManager';
-import { useUser } from '../../utils/UserContext';
-
+import { useRecentVisited, useUser } from '../../utils/AppContext';
 
 
 function Dashboard() {
