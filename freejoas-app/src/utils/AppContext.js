@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import ApiService from "./ApiService";
 
 // user context
 const UserContext = createContext();
@@ -15,9 +16,7 @@ const RecentVisitedContext = createContext();
 // freejoas data context
 const FreejoasDataContext = createContext();
 
-// loading context
-const LoadingContext = createContext();
-
+const ServerLOadingContext = createContext();
 
 // create combined context
 export const AppProvider = ({ children }) => {
@@ -26,9 +25,39 @@ export const AppProvider = ({ children }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [recentVisited, setRecentVisited] = useState([]);
   const [freejoasData, setFreejoasData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [serverLoading, setServerLoading] = useState(false);
 
-  const watchMyPosition = () =>{
+  const fetchFreejoasData = async () => {
+    // loading state to true
+    setServerLoading(true);
+    try {
+      const response = await ApiService.fetchFreejoasData();
+      if (
+        response.data.data === null ||
+        response.data.data === undefined ||
+        response.data.data.length === 0
+      ) {
+        console.log("No data has found in the database");
+        setFreejoasData([]);
+        return;
+      }
+      setFreejoasData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }finally{
+      // loading state to false no matter what the result is
+      setServerLoading(false);
+    }
+
+  }
+
+  useEffect(() => {
+    if(user){
+      fetchFreejoasData();
+    }
+  }, [user]);
+
+  const watchMyPosition = () => {
     let watchId;
     if (navigator.geolocation) {
       watchId = navigator.geolocation.watchPosition((position) => {
@@ -43,27 +72,33 @@ export const AppProvider = ({ children }) => {
         navigator.geolocation.clearWatch(watchId);
       }
     };
-  }
+  };
 
   useEffect(() => {
-     // watch user location
-     watchMyPosition();
+    // watch user location
+    watchMyPosition();
   }, [userLocation]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <RecentVisitedContext.Provider
-        value={{ recentVisited, setRecentVisited }}
-      >
-        <SelectedItemContext.Provider value={{ selectedItem, setSelectedItem }}>
-          <UserLocationContext.Provider
-            value={{ userLocation, setUserLocation }}
+    <ServerLOadingContext.Provider value={{ serverLoading, setServerLoading }}>
+      <UserContext.Provider value={{ user, setUser }}>
+        <FreejoasDataContext.Provider value={{ freejoasData, setFreejoasData }}>
+          <RecentVisitedContext.Provider
+            value={{ recentVisited, setRecentVisited }}
           >
-            {children}
-          </UserLocationContext.Provider>
-        </SelectedItemContext.Provider>
-      </RecentVisitedContext.Provider>
-    </UserContext.Provider>
+            <SelectedItemContext.Provider
+              value={{ selectedItem, setSelectedItem }}
+            >
+              <UserLocationContext.Provider
+                value={{ userLocation, setUserLocation }}
+              >
+                {children}
+              </UserLocationContext.Provider>
+            </SelectedItemContext.Provider>
+          </RecentVisitedContext.Provider>
+        </FreejoasDataContext.Provider>
+      </UserContext.Provider>
+    </ServerLOadingContext.Provider>
   );
 };
 
@@ -71,3 +106,5 @@ export const useUser = () => useContext(UserContext);
 export const useSelectedItem = () => useContext(SelectedItemContext);
 export const useUserLocation = () => useContext(UserLocationContext);
 export const useRecentVisited = () => useContext(RecentVisitedContext);
+export const useFreejoasData = () => useContext(FreejoasDataContext);
+export const useServerLoading = () => useContext(ServerLOadingContext);

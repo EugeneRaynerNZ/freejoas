@@ -1,39 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   useRecentVisited,
-  useUser,
   useSelectedItem,
   useUserLocation,
+  useFreejoasData,
+  useServerLoading,
 } from "../../utils/AppContext";
 import "../../App.scss";
-import axios from "../../axios";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../Navigation";
 import LogoPlaceholder from "../../images/example-2.svg";
-import SessionStorageManager, {
-  FREEJOAS,
-} from "../../utils/SessionStorageManager";
-import LocalStorageManager, {
-  KEY_RECENT_VISITED,
-} from "../../utils/LocalStorageManager";
 import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
-import { useMap } from "@vis.gl/react-google-maps";
 // import Probability from '../../components/Probability';
 
 function PlayWithMap() {
-  const { user } = useUser(); // get the user from the context
+  const {serverLoading } = useServerLoading(); // get the server loading state from the context
   const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
   const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
   const { userLocation } = useUserLocation(); // get the user location from the context
   const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
-  const [data, setData] = useState([]); // freejoas data from the server
-  const [filteredData, setFilteredData] = useState(data); // filtered data based on the distance
+  const { freejoasData } = useFreejoasData(); // get the freejoas data from the context
+ 
+  // const [filteredData, setFilteredData] = useState(data); // filtered data based on the distance
   const [currentFilter, setCurrentFilter] = useState(null); // filter state
-  const [loading, setLoading] = useState(true); // loading state
-  const map = useMap("freejoaMap"); // get the map object instance
 
   function handleRecentVisited(item) {
     setRecentVisited((prevVisited) => {
@@ -57,51 +49,6 @@ function PlayWithMap() {
     });
   }
 
-  useEffect(() => {
-    if (user) {
-      LocalStorageManager.saveUserData(
-        user._id,
-        KEY_RECENT_VISITED,
-        recentVisited
-      );
-    }
-  }, [recentVisited, user]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      await axios.get("/freejoa/all").then((response) => {
-        if (
-          response.data.data === null ||
-          response.data.data === undefined ||
-          response.data.data.length === 0
-        ) {
-          console.log("No data");
-          return;
-        }
-        setData(() => response.data.data);
-        setFilteredData(() => response.data.data);
-        SessionStorageManager().setItem(FREEJOAS, response.data.data);
-      });
-    } catch (error) {
-      console.error("Error fetching data: ", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const cachedData = SessionStorageManager().getItem(FREEJOAS);
-    if (cachedData) {
-      setData(() => cachedData);
-      setFilteredData(() => cachedData);
-      setLoading(false);
-      console.log("Cached data: ");
-      return;
-    }
-    fetchData();
-    console.log("Fetching data: ");
-  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -120,34 +67,8 @@ function PlayWithMap() {
 
   const handleSync = () => {
     console.log("Syncing data");
-    fetchData();
+    // fetchData();
   };
-
-  useEffect(() => {
-    if (!map) {
-      return;
-    }
-    if (!userLocation) {
-      return;
-    }
-
-    if (currentFilter) {
-      console.log("Current filter: ", currentFilter);
-      map.setCenter(userLocation);
-
-      switch (currentFilter) {
-        case 1000:
-          map.setZoom(16);
-          break;
-        case 1200:
-          map.setZoom(15);
-          break;
-        case 5000:
-          map.setZoom(13);
-          break;
-      }
-    }
-  }, [map, currentFilter]);
 
   const handleDistanceFilter = (maxDistance) => {
     // filter the data based on the distance
@@ -156,7 +77,7 @@ function PlayWithMap() {
     // if the current filter is the same as the one user clicked, remove the filter
     if (currentFilter === maxDistance) {
       // remove the filter
-      setFilteredData(data);
+      // setFilteredData(data);
       setCurrentFilter(null);
       console.log("filter state removed");
       return;
@@ -165,11 +86,11 @@ function PlayWithMap() {
     if (userLocation) {
       const filteredData = filterPointsByDistance(
         userLocation,
-        data,
+        freejoasData,
         maxDistance
       );
 
-      setFilteredData(filteredData);
+      // setFilteredData(filteredData);
       setCurrentFilter(maxDistance);
       console.log("Filtered data: ", filteredData);
       console.log("Current filter: ", maxDistance);
@@ -200,7 +121,7 @@ function PlayWithMap() {
             }
           </div>
           <div style={{ height: "100%" }}>
-            {loading ? (
+            {serverLoading ? (
               // Need to make this spinner working while we are fetching the data from the server
               <div className="flex flex-col items-center gap-4 justify-center w-full">
                 <svg
@@ -276,7 +197,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {filteredData.map((item) => (
+                    {freejoasData.map((item) => (
                       <li
                         key={item._id}
                         className={`location-list--item${
@@ -328,7 +249,7 @@ function PlayWithMap() {
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={filteredData}></MapContainer>
+                  <MapContainer markerData={freejoasData}></MapContainer>
                 </div>
               </>
             )}
