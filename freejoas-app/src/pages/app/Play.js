@@ -1,57 +1,30 @@
 import React, { useEffect, useState } from "react";
-import {
-  useRecentVisited,
-  useSelectedItem,
-  useUserLocation,
-  useFreejoasData,
-  useServerLoading,
-} from "../../utils/AppContext";
+import { useFreejoasData } from "../../contexts/FreejoasDataContext";
+import { useUserLocation } from "../../contexts/UserLocationContext";
+import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
+
 import "../../App.scss";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
-import Navigation from "../../Navigation";
+import Navigation from "../../components/Navigation";
 import LogoPlaceholder from "../../images/example-2.svg";
 import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
-import { MyMapRange } from "../../components/GoogleMap";
 // import Probability from '../../components/Probability';
 
 
 function PlayWithMap() {
   // global state
-  const { serverLoading } = useServerLoading(); // get the server loading state from the context
   const { userLocation } = useUserLocation(); // get the user location from the context
   const { freejoasData } = useFreejoasData(); // get the freejoas data from the context
-  const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
-  const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
+  const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
   const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
  
   // local state
+  const [serverLoading, setServerLoading] = useState(false); // loading state
   const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
   const [currentFilter, setCurrentFilter] = useState(null); // filter state
-
-  function handleRecentVisited(item) {
-    setRecentVisited((prevVisited) => {
-      // check if the item is already in the recent visited
-      const index = prevVisited.findIndex(
-        (visited) => visited._id === item._id
-      );
-
-      if (index !== -1) {
-        // move the current item to the top of the list
-        const updatedVisited = [
-          prevVisited[index],
-          ...prevVisited.slice(0, index),
-          ...prevVisited.slice(index + 1),
-        ];
-        return updatedVisited.slice(0, 5); // only return the first 5 items
-      } else {
-        // add the current item to the top of the list
-        return [item, ...prevVisited].slice(0, 5);
-      }
-    });
-  }
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -61,10 +34,7 @@ function PlayWithMap() {
   };
 
   function handleSelectItem(item) {
-    setSelectedItem(item);
-    handleRecentVisited(item);
-    console.log("Recent visited: ", recentVisited);
-
+    setSelectedFreejoa(item);
     scrollToTop();
   }
 
@@ -101,12 +71,6 @@ function PlayWithMap() {
     // return the filtered data
   };
 
-  useEffect(() => {
-    console.log("Freejoas data: ", freejoasData);
-    if(freejoasData){
-      setFilteredData(freejoasData);
-    }
-  }, [freejoasData]);
 
   return (
     <section className="explore w-full main-container flex flex-col">
@@ -121,7 +85,7 @@ function PlayWithMap() {
             {
               // check all the props are available before rendering the NavigationCard component
               // might need a notification to tell user that location access is required
-              selectedItem && userLocation && (
+              selectedFreejoa && userLocation && (
                 /**
                  *  When a freejoa has been selected, show the navigation arrow.
                  *  this feature is only available on mobile devices
@@ -211,7 +175,7 @@ function PlayWithMap() {
                       <li
                         key={item._id}
                         className={`location-list--item${
-                          selectedItem && item._id === selectedItem._id
+                          selectedFreejoa && item._id === selectedFreejoa._id
                             ? " active-list—item"
                             : ""
                         }`}

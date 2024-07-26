@@ -1,23 +1,18 @@
-import './App.scss';
+import '../App.scss';
 import { NavLink } from "react-router-dom";
 // import { ReactComponent as HomeIcon } from './images/navigation/home.svg';
-import { ReactComponent as ExploreIcon } from './images/navigation/explore.svg';
-import { ReactComponent as UploadIcon } from './images/navigation/upload.svg';
-import SmallLogo from './images/desktop/app/small-logo.svg';
-import { useUser, useRecentVisited } from './utils/AppContext';
-import { CookieInstance } from './utils/CookieContext';
+import { ReactComponent as ExploreIcon } from '../images/navigation/explore.svg';
+import { ReactComponent as UploadIcon } from '../images/navigation/upload.svg';
+import SmallLogo from '../images/desktop/app/small-logo.svg';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
 function Navigation() {
   const navigator = useNavigate();
-  const { setUser } = useUser();
-  const { logout } = CookieInstance;
-  const {setRecentVisited} = useRecentVisited();
+  const { logout } = useUser();
 
   const handleLogout = () => {
     logout();
-    setRecentVisited([]);
-    setUser(null);
     navigator('/');
   };  
 

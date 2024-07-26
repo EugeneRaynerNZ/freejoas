@@ -1,15 +1,28 @@
 import React, { useEffect, useState, createContext, useContext, useMemo } from "react";
 import SessionStorageManager from "../utils/SessionStorageManager";
-import { CookieInstance } from "../utils/CookieContext";
+import { CookieInstance } from "./CookieContext";
 import { KEYS } from "../utils/config";
+import PropTypes from "prop-types";
+/**
+ * User context for managing user data and authentication.
+ * @typedef {Object} UserContextType
+ * @property {Object} user - The user object.
+ * @property {Function} updateUser - Function to update the user object.
+ * @property {string} token - The authentication token.
+ * @property {Function} updateToken - Function to update the authentication token.
+ * @property {Function} logout - Function to log out the user.
+ */
 
 const UserContext = createContext();
 
+/**
+ * Provider component for the UserContext.
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components.
+ * @returns {React.ReactNode} The rendered component.
+ */
+
 export const UserProvider = ({ children }) => {
-  // Add prop validation for 'children'
-  UserProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
   const { setCookie, getCookie } = CookieInstance;
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -27,18 +40,27 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  // update user
+  /**
+   * Update the user object.
+   * @param {Object} newUser - The new user object.
+   */
   const updateUser = (newUser) => {
     setUser(newUser);
     SessionStorageManager().setItem(KEYS.KEY_USER, newUser);
   };
-  // update token
+
+  /**
+   * Update the authentication token.
+   * @param {string} newToken - The new authentication token.
+   */
   const updateToken = (newToken) => {
     setToken(newToken);
     setCookie(KEYS.KEY_TOKEN, newToken);
   };
 
-  // logout ==> remove user and token
+  /**
+   * Log out the user.
+   */
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -49,7 +71,6 @@ export const UserProvider = ({ children }) => {
   const contextValue = useMemo(() => ({
     user,
     updateUser,
-    token,
     updateToken,
     logout
   }), [user, token]);
@@ -59,7 +80,15 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
-  };
+};
 
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+
+/**
+ * Hook for accessing the UserContext.
+ * @returns {UserContextType} The UserContext object.
+ */
 export const useUser = () => useContext(UserContext);
-

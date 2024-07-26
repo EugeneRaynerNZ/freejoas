@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { CookieInstance } from './utils/CookieContext';
 import {Environment} from './utils/config';
 
 // const URL = 'http://localhost:4000/api/v1';
@@ -17,11 +16,9 @@ axiosInstance.interceptors.request.use(
   // Add a request interceptor
   async (axiosConfig) => {
     // Get the token from the cookie
-    const token = CookieInstance.getCookie('token');  
-    if (token) {
-      // Set the Authorization header
-      axiosConfig.headers.Authorization = `Bearer ${token}`;
-    }
+
+    // Set the Authorization header
+    axiosConfig.headers.Authorization = `Bearer `;
     return axiosConfig;
   },
   (error) => {

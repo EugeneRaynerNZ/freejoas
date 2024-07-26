@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../App.scss';
 import axios from '../../axios';
-import Navigation from "../../Navigation";
+import Navigation from "../../components/Navigation";
 import ImageUpload from "../../components/UploadImage";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from '../../components/LoadingAnimation';

@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import Router from "./components/Router";
-import { CookieProvider } from './utils/CookieContext';
-import { AppProvider } from "./utils/AppContext";
+import { CookieProvider } from './contexts/CookieContext';
+import AppProvider from './contexts/AppProvider';
 import './Reset.css';
 
 function App() {

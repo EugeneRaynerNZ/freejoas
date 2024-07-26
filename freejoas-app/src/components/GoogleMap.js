@@ -9,8 +9,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import {Environment} from "../utils/config";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import { useUserLocation, useSelectedItem } from "../utils/AppContext";
-
+import { useUserLocation } from "../contexts/UserLocationContext";
+import { useSelectedFreejoa } from "../contexts/SelectedFreejoaContext";
 
 const useCenterMap = (center, zoom) => {
   const map = useMap("freejoaMap");
@@ -26,6 +26,7 @@ const useCenterMap = (center, zoom) => {
 
   return map;
 };
+
 
 // export my map that receives a range of filter
 export const MyMapRange = ({ range }) => {
@@ -51,15 +52,18 @@ export const MyMapRange = ({ range }) => {
 
   return null;
 };
-
 MyMapRange.propTypes = {
   range: PropTypes.number,
 };
 
+
+
+
+
 const MapContainer = ({ markerData , range }) => {
 
   const { userLocation } = useUserLocation();
-  const { selectedItem, setSelectedItem } = useSelectedItem();
+  const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa();
 
 
   const containerStyle = {
@@ -72,11 +76,11 @@ const MapContainer = ({ markerData , range }) => {
   };
 
   const handleMarkerClick = (point) => {
-    setSelectedItem(point);
+    setSelectedFreejoa(point);
   };
 
   const handleInfoWindowClose = () => {
-    setSelectedItem(null);
+    setSelectedFreejoa(null);
   };
 
   useEffect(()=>{
@@ -123,15 +127,15 @@ const MapContainer = ({ markerData , range }) => {
             return null;
           })}
 
-          {selectedItem && (
+          {selectedFreejoa && (
             <>
               {/* This is the map that will recenter to the selected marker */}
               <MyMapRange range={range} />
 
               <InfoWindow
                 position={{
-                  lat: parseFloat(selectedItem.latitude),
-                  lng: parseFloat(selectedItem.longitude),
+                  lat: parseFloat(selectedFreejoa.latitude),
+                  lng: parseFloat(selectedFreejoa.longitude),
                 }}
                 onCloseClick={()=>{handleInfoWindowClose()}}
               >
@@ -144,10 +148,10 @@ const MapContainer = ({ markerData , range }) => {
                 >
                   <img
                     style={{ width: "150px" }}
-                    src={selectedItem.image[0].data}
+                    src={selectedFreejoa.image[0].data}
                     alt="feijoa tree"
                   />
-                  <h2>{selectedItem.title}</h2>
+                  <h2>{selectedFreejoa.title}</h2>
                   {/* <p>{selectedMarker.latitude}</p>
                 <p>{selectedMarker.longitude}</p> */}
                 </div>
@@ -159,7 +163,6 @@ const MapContainer = ({ markerData , range }) => {
     </APIProvider>
   );
 };
-
 MapContainer.propTypes = {
   markerData: PropTypes.array,
   range: PropTypes.number,
