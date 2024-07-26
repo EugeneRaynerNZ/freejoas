@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { CookieInstance } from './utils/CookieContext';
-import config from './utils/config';
+import {Environment} from './utils/config';
 
 // const URL = 'http://localhost:4000/api/v1';
-const URL = config.REACT_APP_BACKEND_URL;
+const URL = Environment.REACT_APP_BACKEND_URL;
 
 const axiosInstance = axios.create({
   baseURL: URL,

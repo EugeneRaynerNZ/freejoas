@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ApiService from "./ApiService";
+import SessionStorageManager, {FREEJOAS} from "./SessionStorageManager";
+import { CookieInstance } from "./CookieContext";
 
 // user context
 const UserContext = createContext();
@@ -27,6 +29,9 @@ export const AppProvider = ({ children }) => {
   const [freejoasData, setFreejoasData] = useState([]);
   const [serverLoading, setServerLoading] = useState(false);
 
+  /**
+   *  fetch freejoas data from the server
+   */
   const fetchFreejoasData = async () => {
     // loading state to true
     setServerLoading(true);
@@ -42,6 +47,10 @@ export const AppProvider = ({ children }) => {
         return;
       }
       setFreejoasData(response.data.data);
+      console.log("Data has been fetched from the server:");
+      console.log(response.data.data);
+
+      return response.data.data;
     } catch (error) {
       console.error(error);
     }finally{
@@ -52,11 +61,32 @@ export const AppProvider = ({ children }) => {
   }
 
   /**
+   *  load freejoas data from the session storage
+   */
+  const loadFreejoasData = async () => {
+    const cachedData = SessionStorageManager().getItem(FREEJOAS);
+    console.log("Cached data: ", cachedData);
+    if (cachedData) {
+      setFreejoasData(cachedData);
+      setServerLoading(false);
+    } else {
+      const data = await fetchFreejoasData();
+      setFreejoasData(data);
+      SessionStorageManager().setItem(FREEJOAS, data);
+      setServerLoading(false);
+    }
+  };
+
+
+
+  /**
    * Fetch user data from the server
    */
   useEffect(() => {
+    console.log("AppProvider loading");
+    console.log("User: ", user);  
     if(user){
-      fetchFreejoasData();
+      loadFreejoasData();
     }
   }, [user]);
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   APIProvider,
   Map,
@@ -6,35 +7,56 @@ import {
   InfoWindow,
   useMap,
 } from "@vis.gl/react-google-maps";
-import config from "../utils/config";
+import {Environment} from "../utils/config";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { useUserLocation, useSelectedItem } from "../utils/AppContext";
 
-const MyMap = ({ point }) => {
-  // to get the map object instance
+
+const useCenterMap = (center, zoom) => {
   const map = useMap("freejoaMap");
 
   useEffect(() => {
-    if (!map) {
-      return;
+    if (map && center) {
+      map.panTo(center);
+      if (zoom) {
+        map.panTo(zoom);
+      }
     }
-    // if the map and point are available
-    if (point) {
-      // recenter the map to the selected point
-      console.log("Selected Point", point);
-      map.setCenter({
-        lat: parseFloat(point.latitude),
-        lng: parseFloat(point.longitude),
-      });
-      /**
-       *  adjust the zoom level to the selected point
-       */
-      map.setZoom(16);
-    }
-  }, [map, point]);
+  }, [map, center, zoom]);
+
+  return map;
 };
 
-const MapContainer = ({ markerData }) => {
+// export my map that receives a range of filter
+export const MyMapRange = ({ range }) => {
+
+  const { userLocation } = useUserLocation();
+  let zoom;
+
+  switch (range) {
+    case 1000:
+      zoom = 16;
+      break;
+    case 3000:
+      zoom = 14;
+      break;
+    case 5000:
+      zoom = 13;
+      break;
+    default:
+      zoom = 12;
+  }
+
+  useCenterMap(userLocation, zoom);
+
+  return null;
+};
+
+MyMapRange.propTypes = {
+  range: PropTypes.number,
+};
+
+const MapContainer = ({ markerData , range }) => {
 
   const { userLocation } = useUserLocation();
   const { selectedItem, setSelectedItem } = useSelectedItem();
@@ -57,14 +79,22 @@ const MapContainer = ({ markerData }) => {
     setSelectedItem(null);
   };
 
+  useEffect(()=>{
+    if(markerData){
+      console.log("Marker data loaded");
+    }else{
+      console.log("No marker data loaded");
+    }
+  }, [markerData]);
+
   return (
-    <APIProvider apiKey={config.REACT_APP_GOOGLE_MAPS_API_KEY}>
+    <APIProvider apiKey={Environment.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={containerStyle}>
         <Map
           id="freejoaMap"
           defaultZoom={initalCameraProps.zoom}
           defaultCenter={userLocation || initalCameraProps.center}
-          mapId={config.REACT_APP_GOOGLE_MAPS_ID}
+          mapId={Environment.REACT_APP_GOOGLE_MAPS_ID}
           disableDefaultUI={true}
           zoomControl={true}
         >
@@ -77,13 +107,13 @@ const MapContainer = ({ markerData }) => {
               <MyLocationIcon color="primary" />
             </AdvancedMarker>
           )}
-          {markerData.map((point, index) => {
+          {markerData.map((point) => {
             const lat = parseFloat(point.latitude);
             const lng = parseFloat(point.longitude);
             if (!isNaN(lat) && !isNaN(lng)) {
               return (
                 <AdvancedMarker
-                  key={index}
+                  key={point.id}
                   position={{ lat: lat, lng: lng }}
                   onClick={() => handleMarkerClick(point)}
                 />
@@ -96,7 +126,7 @@ const MapContainer = ({ markerData }) => {
           {selectedItem && (
             <>
               {/* This is the map that will recenter to the selected marker */}
-              <MyMap point={selectedItem} />
+              <MyMapRange range={range} />
 
               <InfoWindow
                 position={{
@@ -128,6 +158,11 @@ const MapContainer = ({ markerData }) => {
       </div>
     </APIProvider>
   );
+};
+
+MapContainer.propTypes = {
+  markerData: PropTypes.array,
+  range: PropTypes.number,
 };
 
 export default MapContainer;

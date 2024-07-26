@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useRecentVisited,
   useSelectedItem,
@@ -14,7 +14,9 @@ import LogoPlaceholder from "../../images/example-2.svg";
 import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
+import { MyMapRange } from "../../components/GoogleMap";
 // import Probability from '../../components/Probability';
+
 
 function PlayWithMap() {
   // global state
@@ -50,7 +52,6 @@ function PlayWithMap() {
       }
     });
   }
-
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -99,6 +100,13 @@ function PlayWithMap() {
     }
     // return the filtered data
   };
+
+  useEffect(() => {
+    console.log("Freejoas data: ", freejoasData);
+    if(freejoasData){
+      setFilteredData(freejoasData);
+    }
+  }, [freejoasData]);
 
   return (
     <section className="explore w-full main-container flex flex-col">
@@ -199,7 +207,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {filteredData.map((item) => (
+                    {freejoasData.map((item) => (
                       <li
                         key={item._id}
                         className={`location-list--item${
@@ -251,7 +259,7 @@ function PlayWithMap() {
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={filteredData}></MapContainer>
+                  <MapContainer markerData={freejoasData} range={currentFilter} ></MapContainer>
                 </div>
               </>
             )}
