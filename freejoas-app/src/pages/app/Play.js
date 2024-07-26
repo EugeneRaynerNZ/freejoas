@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFreejoasData } from "../../contexts/FreejoasDataContext";
 import { useUserLocation } from "../../contexts/UserLocationContext";
 import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
-
+import Logger from "../../utils/Logger";
 import "../../App.scss";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
@@ -11,20 +11,46 @@ import LogoPlaceholder from "../../images/example-2.svg";
 import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
+import ApiService from "../../services/ApiService";
 // import Probability from '../../components/Probability';
 
 
 function PlayWithMap() {
   // global state
   const { userLocation } = useUserLocation(); // get the user location from the context
-  const { freejoasData } = useFreejoasData(); // get the freejoas data from the context
+  const { freejoasData ,updateFreejoasData } = useFreejoasData(); // get the freejoas data from the context
   const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
   const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
  
   // local state
-  const [serverLoading, setServerLoading] = useState(false); // loading state
+  const [loading, setLoading] = useState(false); // loading state
   const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
   const [currentFilter, setCurrentFilter] = useState(null); // filter state
+
+  const fetchDataFromAPI = async () => {
+    setLoading(true);
+    try {
+      const response = await ApiService.fetchFreejoasData();
+      Logger.info("fetchFreejoasData response: ", response);
+      if(response.status === 200){
+        Logger.info("Freejoas data fetched successfully");
+        updateFreejoasData(response.data.data);
+      }
+      Logger.info("Freejoas data: ", freejoasData);
+    } catch (error) {
+      Logger.error("Error fetching Freejoas data:", error);
+    }finally{
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    Logger.info("Loading cached data...");
+    if(freejoasData.length === 0){
+      Logger.info("Fetching data from API...");
+      fetchDataFromAPI();
+    }
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -39,24 +65,24 @@ function PlayWithMap() {
   }
 
   const handleSync = () => {
-    console.log("Syncing data");
-    // fetchData();
+    Logger.info("Syncing data from API...");
+    fetchDataFromAPI();
   };
 
   const handleDistanceFilter = (maxDistance) => {
     // filter the data based on the distance
-    console.log("Filtering data");
 
     // if the current filter is the same as the one user clicked, remove the filter
     if (currentFilter === maxDistance) {
       // remove the filter
       setFilteredData(freejoasData);
       setCurrentFilter(null);
-      console.log("filter state removed");
+      Logger.info("Filter removed");
       return;
     }
 
     if (userLocation) {
+      Logger.info("Filtering data based on distance: ", maxDistance);
       const filteredData = filterPointsByDistance(
         userLocation,
         freejoasData,
@@ -65,10 +91,11 @@ function PlayWithMap() {
 
       setFilteredData(filteredData);
       setCurrentFilter(maxDistance);
-      console.log("Filtered data: ", filteredData);
-      console.log("Current filter: ", maxDistance);
+      Logger.info("Data filtered successfully");
+      Logger.info("Filtered data: ", filteredData);
+      return;
     }
-    // return the filtered data
+    Logger.warning("User location is not available");
   };
 
 
@@ -95,7 +122,7 @@ function PlayWithMap() {
             }
           </div>
           <div style={{ height: "100%" }}>
-            {serverLoading ? (
+            {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
               <div className="flex flex-col items-center gap-4 justify-center w-full">
                 <svg
@@ -171,7 +198,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {freejoasData.map((item) => (
+                    {freejoasData.length > 0 && freejoasData.map((item) => (
                       <li
                         key={item._id}
                         className={`location-list--item${

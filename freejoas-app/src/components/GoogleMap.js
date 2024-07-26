@@ -92,7 +92,10 @@ const MapContainer = ({ markerData , range }) => {
   }, [markerData]);
 
   return (
-    <APIProvider apiKey={Environment.REACT_APP_GOOGLE_MAPS_API_KEY}>
+    <APIProvider 
+    apiKey=""
+    // apiKey={Environment.REACT_APP_GOOGLE_MAPS_API_KEY}
+    >
       <div style={containerStyle}>
         <Map
           id="freejoaMap"
@@ -111,6 +114,10 @@ const MapContainer = ({ markerData , range }) => {
               <MyLocationIcon color="primary" />
             </AdvancedMarker>
           )}
+
+          {/*
+            *  These are the markers that will be displayed on the map 
+           */}
           {markerData.map((point) => {
             const lat = parseFloat(point.latitude);
             const lng = parseFloat(point.longitude);

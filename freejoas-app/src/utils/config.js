@@ -1,5 +1,6 @@
 
 const Environment = {
+    REACT_APP_NODE_ENV: process.env.REACT_APP_NODE_ENV,
    // google map related
    REACT_APP_GOOGLE_MAPS_API_KEY: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
    REACT_APP_GOOGLE_MAPS_ID: process.env.REACT_APP_GOOGLE_MAPS_ID,

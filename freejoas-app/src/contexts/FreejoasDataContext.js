@@ -46,6 +46,7 @@ export const FreejoasDataProvider = ({ children }) => {
 
   // Update data and sync with SessionStorage
   const updateFreejoasData = (newData) => {
+    console.log("Updating Freejoas data:", newData);
     setFreejoasData(newData);
     SessionStorageManager().setItem(KEYS.KEY_FREEJOAS, newData);
   };
