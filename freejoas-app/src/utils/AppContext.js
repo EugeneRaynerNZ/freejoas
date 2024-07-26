@@ -51,6 +51,9 @@ export const AppProvider = ({ children }) => {
 
   }
 
+  /**
+   * Fetch user data from the server
+   */
   useEffect(() => {
     if(user){
       fetchFreejoasData();

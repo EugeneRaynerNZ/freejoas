@@ -17,14 +17,16 @@ import useDistance from "../../utils/DistanceFilter";
 // import Probability from '../../components/Probability';
 
 function PlayWithMap() {
-  const {serverLoading } = useServerLoading(); // get the server loading state from the context
-  const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
-  const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
+  // global state
+  const { serverLoading } = useServerLoading(); // get the server loading state from the context
   const { userLocation } = useUserLocation(); // get the user location from the context
-  const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
   const { freejoasData } = useFreejoasData(); // get the freejoas data from the context
+  const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
+  const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
+  const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
  
-  // const [filteredData, setFilteredData] = useState(data); // filtered data based on the distance
+  // local state
+  const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
   const [currentFilter, setCurrentFilter] = useState(null); // filter state
 
   function handleRecentVisited(item) {
@@ -77,7 +79,7 @@ function PlayWithMap() {
     // if the current filter is the same as the one user clicked, remove the filter
     if (currentFilter === maxDistance) {
       // remove the filter
-      // setFilteredData(data);
+      setFilteredData(freejoasData);
       setCurrentFilter(null);
       console.log("filter state removed");
       return;
@@ -90,7 +92,7 @@ function PlayWithMap() {
         maxDistance
       );
 
-      // setFilteredData(filteredData);
+      setFilteredData(filteredData);
       setCurrentFilter(maxDistance);
       console.log("Filtered data: ", filteredData);
       console.log("Current filter: ", maxDistance);
@@ -169,13 +171,13 @@ function PlayWithMap() {
                       style={{
                         cursor: "pointer",
                         backgroundColor:
-                          currentFilter === 1200 ? "#69E0AE" : "",
+                          currentFilter === 3000 ? "#69E0AE" : "",
                       }}
                       onClick={() => {
-                        handleDistanceFilter(1200);
+                        handleDistanceFilter(3000);
                       }}
                     >
-                      Under 1.2 km
+                      Under 3 km
                     </div>
                     <div
                       className="filter"
@@ -197,7 +199,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {freejoasData.map((item) => (
+                    {filteredData.map((item) => (
                       <li
                         key={item._id}
                         className={`location-list--item${
@@ -249,7 +251,7 @@ function PlayWithMap() {
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={freejoasData}></MapContainer>
+                  <MapContainer markerData={filteredData}></MapContainer>
                 </div>
               </>
             )}
