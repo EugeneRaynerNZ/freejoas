@@ -152,7 +152,7 @@ function PlayWithMap() {
 
                   <h2>Filters</h2>
                   <div className="filters">
-                    <div
+                    <button
                       className="filter"
                       style={{
                         cursor: "pointer",
@@ -164,8 +164,8 @@ function PlayWithMap() {
                       }}
                     >
                       Under 1 km
-                    </div>
-                    <div
+                    </button>
+                    <button
                       className="filter"
                       style={{
                         cursor: "pointer",
@@ -177,8 +177,8 @@ function PlayWithMap() {
                       }}
                     >
                       Under 3 km
-                    </div>
-                    <div
+                    </button>
+                    <button
                       className="filter"
                       style={{
                         cursor: "pointer",
@@ -190,7 +190,7 @@ function PlayWithMap() {
                       }}
                     >
                       Under 5 km
-                    </div>
+                    </button>
                   </div>
                 </div>
 
@@ -199,7 +199,7 @@ function PlayWithMap() {
 
                   <ul className="location-list">
                     {freejoasData.length > 0 && freejoasData.map((item) => (
-                      <li
+                      <button
                         key={item._id}
                         className={`location-list--item${
                           selectedFreejoa && item._id === selectedFreejoa._id
@@ -245,12 +245,12 @@ function PlayWithMap() {
                           <em>Visited on 28/02/2024</em>
                         </div> */}
                         </div>
-                      </li>
+                      </button>
                     ))}
                   </ul>
 
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={freejoasData} range={currentFilter} ></MapContainer>
+                  <MapContainer markerData={freejoasData} ></MapContainer>
                 </div>
               </>
             )}
