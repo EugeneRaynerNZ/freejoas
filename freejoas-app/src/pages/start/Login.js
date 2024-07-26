@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LoadingAnimation from "../../components/LoadingAnimation";
 import { useUser } from "../../contexts/UserContext";
-import ApiService from "../../utils/ApiService";
+import ApiService from "../../services/ApiService";
 
 function Login() {
   //global state
@@ -46,8 +46,8 @@ function Login() {
     try {
       // Send a POST request to the server
       const response = await ApiService.login(inputs.email, inputs.password);
-      updateUser(response.data);
-      updateToken(response.token);
+      updateUser(response.data.data);
+      updateToken(response.data.token);
     } catch (error) {
       setErrorMessage(error.response.data.message);
       console.error(error);

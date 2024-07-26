@@ -1,6 +1,6 @@
 import axios from "axios";
 import { CookieInstance } from "../contexts/CookieContext";
-import { Environment, KEYS } from "./config";
+import { Environment, KEYS } from "../utils/config";
 
 const BASE_URL = Environment.REACT_APP_BACKEND_BASE_URL;
 const API_VERSION = 'v2';
@@ -71,7 +71,7 @@ class ApiService {
                 email: email,
                 password: password,
             });
-            return response.data;
+            return response;
         } catch (error) {
             console.error('Error during login:', error);
             throw error;
@@ -95,7 +95,7 @@ class ApiService {
                 email: email,
                 password: password,
             });
-            return response.data;
+            return response;
         } catch (error) {
             console.error('Error during registration:', error);
             throw error;
@@ -130,7 +130,7 @@ class ApiService {
     static async uploadFreejoa(freejoa) {
         try {
             const response = await this.axiosInstance.post('/freejoas', freejoa);
-            return response.data;
+            return response;
         } catch (error) {
             console.error('Error uploading Freejoa:', error);
             throw error;

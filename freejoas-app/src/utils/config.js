@@ -5,7 +5,7 @@ const Environment = {
    REACT_APP_GOOGLE_MAPS_ID: process.env.REACT_APP_GOOGLE_MAPS_ID,
 
    // backend related
-   REACT_APP_BACKEND_URL: process.env.REACT_APP_BACKEND_URL,
+   REACT_APP_BACKEND_BASE_URL: process.env.REACT_APP_BACKEND_BASE_URL,
 }
 
 const KEYS ={

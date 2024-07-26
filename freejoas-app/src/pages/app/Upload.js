@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import '../../App.scss';
-import axios from '../../axios';
 import Navigation from "../../components/Navigation";
 import ImageUpload from "../../components/UploadImage";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from '../../components/LoadingAnimation';
-
+import ApiService from '../../services/ApiService';
 
 function Upload() {
 
@@ -21,9 +20,8 @@ function Upload() {
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
     };
 
-    function handleClick() {
+    const handleClick = async () => {
         const { latitude, longitude, amount, title } = inputs;
-
         if (latitude && longitude && amount && title && base64Image) {
             setLoading(true);
             const freejoa = {
@@ -33,26 +31,21 @@ function Upload() {
                 title,
                 image: { data: base64Image }
             }
-            axios.post('/freejoa/upload', freejoa).then(() => {
-                setInputs({
-                    latitude: '',
-                    longitude: '',
-                    amount: '',
-                    title: '',
-                    image: ''
-                });
-                navigate("/play");
-            }).catch(error => {
-                // if the error is 403, the user is not an admin
-                if (error.response.status === 403)
-                    {
-                        setAdmin(() => (false));
-                    }
+
+            try{
+                // Send a POST request to the server
+                const response = await ApiService.uploadFreejoa(freejoa);
+                console.log(response);
+                if (error.response.status === 403){
+                    setAdmin(false);
+                }
+                navigate('/play');
+            }catch(error){
                 console.error(error);
-            }).finally(() => {
-                // stop the loading animation at the end of the request
+            }finally{
                 setLoading(false);
-            });
+            }
+
         } else {
             setErrors({
                 latitude: !latitude ? 'Please enter your latitude.' : '',
@@ -62,7 +55,8 @@ function Upload() {
                 image: !base64Image ? 'Please select an image.' : '',
             });
         }
-    }
+
+    };
 
     const handleImageChange = (base64Image) => {
         setBase64Image(base64Image);
