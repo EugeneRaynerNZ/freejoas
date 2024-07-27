@@ -44,6 +44,7 @@ const CustomMap = ({ markerData, filterLevel }) => {
     if (filterLevel) {
       handleFilterLevelChange(filterLevel);
     }
+    // eslint-disable-next-line
   }, [map, filterLevel]);
 
   useEffect(() => {

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, createContext, useContext, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+  useMemo,
+} from "react";
 import SessionStorageManager from "../utils/SessionStorageManager";
 import { CookieInstance } from "./CookieContext";
 import { KEYS } from "../utils/config";
@@ -38,6 +44,7 @@ export const UserProvider = ({ children }) => {
     if (savedToken) {
       setToken(savedToken);
     }
+    // eslint-disable-next-line
   }, []);
 
   /**
@@ -68,24 +75,25 @@ export const UserProvider = ({ children }) => {
     setCookie(KEYS.KEY_TOKEN, "");
   };
 
-  const contextValue = useMemo(() => ({
-    user,
-    updateUser,
-    updateToken,
-    logout
-  }), [user, token]);
+  const contextValue = useMemo(
+    () => ({
+      user,
+      updateUser,
+      updateToken,
+      logout,
+    }),
+    // eslint-disable-next-line
+    [user, token]
+  );
 
   return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
 
 UserProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
 
 /**
  * Hook for accessing the UserContext.

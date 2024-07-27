@@ -4,7 +4,7 @@
  * @param {object} options - Additional options for customizing the circle.
  * @returns {null}
  */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMap } from "@vis.gl/react-google-maps";
 import { useUserLocation } from "../../contexts/UserLocationContext";
 
@@ -32,6 +32,7 @@ const CustomCircle = ({ radius, options }) => {
         newCircle.setMap(null); // Remove the circle from the map
       }
     };
+    // eslint-disable-next-line
   }, [map]);
 
   // Update the circle when the user location, radius, or options change
