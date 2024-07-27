@@ -7,6 +7,7 @@ import { FaTree } from "react-icons/fa";
 import useDistance from "../utils/DistanceFilter";
 import { useUserLocation } from "../contexts/UserLocationContext";
 import { useSelectedFreejoa } from "../contexts/SelectedFreejoaContext";
+import Logger from "../utils/Logger";
 
 function NavigationCard() {
   // global state
@@ -23,11 +24,11 @@ function NavigationCard() {
   });
 
   useEffect(() => {
-    console.log("NavigationCard loaded");
+    Logger.info("NavigationCard Loaded");
     if (userLocation && selectedFreejoa) {
       const distance = calculateDistance(userLocation, selectedFreejoa);
       setDistance(distance);
-      console.log("distance", distance);
+      Logger.info("Distance calculated", distance);
     }
     // eslint-disable-next-line
   }, [userLocation, selectedFreejoa]);

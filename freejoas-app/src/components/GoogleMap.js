@@ -18,6 +18,8 @@ const useCenterMap = (center, zoom) => {
 
   useEffect(() => {
     if (map && center) {
+      Logger.info("Centering map to", center);
+      Logger.info("Zooming map to", zoom);
       map.panTo(center);
       if (zoom) {
         map.panTo(zoom);
@@ -58,6 +60,7 @@ const MapContainer = ({ markerData }) => {
 
   const containerStyle = {
     width: "100%",
+    height: "100%",
   };
 
   const initalCameraProps = {
@@ -72,9 +75,18 @@ const MapContainer = ({ markerData }) => {
   const handleInfoWindowClose = () => {
     setSelectedFreejoa(null);
   };
+  const selectedFreejoaCenter = selectedFreejoa
+    ? {
+        lat: parseFloat(selectedFreejoa.latitude),
+        lng: parseFloat(selectedFreejoa.longitude),
+      }
+    : null;
 
-  useEffect(()=>{
-  },[])
+  // recenter the map to the selected marker
+  useCenterMap(
+    selectedFreejoaCenter,
+    selectedFreejoa ? 18 : initalCameraProps.zoom
+  );
 
   return (
     <APIProvider
