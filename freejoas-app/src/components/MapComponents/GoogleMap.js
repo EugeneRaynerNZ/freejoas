@@ -16,7 +16,7 @@ const MapContainer = ({ markerData, filterLevel }) => {
   };
 
   return (
-    <APIProvider apiKey="">
+    <APIProvider apiKey={Environment.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={containerStyle}>
         <Map
           id="freejoa-map"
