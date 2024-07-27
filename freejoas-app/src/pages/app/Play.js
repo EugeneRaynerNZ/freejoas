@@ -2,68 +2,57 @@ import React, { useEffect, useState } from "react";
 import { useFreejoasData } from "../../contexts/FreejoasDataContext";
 import { useUserLocation } from "../../contexts/UserLocationContext";
 import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
+import { useMobileDetect } from "../../contexts/MobileDetectContext";
 import logger from "../../utils/Logger";
 import "../../App.scss";
 import { LuRefreshCw } from "react-icons/lu";
-import { FaTree } from "react-icons/fa";
 import Navigation from "../../components/Navigation";
-import LogoPlaceholder from "../../images/example-2.svg";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
 import ApiService from "../../services/ApiService";
-import MapContainer from "../../components/GoogleMap";
+import MapContainer from "../../components/MapComponents/GoogleMap";
+import ListView from "../../components/ListView";
 // import Probability from '../../components/Probability';
-
 
 function PlayWithMap() {
   // global state
   const { userLocation } = useUserLocation(); // get the user location from the context
-  const { freejoasData ,updateFreejoasData } = useFreejoasData(); // get the freejoas data from the context
-  const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
+  const { freejoasData, updateFreejoasData } = useFreejoasData(); // get the freejoas data from the context
+  const { selectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
   const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
- 
+  const { isMobile } = useMobileDetect(); // get the isMobile state from the context
   // local state
   const [loading, setLoading] = useState(false); // loading state
   const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
-  const [currentFilter, setCurrentFilter] = useState(null); // filter state
+  const [currentFilter, setCurrentFilter] = useState(null); // filter state: 1000m, 3000m, 5000m
+  const [isListView, setIsListView] = useState(true); // list view or map view
 
+  // fetch the data from the API
   const fetchDataFromAPI = async () => {
     setLoading(true);
     try {
       const response = await ApiService.fetchFreejoasData();
-      logger.info("fetchFreejoasData response: ", response);
-      if(response.status === 200){
+      logger.debug("fetchFreejoasData response: ", response);
+      if (response.status === 200) {
         logger.info("Freejoas data fetched successfully");
         setFilteredData(response.data.data);
         updateFreejoasData(response.data.data);
       }
-      logger.info("Freejoas data: ", freejoasData);
+      logger.debug("Freejoas data: ", freejoasData);
     } catch (error) {
       logger.error("Error fetching Freejoas data:", error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     logger.info("Loading cached data...");
-    if(!freejoasData || freejoasData.length === 0){
+    if (!freejoasData || freejoasData.length === 0) {
       logger.info("Fetching data from API...");
       fetchDataFromAPI();
     }
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  function handleSelectItem(item) {
-    setSelectedFreejoa(item);
-    scrollToTop();
-  }
 
   const handleSync = () => {
     logger.info("Syncing data from API...");
@@ -82,8 +71,10 @@ function PlayWithMap() {
       return;
     }
 
+    // if the user location is available, filter the data based on the distance
     if (userLocation) {
       logger.debug("Filtering data based on distance: ", maxDistance);
+      // call the filter function
       const filteredData = filterPointsByDistance(
         userLocation,
         freejoasData,
@@ -99,10 +90,8 @@ function PlayWithMap() {
     logger.warning("User location is not available");
   };
 
-
   return (
     <section className="explore w-full main-container flex flex-col">
-      {/* <div className="logout-button">Logout</div> */}
       <div className="main-container--top flex flex-col">
         <div className="flex flex-col gap-8 w-full">
           <p className="page-title">Explore</p>
@@ -113,7 +102,7 @@ function PlayWithMap() {
             {
               // check all the props are available before rendering the NavigationCard component
               // might need a notification to tell user that location access is required
-              selectedFreejoa && userLocation && (
+              isMobile && selectedFreejoa && userLocation && (
                 /**
                  *  When a freejoa has been selected, show the navigation arrow.
                  *  this feature is only available on mobile devices
@@ -145,7 +134,6 @@ function PlayWithMap() {
               </div>
             ) : (
               <>
-
                 <div className="explore-heading pb-4 pt-8">
                   <div className="flex flex-row gap-2 items-center">
                     <h1>Select a location</h1>
@@ -194,66 +182,62 @@ function PlayWithMap() {
                       Under 5 km
                     </button>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                    }}
+                  >
+                    {/* only show view buttons on mobile device */}
+                    {isMobile && (
+                      <>
+                      <button
+                      style={{
+                        cursor: "pointer",
+                        color: isListView ? "#00c5f3" : "",
+                        borderBottom: isListView ? "2px solid #00c5f3" : "",
+                      }}
+                      onClick={() => setIsListView(true)}>
+                        list view
+                      </button>
+
+                      <button
+                       style={{
+                        cursor: "pointer",
+                        color: !isListView ? "#00c5f3" : "",
+                        borderBottom: !isListView ? "2px solid #00c5f3" : "",
+                      }}
+                      onClick={() => setIsListView(false)}>
+                        map view
+                      </button>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 <div className="explore-container">
-                  {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
-
-                  <ul className="location-list">
-                    {filteredData.length > 0 && filteredData.map((item) => (
-                      <button
-                        key={item._id}
-                        className={`location-list--item${
-                          selectedFreejoa && item._id === selectedFreejoa._id
-                            ? " active-list—item"
-                            : ""
-                        }`}
-                        onClick={() => handleSelectItem(item)}
-                      >
-                        {item.image ? (
-                          <div
-                            className="location-list--item-image"
-                            style={{
-                              backgroundImage: `url(${item.image[0].data})`,
-                              backgroundSize: "cover",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                            }}
-                          ></div>
-                        ) : (
-                          <div
-                            className="location-list--item-image"
-                            style={{
-                              backgroundImage: `url(${LogoPlaceholder})`,
-                              backgroundSize: "cover",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                            }}
-                          ></div>
-                        )}
-                        <div className="location-list--item-container">
-                          <div className="location-list--item-filter">
-                            {/* <span>Under 1 km</span> */}
-                            <div className="location-list--item-tree">
-                              <span>{item.amount}</span>
-                              <FaTree />
-                            </div>
-                          </div>
-                          <span className="location-list--item-title">
-                            {item.title}
-                          </span>
-                          {/* <Probability text="High Probability" type="high" />
-                        <div className="location-list--item-visited">
-                          <em>Visited on 28/02/2024</em>
-                        </div> */}
-                        </div>
-                      </button>
-                    ))}
-                  </ul>
-                  {/* <MapContainer /> */}
-                  {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={filteredData} filterLevel={currentFilter}/>
-
+                  {isMobile ? (
+                    <>
+                      {isListView ? (
+                        <ListView data={filteredData} />
+                      ) : (
+                        <MapContainer
+                          markerData={filteredData}
+                          filterLevel={currentFilter}
+                        />
+                      )}
+                    </>
+                  ):
+                  (
+                    <>
+                    <ListView data={filteredData} />
+                    <MapContainer
+                          markerData={filteredData}
+                          filterLevel={currentFilter}
+                        />
+                    </>
+                  )
+                  }
                 </div>
               </>
             )}

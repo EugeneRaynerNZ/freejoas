@@ -1,20 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  APIProvider,
-  Map,
-  AdvancedMarker,
-  InfoWindow,
-  useMap,
-} from "@vis.gl/react-google-maps";
-import { Environment } from "../utils/config";
+import { AdvancedMarker, InfoWindow, useMap } from "@vis.gl/react-google-maps";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-import { useUserLocation } from "../contexts/UserLocationContext";
-import { useSelectedFreejoa } from "../contexts/SelectedFreejoaContext";
-import logger from "../utils/Logger";
-import CustomCircle from "./MapComponents/CustomCircle";
+import { useUserLocation } from "../../contexts/UserLocationContext";
+import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
+import logger from "../../utils/Logger";
+import CustomCircle from "./CustomCircle";
 
-const MyMap = ({ markerData, filterLevel }) => {
+const CustomMap = ({ markerData, filterLevel }) => {
   const map = useMap("freejoa-map");
   const { userLocation } = useUserLocation();
   const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa();
@@ -138,7 +131,7 @@ const MyMap = ({ markerData, filterLevel }) => {
             />
             <h2>{selectedFreejoa.title}</h2>
             {/* <p>{selectedMarker.latitude}</p>
-                <p>{selectedMarker.longitude}</p> */}
+                  <p>{selectedMarker.longitude}</p> */}
           </div>
         </InfoWindow>
       )}
@@ -146,36 +139,7 @@ const MyMap = ({ markerData, filterLevel }) => {
   );
 };
 
-const MapContainer = ({ markerData, filterLevel }) => {
-  const containerStyle = {
-    width: "100%",
-    height: "100%",
-  };
-
-  const initalCameraProps = {
-    center: { lat: -36.848461, lng: 174.763336 }, // Auckland City
-    zoom: 12, // default zoom level, New Zealand
-  };
-
-  return (
-    <APIProvider apiKey="">
-      <div style={containerStyle}>
-        <Map
-          id="freejoa-map"
-          defaultZoom={initalCameraProps.zoom}
-          defaultCenter={initalCameraProps.center}
-          mapId={Environment.REACT_APP_GOOGLE_MAPS_ID}
-          disableDefaultUI={true}
-          zoomControl={true}
-        >
-          <MyMap markerData={markerData} filterLevel={filterLevel} />
-        </Map>
-      </div>
-    </APIProvider>
-  );
-};
-
-MapContainer.propTypes = {
+CustomMap.propTypes = {
   markerData: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -189,8 +153,7 @@ MapContainer.propTypes = {
       title: PropTypes.string.isRequired,
     })
   ).isRequired,
+  filterLevel: PropTypes.string.isRequired,
 };
 
-MyMap.propTypes = MapContainer.propTypes;
-
-export default MapContainer;
+export default CustomMap;

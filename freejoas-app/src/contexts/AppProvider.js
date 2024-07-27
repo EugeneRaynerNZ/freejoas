@@ -13,6 +13,7 @@ import { UserLocationProvider } from "./UserLocationContext";
 import { SelectedFreejoaProvider } from "./SelectedFreejoaContext";
 import { FreejoasDataProvider } from "./FreejoasDataContext";
 import { RecentViewedProvider } from "./RecentViewedContext";
+import { MobileDetectProvider } from "./MobileDetectContext";
 
 
 
@@ -23,7 +24,9 @@ const AppProvider = ({ children }) => {
         <SelectedFreejoaProvider>
           <FreejoasDataProvider>
             <RecentViewedProvider>
+              <MobileDetectProvider>
                 {children}
+              </MobileDetectProvider>
             </RecentViewedProvider>
           </FreejoasDataProvider>
         </SelectedFreejoaProvider>
