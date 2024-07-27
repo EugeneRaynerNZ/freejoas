@@ -1,6 +1,7 @@
 import axios from "axios";
 import { CookieInstance } from "../contexts/CookieContext";
 import { Environment, KEYS } from "../utils/config";
+import logger from "../utils/Logger";
 
 const BASE_URL = Environment.REACT_APP_BACKEND_BASE_URL;
 const API_VERSION = 'v2';
@@ -53,7 +54,7 @@ class ApiService {
             const response = await this.axiosInstance.get('/freejoas');
             return response;
         } catch (error) {
-            console.error('Error fetching Freejoas data:', error);
+            logger.error('Error fetching Freejoas data:', error);
             throw error;
         }
     }
@@ -73,7 +74,7 @@ class ApiService {
             });
             return response;
         } catch (error) {
-            console.error('Error during login:', error);
+            logger.error('Error during login:', error);
             throw error;
         }
     }
@@ -97,7 +98,7 @@ class ApiService {
             });
             return response;
         } catch (error) {
-            console.error('Error during registration:', error);
+            logger.error('Error during registration:', error);
             throw error;
         }
     }
@@ -114,9 +115,9 @@ class ApiService {
                 email: email,
                 username: username,
             });
-            console.log('Verification email sent');
+            logger.info('Verification email sent');
         } catch (error) {
-            console.error('Error sending verification email:', error);
+            logger.error('Error sending verification email:', error);
             throw error;
         }
     }
@@ -132,7 +133,7 @@ class ApiService {
             const response = await this.axiosInstance.post('/freejoas', freejoa);
             return response;
         } catch (error) {
-            console.error('Error uploading Freejoa:', error);
+            logger.error('Error uploading Freejoa:', error);
             throw error;
         }
     }

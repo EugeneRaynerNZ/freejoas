@@ -8,6 +8,7 @@ import React, {
 import SessionStorageManager from "../utils/SessionStorageManager";
 import { KEYS } from "../utils/config";
 import PropTypes from "prop-types";
+import logger from "../utils/Logger";
 
 /**
  * Context for providing data and functionality related to Freejoas.
@@ -46,7 +47,7 @@ export const FreejoasDataProvider = ({ children }) => {
 
   // Update data and sync with SessionStorage
   const updateFreejoasData = (newData) => {
-    console.log("Updating Freejoas data:", newData);
+    logger.log("Updating Freejoas data:", newData);
     setFreejoasData(newData);
     SessionStorageManager().setItem(KEYS.KEY_FREEJOAS, newData);
   };

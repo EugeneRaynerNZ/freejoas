@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import imageCompression from 'browser-image-compression';
+import logger from '../utils/Logger';
 
 function UploadImage({ onImageChange }) {
     const [previewUrl, setPreviewUrl] = useState(null);
@@ -19,7 +20,7 @@ function UploadImage({ onImageChange }) {
                 };
                 reader.readAsDataURL(compressedFile);
             } catch (error) {
-                console.error('Error compressing image:', error);
+                logger.error('Error compressing image:', error);
                 alert('Error compressing image.');
             }
         } else {

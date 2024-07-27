@@ -1,3 +1,5 @@
+import logger from "./Logger";
+
 function SessionStorageManager() {
     // set item in session storage
     const setItem = (key, value) => {
@@ -11,7 +13,7 @@ function SessionStorageManager() {
             const serializedValue = JSON.stringify(value);
             sessionStorage.setItem(key, serializedValue);
         } catch (error) {
-            console.error(`Error saving ${key} to sessionStorage`, error);
+            logger.error(`Error saving ${key} to sessionStorage`, error);
         }
     }
 
@@ -26,7 +28,7 @@ function SessionStorageManager() {
             // parse value if it is an object
             return JSON.parse(value);
         } catch (error) {
-            console.error(`Error getting ${key} from sessionStorage`, error);
+            logger.error(`Error getting ${key} from sessionStorage`, error);
         }
     }
 
@@ -35,7 +37,7 @@ function SessionStorageManager() {
         try {
             sessionStorage.removeItem(key);
         } catch (error) {
-            console.error(`Error removing ${key} from sessionStorage`, error);
+            logger.error(`Error removing ${key} from sessionStorage`, error);
         }
     }
 
@@ -44,7 +46,7 @@ function SessionStorageManager() {
         try {
             sessionStorage.clear();
         } catch (error) {
-            console.error('Error clearing sessionStorage', error);
+            logger.error('Error clearing sessionStorage', error);
         }
     }
 

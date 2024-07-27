@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import logger from "./Logger";
 
 // conver the distance from km to meters, then round it to the nearest meter
 const convertDistanceToMeters = (distance) => Math.round(distance * 1000);
@@ -30,7 +31,7 @@ const useDistance = () => {
   // calculate the distance between two points
   const calculateDistance = useCallback((userLocation, itemLocation) => {
     if (!userLocation || !itemLocation) {
-      console.log("need two points to calculate distance");
+      logger.error("need two points to calculate distance");
       return -1;
     }
 
@@ -47,7 +48,7 @@ const useDistance = () => {
     (userLocation, itemLocations, maxDistance) => {
       // check if all the params are provided
       if (!userLocation || !itemLocations || !maxDistance) {
-        console.log(
+        logger.error(
           "need user location, points and max distance to filter points"
         );
         return [];
@@ -55,7 +56,7 @@ const useDistance = () => {
 
       // check if the itemLocations an array
       if (Array.isArray(itemLocations)) {
-        console.log("itemLocations is an array");
+        logger.debug("itemLocations is an array");
         // filter the points by distance and return the points that are within the max distance
         return itemLocations.filter((itemLocation) => {
           const distance = haversineDistance(
@@ -64,12 +65,12 @@ const useDistance = () => {
             itemLocation.latitude,
             itemLocation.longitude
           );
-          console.log("distance", distance);
-          console.log("maxDistance", maxDistance);
+          logger.debug("distance", distance);
+          logger.debug("maxDistance", maxDistance);
           return distance <= maxDistance;
         });
       } else {
-        console.log("itemLocations is an object");
+        logger.debug("itemLocations is an object");
         // check if the itemLocations is an object
         if (!itemLocations) return [];
         const distance = haversineDistance(

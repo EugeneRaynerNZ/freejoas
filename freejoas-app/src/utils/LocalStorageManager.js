@@ -1,3 +1,5 @@
+import logger from "./Logger";
+
 // localStorageManager.js
 const KEY_USER = 'users';
 const KEY_FREEJOA = 'freejoas';
@@ -20,7 +22,7 @@ const LocalStorageManager = {
         // save the user data
         localStorage.setItem(userId, JSON.stringify(userData));
     }catch(error){
-      console.error('Error saving userData to localStorage:', error);
+      logger.error('Error saving userData to localStorage:', error);
     }
 
   },
@@ -32,7 +34,7 @@ const LocalStorageManager = {
         // get the data from the user data
         return userData[dataKey];
     }catch(error){
-      console.error('Error getting userData from localStorage:', error);
+      logger.error('Error getting userData from localStorage:', error);
     }
   },
 
@@ -41,7 +43,7 @@ const LocalStorageManager = {
         // clear all data from localStorage
         localStorage.clear();
     }catch(error){
-      console.error('Error clearing all data from localStorage:', error);
+      logger.error('Error clearing all data from localStorage:', error);
     }
   }
  

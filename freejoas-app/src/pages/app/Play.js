@@ -52,6 +52,8 @@ function PlayWithMap() {
       logger.info("Fetching data from API...");
       fetchDataFromAPI();
     }
+    // only run this effect once
+    // eslint-disable-next-line
   }, []);
 
   const handleSync = () => {
