@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useFreejoasData } from "../../contexts/FreejoasDataContext";
 import { useUserLocation } from "../../contexts/UserLocationContext";
 import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
-import Logger from "../../utils/Logger";
+import logger from "../../utils/Logger";
 import "../../App.scss";
 import { LuRefreshCw } from "react-icons/lu";
 import { FaTree } from "react-icons/fa";
 import Navigation from "../../components/Navigation";
 import LogoPlaceholder from "../../images/example-2.svg";
-import MapContainer from "../../components/GoogleMap";
 import NavigationCard from "../../components/NavigationCard";
 import useDistance from "../../utils/DistanceFilter";
 import ApiService from "../../services/ApiService";
+import MapContainer from "../../components/GoogleMap";
 // import Probability from '../../components/Probability';
 
 
@@ -31,23 +31,24 @@ function PlayWithMap() {
     setLoading(true);
     try {
       const response = await ApiService.fetchFreejoasData();
-      Logger.info("fetchFreejoasData response: ", response);
+      logger.info("fetchFreejoasData response: ", response);
       if(response.status === 200){
-        Logger.info("Freejoas data fetched successfully");
+        logger.info("Freejoas data fetched successfully");
+        setFilteredData(response.data.data);
         updateFreejoasData(response.data.data);
       }
-      Logger.info("Freejoas data: ", freejoasData);
+      logger.info("Freejoas data: ", freejoasData);
     } catch (error) {
-      Logger.error("Error fetching Freejoas data:", error);
+      logger.error("Error fetching Freejoas data:", error);
     }finally{
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    Logger.info("Loading cached data...");
-    if(freejoasData.length === 0){
-      Logger.info("Fetching data from API...");
+    logger.info("Loading cached data...");
+    if(!freejoasData || freejoasData.length === 0){
+      logger.info("Fetching data from API...");
       fetchDataFromAPI();
     }
   }, []);
@@ -65,7 +66,7 @@ function PlayWithMap() {
   }
 
   const handleSync = () => {
-    Logger.info("Syncing data from API...");
+    logger.info("Syncing data from API...");
     fetchDataFromAPI();
   };
 
@@ -77,12 +78,12 @@ function PlayWithMap() {
       // remove the filter
       setFilteredData(freejoasData);
       setCurrentFilter(null);
-      Logger.info("Filter removed");
+      logger.debug("Filter removed");
       return;
     }
 
     if (userLocation) {
-      Logger.info("Filtering data based on distance: ", maxDistance);
+      logger.debug("Filtering data based on distance: ", maxDistance);
       const filteredData = filterPointsByDistance(
         userLocation,
         freejoasData,
@@ -91,11 +92,11 @@ function PlayWithMap() {
 
       setFilteredData(filteredData);
       setCurrentFilter(maxDistance);
-      Logger.info("Data filtered successfully");
-      Logger.info("Filtered data: ", filteredData);
+      logger.info("Data filtered successfully");
+      logger.debug("Filtered data: ", filteredData);
       return;
     }
-    Logger.warning("User location is not available");
+    logger.warning("User location is not available");
   };
 
 
@@ -144,6 +145,7 @@ function PlayWithMap() {
               </div>
             ) : (
               <>
+
                 <div className="explore-heading pb-4 pt-8">
                   <div className="flex flex-row gap-2 items-center">
                     <h1>Select a location</h1>
@@ -198,7 +200,7 @@ function PlayWithMap() {
                   {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
 
                   <ul className="location-list">
-                    {freejoasData.length > 0 && freejoasData.map((item) => (
+                    {filteredData.length > 0 && filteredData.map((item) => (
                       <button
                         key={item._id}
                         className={`location-list--item${
@@ -248,9 +250,10 @@ function PlayWithMap() {
                       </button>
                     ))}
                   </ul>
-
+                  {/* <MapContainer /> */}
                   {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={freejoasData} ></MapContainer>
+                  <MapContainer markerData={filteredData} filterLevel={currentFilter}/>
+
                 </div>
               </>
             )}
