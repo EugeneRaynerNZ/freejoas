@@ -52,6 +52,7 @@ class ApiService {
     static async fetchFreejoasData() {
         try {
             const response = await this.axiosInstance.get('/freejoas');
+            logger.debug('API response:', response);
             return response;
         } catch (error) {
             logger.error('Error fetching Freejoas data:', error);

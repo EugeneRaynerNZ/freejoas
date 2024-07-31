@@ -150,11 +150,10 @@ CustomMap.propTypes = {
         PropTypes.shape({
           data: PropTypes.string.isRequired,
         })
-      ).isRequired,
-      title: PropTypes.string.isRequired,
+      ),
     })
   ).isRequired,
-  filterLevel: PropTypes.string.isRequired,
+  filterLevel: PropTypes.number,
 };
 
 export default CustomMap;

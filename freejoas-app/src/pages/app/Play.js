@@ -18,7 +18,7 @@ function PlayWithMap() {
   // global state
   const { userLocation } = useUserLocation(); // get the user location from the context
   const { freejoasData, updateFreejoasData } = useFreejoasData(); // get the freejoas data from the context
-  const { selectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
+  const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
   const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
   const { isMobile } = useMobileDetect(); // get the isMobile state from the context
   // local state
@@ -30,11 +30,12 @@ function PlayWithMap() {
   // fetch the data from the API
   const fetchDataFromAPI = async () => {
     setLoading(true);
+    setSelectedFreejoa(null);
     try {
       const response = await ApiService.fetchFreejoasData();
       logger.debug("fetchFreejoasData response: ", response);
       if (response.status === 200) {
-        logger.info("Freejoas data fetched successfully");
+        logger.debug("Freejoas data fetched successfully");
         setFilteredData(response.data.data);
         updateFreejoasData(response.data.data);
       }
