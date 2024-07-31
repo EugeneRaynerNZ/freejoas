@@ -7,7 +7,6 @@ import CustomMap from "./CustomMap";
 const MapContainer = ({ markerData, filterLevel }) => {
   const containerStyle = {
     width: "100%",
-    height: "50vh",
   };
 
   const initalCameraProps = {

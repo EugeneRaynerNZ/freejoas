@@ -491,14 +491,14 @@ form {
 .explore {
   padding: 16px;
 
-  &.main-container {
-    padding-bottom: 90px;
-  }
+  // &.main-container {
+  //   padding-bottom: 90px;
+  // }
 
   &-heading {
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
+    row-gap: 16px;
   
     h1 {
       font-size: 20px;
@@ -694,8 +694,17 @@ form {
     margin: 16px auto;
   }
 
-  .explore .standout {
-    display: none;
+  .container-size {
+    height: 100%;
+    container-type: size;
+  }
+
+  .explore {
+    height: 100vh;
+
+    .standout {
+      display: none;
+    }
   }
 
   .login {
@@ -832,8 +841,6 @@ form {
 
     .explore-container {
       flex-direction: row;
-      height: 100% !important;;
-      container-type: size;
     
       .GoogleMap {
         height: 100% !important;

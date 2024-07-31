@@ -94,12 +94,12 @@ function PlayWithMap() {
 
   return (
     <section className="explore w-full main-container flex flex-col">
-      <div className="main-container--top flex flex-col">
+      <div className="main-container--top container-size flex flex-col">
         <div className="flex flex-col gap-8 w-full">
           <p className="page-title">Explore</p>
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="container-size flex-1 flex flex-col">
           <div className="flex">
             {
               // check all the props are available before rendering the NavigationCard component
@@ -113,7 +113,7 @@ function PlayWithMap() {
               )
             }
           </div>
-          <div style={{ height: "100%" }}>
+          <div className="container-size flex flex-col">
             {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
               <div className="flex flex-col items-center gap-4 justify-center w-full">
@@ -142,52 +142,61 @@ function PlayWithMap() {
                     <LuRefreshCw onClick={handleSync} />
                   </div>
 
-                  <h2>Filters</h2>
-                  <div className="filters">
-                    <button
-                      className="filter"
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          currentFilter === 1000 ? "#69E0AE" : "",
-                      }}
-                      onClick={() => {
-                        handleDistanceFilter(1000);
-                      }}
-                    >
-                      Under 1 km
-                    </button>
-                    <button
-                      className="filter"
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          currentFilter === 3000 ? "#69E0AE" : "",
-                      }}
-                      onClick={() => {
-                        handleDistanceFilter(3000);
-                      }}
-                    >
-                      Under 3 km
-                    </button>
-                    <button
-                      className="filter"
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          currentFilter === 5000 ? "#69E0AE" : "",
-                      }}
-                      onClick={() => {
-                        handleDistanceFilter(5000);
-                      }}
-                    >
-                      Under 5 km
-                    </button>
+                  <div className="flex flex-col" style={{gap: "8px"}}>
+                    <h2>Filters</h2>
+                    <div className="filters">
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 1000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 1000 ? "#fff" : "",
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(1000);
+                        }}
+                      >
+                        Under 1 km
+                      </button>
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 3000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 3000 ? "#fff" : "",
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(3000);
+                        }}
+                      >
+                        Under 3 km
+                      </button>
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 5000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 5000 ? "#fff" : "",
+                            
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(5000);
+                        }}
+                      >
+                        Under 5 km
+                      </button>
+                    </div>
                   </div>
                   <div
                     style={{
                       display: "flex",
-                      gap: "1rem",
+                      gap: "16px",
                     }}
                   >
                     {/* only show view buttons on mobile device */}
@@ -196,28 +205,28 @@ function PlayWithMap() {
                       <button
                       style={{
                         cursor: "pointer",
-                        color: isListView ? "#00c5f3" : "",
-                        borderBottom: isListView ? "2px solid #00c5f3" : "",
+                        color: isListView ? "#0A2E36" : "",
+                        borderBottom: isListView ? "2px solid #0A2E36" : "",
                       }}
                       onClick={() => setIsListView(true)}>
-                        list view
+                        View as list
                       </button>
 
                       <button
                        style={{
                         cursor: "pointer",
-                        color: !isListView ? "#00c5f3" : "",
-                        borderBottom: !isListView ? "2px solid #00c5f3" : "",
+                        color: !isListView ? "#0A2E36" : "",
+                        borderBottom: !isListView ? "2px solid #0A2E36" : "",
                       }}
                       onClick={() => setIsListView(false)}>
-                        map view
+                        View as map
                       </button>
                       </>
                     )}
                   </div>
                 </div>
 
-                <div className="explore-container">
+                <div className="explore-container container-size">
                   {isMobile ? (
                     <>
                       {isListView ? (
