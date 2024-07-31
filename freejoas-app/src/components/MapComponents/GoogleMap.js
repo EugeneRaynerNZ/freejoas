@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { Environment } from "../../utils/config";
 import CustomMap from "./CustomMap";
+import { useUserLocation } from "../../contexts/UserLocationContext";
 
 const MapContainer = ({ markerData, filterLevel }) => {
+  const { userLocation } = useUserLocation();
   const containerStyle = {
     width: "100%",
   };
@@ -20,7 +22,7 @@ const MapContainer = ({ markerData, filterLevel }) => {
         <Map
           id="freejoa-map"
           defaultZoom={initalCameraProps.zoom}
-          defaultCenter={initalCameraProps.center}
+          defaultCenter={userLocation || initalCameraProps.center}
           mapId={Environment.REACT_APP_GOOGLE_MAPS_ID}
           disableDefaultUI={true}
           zoomControl={true}
