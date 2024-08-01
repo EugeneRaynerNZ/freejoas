@@ -9,6 +9,7 @@ import { FaTree } from "react-icons/fa";
 import LogoPlaceholder from '../../images/example-2.svg'
 import LocalStorageManager, { KEY_RECENT_VISITED } from '../../utils/LocalStorageManager';
 import { useRecentVisited, useUser } from '../../utils/AppContext';
+import logger from '../../utils/Logger';
 
 
 function Dashboard() {
@@ -34,7 +35,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    console.log("dashboard use effect");
+    logger.debug("dashboard use effect");
     if(!user){
 
       const cookieUser = getCookie(KEY_USER);
@@ -47,8 +48,8 @@ function Dashboard() {
     if (user) {
       fetchRecentVisited(user._id);
     }
-    console.log("user: ", user);
-    console.log("recentVisited: ", recentVisited);
+    logger.debug("user: ", user);
+    logger.debug("recentVisited: ", recentVisited);
     // this will run only once when the component is mounted
     // eslint-disable-next-line
   }, [user]);

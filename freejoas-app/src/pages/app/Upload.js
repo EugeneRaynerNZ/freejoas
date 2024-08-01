@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import '../../App.scss';
-import axios from '../../axios';
-import Navigation from "../../Navigation";
+import Navigation from "../../components/Navigation";
 import ImageUpload from "../../components/UploadImage";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from '../../components/LoadingAnimation';
-
+import ApiService from '../../services/ApiService';
+import { useUserLocation } from '../../contexts/UserLocationContext';
+import logger from '../../utils/Logger';
 
 function Upload() {
 
+    const { userLocation } = useUserLocation();
     const [inputs, setInputs] = useState({});
     const [errors, setErrors] = useState({});
     const [base64Image, setBase64Image] = useState('');
@@ -21,70 +23,69 @@ function Upload() {
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
     };
 
-    function handleClick() {
+    const validateInputs = () => {
         const { latitude, longitude, amount, title } = inputs;
-
-        if (latitude && longitude && amount && title && base64Image) {
+        const errors = {};
+    
+        if (!latitude) {
+            errors.latitude = 'Please enter your latitude.';
+        }
+        if (!longitude) {
+            errors.longitude = 'Please enter your longitude.';
+        }
+        if (!amount) {
+            errors.amount = 'Please enter the number of trees.';
+        }
+        if (!title) {
+            errors.title = 'Please enter the location name.';
+        }
+        if (!base64Image) {
+            errors.image = 'Please select an image.';
+        }
+    
+        return errors;
+    };
+    
+    const handleClick = async () => {
+        const errors = validateInputs();
+    
+        if (Object.keys(errors).length === 0) {
             setLoading(true);
             const freejoa = {
-                latitude,
-                longitude,
-                amount,
-                title,
+                latitude: inputs.latitude,
+                longitude: inputs.longitude,
+                amount: inputs.amount,
+                title: inputs.title,
                 image: { data: base64Image }
-            }
-            axios.post('/freejoa/upload', freejoa).then(() => {
-                setInputs({
-                    latitude: '',
-                    longitude: '',
-                    amount: '',
-                    title: '',
-                    image: ''
-                });
-                navigate("/play");
-            }).catch(error => {
-                // if the error is 403, the user is not an admin
-                if (error.response.status === 403)
-                    {
-                        setAdmin(() => (false));
-                    }
-                console.error(error);
-            }).finally(() => {
-                // stop the loading animation at the end of the request
+            };
+    
+            try {
+                // Send a POST request to the server
+                const response = await ApiService.uploadFreejoa(freejoa);
+                logger.debug("response: ", response);
+                if (response.status === 201) {
+                    setAdmin(false);
+                }
+                navigate('/play');
+            } catch (error) {
+                logger.error(error);
+            } finally {
                 setLoading(false);
-            });
+            }
         } else {
-            setErrors({
-                latitude: !latitude ? 'Please enter your latitude.' : '',
-                longitude: !longitude ? 'Please enter your longitude.' : '',
-                amount: !amount ? 'Please enter the number of trees.' : '',
-                title: !title ? 'Please enter the location name.' : '',
-                image: !base64Image ? 'Please select an image.' : '',
-            });
+            setErrors(errors);
         }
-    }
+    };
 
     const handleImageChange = (base64Image) => {
         setBase64Image(base64Image);
     };
 
-    function getCurrentLocation() {
-        if (navigator?.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            console.log("Geolocation not supported");
-        }
-    }
-
-    function success(position) {
+    const getCurrentLocation= ()=> {
         setInputs({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        });
-    }
-
-    function error() {
-        console.log("Unable to retrieve your location");
+            latitude: userLocation.lat,
+            longitude: userLocation.lng,
+        })
     }
 
     return (

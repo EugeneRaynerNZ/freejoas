@@ -1,54 +1,49 @@
 import Cookies from "js-cookie";
 
-function CookieManager() {
+class CookieManager {
 
-    const setCookie = (key, value) => {
-        //check if the value is an object
-        if (typeof value === 'object') {
-            //set the object as a JSON string
-            const jsonValue = JSON.stringify(value);
-            // console.log("json value: "+jsonValue);
-            Cookies.set(key, jsonValue);
-        } else {
-            //set the value directly if it is not an object
-            Cookies.set(key, value);
-        }
-    };
+  // Set a cookie with SameSite and other options
+  setCookie(key, value, options = {}) {
+    if (typeof value === "object") {
+      // Convert object to JSON string
+      const jsonValue = JSON.stringify(value);
+      Cookies.set(key, jsonValue, {secure: true, sameSite: 'Lax'});
+    } else {
+      Cookies.set(key, value, {secure: true, sameSite: 'Lax'});
+    }
+  }
 
-    const getCookie = (key) => {
-       const cookieValue = Cookies.get(key);
+  // Get a cookie value
+  getCookie(key) {
+    const cookieValue = Cookies.get(key);
+    if (cookieValue !== undefined && cookieValue !== null) {
+      try {
+        return JSON.parse(cookieValue); // Attempt to parse JSON string
+      } catch (error) {
+        return cookieValue; // Return as-is if not JSON
+      }
+    }
+    return undefined;
+  }
 
-       //check if the cookie value is a JSON string
-         if(cookieValue !== undefined && cookieValue !== null){
-              try {
-                //parse the JSON string to an object
-                return JSON.parse(cookieValue);
-              } catch (error) {
-                //return the value directly if it is not a JSON string
-                return cookieValue;
-              }
-         }
-         
-        return undefined;
-    };
+  // Remove a cookie
+  removeCookie(key) {
+    Cookies.remove(key);
+  }
 
-    const removeCookie = (key) => {
-        Cookies.remove(key);
-    };
+  // Logout and remove specific cookies
+  logout() {
+    this.removeCookie("token");
+    this.removeCookie("user");
+  }
 
-    const logout = () => {
-        removeCookie('token');
-        removeCookie('user');
-    };
-
-    const removeAllCookies = () => {
-        const cookies = Cookies.get();
-        for (const cookie in cookies) {
-            Cookies.remove(cookie);
-        }
-    };
-
-    return { setCookie, getCookie, removeCookie, logout, removeAllCookies};
+  // Remove all cookies
+  removeAllCookies() {
+    const cookies = Cookies.get();
+    for (const cookie in cookies) {
+      Cookies.remove(cookie);
+    }
+  }
 }
 
 export default CookieManager;

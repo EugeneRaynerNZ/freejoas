@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import '../../App.scss';
-import axios from '../../axios';
 import { NavLink, useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoadingAnimation from '../../components/LoadingAnimation';
-
+import ApiService from '../../services/ApiService';
 
 function Register() {
     const [inputs, setInputs] = useState({});
@@ -18,12 +17,9 @@ function Register() {
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
     };
 
-    const sendVerificationEmail = async (email, username) => {
+    const handleEmailVerification = async (email, username) => {
         try{
-            await axios.post('/verification/send', {
-                email: inputs.email,
-                username: inputs.first,
-            });
+            await ApiService.sendVerificationEmail(email, username);
 
             console.log('Verification email sent');
 
@@ -63,18 +59,11 @@ function Register() {
         setLoading(true);
 
         try {
-            await axios.post('/user/create', {
-                firstname: inputs.first,
-                lastname: inputs.last,
-                email: inputs.email,
-                password: inputs.password,
-            }).then(response => {
-                // if the status is 201, the user is created
-                if (response.status === 201) {
-                    // send verification email
-                    sendVerificationEmail(inputs.email, inputs.first);
-                }
-            });
+           const response = await ApiService.register(inputs.first, inputs.last, inputs.email, inputs.password);
+            if (response.status === 201) {
+                // send verification email
+                handleEmailVerification(inputs.email, inputs.first);
+            }
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setErrors(prevErrors => ({ ...prevErrors, email: 'Email address already exists.' }));

@@ -1,144 +1,111 @@
-import React, { useState, useEffect } from "react";
-import {
-  useRecentVisited,
-  useUser,
-  useSelectedItem,
-} from "../../utils/AppContext";
+import React, { useEffect, useState } from "react";
+import { useFreejoasData } from "../../contexts/FreejoasDataContext";
+import { useUserLocation } from "../../contexts/UserLocationContext";
+import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
+import { useMobileDetect } from "../../contexts/MobileDetectContext";
+import logger from "../../utils/Logger";
 import "../../App.scss";
-import axios from "../../axios";
 import { LuRefreshCw } from "react-icons/lu";
-import { FaTree } from "react-icons/fa";
-import Navigation from "../../Navigation";
-import LogoPlaceholder from "../../images/example-2.svg";
-import SessionStorageManager, {
-  FREEJOAS,
-} from "../../utils/SessionStorageManager";
-import LocalStorageManager, {
-  KEY_RECENT_VISITED,
-} from "../../utils/LocalStorageManager";
-import MapContainer from "../../components/GoogleMap";
+import Navigation from "../../components/Navigation";
 import NavigationCard from "../../components/NavigationCard";
-
+import useDistance from "../../utils/DistanceFilter";
+import ApiService from "../../services/ApiService";
+import MapContainer from "../../components/MapComponents/GoogleMap";
+import ListView from "../../components/ListView";
 // import Probability from '../../components/Probability';
 
 function PlayWithMap() {
-  const { user } = useUser(); // get the user from the context
-  const { recentVisited, setRecentVisited } = useRecentVisited(); // get the recent visited from the context
-  const { selectedItem, setSelectedItem } = useSelectedItem(); // get the selected item from the context
+  // global state
+  const { userLocation } = useUserLocation(); // get the user location from the context
+  const { freejoasData, updateFreejoasData } = useFreejoasData(); // get the freejoas data from the context
+  const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa(); // get the selected item from the context
+  const { filterPointsByDistance } = useDistance(); // get the calculate distance function from the context
+  const { isMobile } = useMobileDetect(); // get the isMobile state from the context
+  // local state
+  const [loading, setLoading] = useState(false); // loading state
+  const [filteredData, setFilteredData] = useState(null); // filtered data based on the distance
+  const [currentFilter, setCurrentFilter] = useState(null); // filter state: 1000m, 3000m, 5000m
+  const [isListView, setIsListView] = useState(true); // list view or map view
 
-  const [data, setData] = useState([]); // freejoas data from the server
-  const [loading, setLoading] = useState(true); // loading state
-
-  function handleRecentVisited(item) {
-    setRecentVisited((prevVisited) => {
-      // check if the item is already in the recent visited
-      const index = prevVisited.findIndex(
-        (visited) => visited._id === item._id
-      );
-
-      if (index !== -1) {
-        // move the current item to the top of the list
-        const updatedVisited = [
-          prevVisited[index],
-          ...prevVisited.slice(0, index),
-          ...prevVisited.slice(index + 1),
-        ];
-        return updatedVisited.slice(0, 5); // only return the first 5 items
-      } else {
-        // add the current item to the top of the list
-        return [item, ...prevVisited].slice(0, 5);
-      }
-    });
-  }
-
-  useEffect(() => {
-    if (user) {
-      LocalStorageManager.saveUserData(
-        user._id,
-        KEY_RECENT_VISITED,
-        recentVisited
-      );
-    }
-  }, [recentVisited, user]);
-
-  const fetchData = async () => {
+  // fetch the data from the API
+  const fetchDataFromAPI = async () => {
     setLoading(true);
+    setSelectedFreejoa(null);
     try {
-      await axios.get("/freejoa/all").then((response) => {
-        if (
-          response.data.data === null ||
-          response.data.data === undefined ||
-          response.data.data.length === 0
-        ) {
-          console.log("No data");
-          return;
-        }
-        setData(() => response.data.data);
-        SessionStorageManager().setItem(FREEJOAS, response.data.data);
-      });
+      const response = await ApiService.fetchFreejoasData();
+      logger.debug("fetchFreejoasData response: ", response);
+      if (response.status === 200) {
+        logger.debug("Freejoas data fetched successfully");
+        updateFreejoasData(response.data.data);
+      }
+      logger.debug("Freejoas data: ", freejoasData);
     } catch (error) {
-      console.error("Error fetching data: ", error.message);
+      logger.error("Error fetching Freejoas data:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const cachedData = SessionStorageManager().getItem(FREEJOAS);
-    if (cachedData) {
-      setData(() => cachedData);
-      setLoading(false);
-      console.log("Cached data: ");
-      return;
+    logger.info("Loading cached data...");
+    if (!freejoasData || freejoasData.length === 0) {
+      logger.info("Fetching data from API...");
+      fetchDataFromAPI();
     }
-    fetchData();
-    console.log("Fetching data: ");
+    // only run this effect once
+    // eslint-disable-next-line
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  function handleSelectItem(item) {
-    setSelectedItem(item);
-    handleRecentVisited(item);
-    console.log("Recent visited: ", recentVisited);
-
-    scrollToTop();
-  }
-
   const handleSync = () => {
-    console.log("Syncing data");
-    fetchData();
+    logger.info("Syncing data from API...");
+    fetchDataFromAPI();
   };
+
+  const handleDistanceFilter = (maxDistance) => {
+    // filter the data based on the distance
+    setCurrentFilter(maxDistance);
+    logger.debug("Filtering data by distance: ", maxDistance);
+  };
+
+  useEffect(()=>{
+    if(!currentFilter){
+      setCurrentFilter(1000);
+    }
+    if(userLocation){
+      const filteredData = filterPointsByDistance(
+        userLocation,
+        freejoasData,
+        currentFilter
+      );
+      // update the filtered data
+      setFilteredData(filteredData);
+      logger.debug("Filtered data: ", filteredData);
+    }
+    // eslint-disable-next-line
+  },[currentFilter, userLocation])
 
   return (
     <section className="explore w-full main-container flex flex-col">
-      {/* <div className="logout-button">Logout</div> */}
-      <div className="main-container--top flex flex-col">
+      <div className="main-container--top container-size flex flex-col">
         <div className="flex flex-col gap-8 w-full">
           <p className="page-title">Explore</p>
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="container-size flex-1 flex flex-col">
           <div className="flex">
-            {selectedItem ? (
-              /**
-               *  When a freejoa has been selected, show the navigation arrow.
-               *  this feature is only available on mobile devices
-               */
-              <NavigationCard />
-            ) : (
-              /**
-               * do nothing when no freejoa has been selected
-               */
-              <></>
-            )}
+            {
+              // check all the props are available before rendering the NavigationCard component
+              // might need a notification to tell user that location access is required
+              isMobile && selectedFreejoa && userLocation && (
+                /**
+                 *  When a freejoa has been selected, show the navigation arrow.
+                 *  this feature is only available on mobile devices
+                 */
+                <NavigationCard />
+              )
+            }
           </div>
-          <div style={{ height: "100%" }}>
+          <div className="container-size flex flex-col">
             {loading ? (
               // Need to make this spinner working while we are fetching the data from the server
               <div className="flex flex-col items-center gap-4 justify-center w-full">
@@ -167,67 +134,113 @@ function PlayWithMap() {
                     <LuRefreshCw onClick={handleSync} />
                   </div>
 
-                  {/* <h2>Filters</h2>
-                <div className="filters">
-                  <div className="filter">Under 1 km</div>
-                  <div className="filter">Under 3 km</div>
-                  <div className="filter">Under 5 km</div>
-                </div> */}
+                  <div className="flex flex-col" style={{gap: "8px"}}>
+                    <h2>Filters</h2>
+                    <div className="filters">
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 1000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 1000 ? "#fff" : "",
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(1000);
+                        }}
+                      >
+                        Under 1 km
+                      </button>
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 3000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 3000 ? "#fff" : "",
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(3000);
+                        }}
+                      >
+                        Under 3 km
+                      </button>
+                      <button
+                        className="filter"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            currentFilter === 5000 ? "#0A2E36" : "",
+                          color:
+                            currentFilter === 5000 ? "#fff" : "",
+                            
+                        }}
+                        onClick={() => {
+                          handleDistanceFilter(5000);
+                        }}
+                      >
+                        Under 5 km
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "16px",
+                    }}
+                  >
+                    {/* only show view buttons on mobile device */}
+                    {isMobile && (
+                      <>
+                      <button
+                      style={{
+                        cursor: "pointer",
+                        color: isListView ? "#0A2E36" : "",
+                        borderBottom: isListView ? "2px solid #0A2E36" : "",
+                      }}
+                      onClick={() => setIsListView(true)}>
+                        View as list
+                      </button>
+
+                      <button
+                       style={{
+                        cursor: "pointer",
+                        color: !isListView ? "#0A2E36" : "",
+                        borderBottom: !isListView ? "2px solid #0A2E36" : "",
+                      }}
+                      onClick={() => setIsListView(false)}>
+                        View as map
+                      </button>
+                      </>
+                    )}
+                  </div>
                 </div>
 
-                <div className="explore-container">
-                  {/* When a user clicks a location from the list on the left, the map should focus on the map marker that is the same */}
-
-                  <ul className="location-list">
-                    {data.map((item) => (
-                      <li
-                        key={item._id}
-                        className={`location-list--item${selectedItem && item._id === selectedItem._id ? ' active-list—item' : ''}`}
-                        onClick={() => handleSelectItem(item)}
-                      >
-                        {item.image ? (
-                          <div
-                            className="location-list--item-image"
-                            style={{
-                              backgroundImage: `url(${item.image[0].data})`,
-                              backgroundSize: "cover",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                            }}
-                          ></div>
-                        ) : (
-                          <div
-                            className="location-list--item-image"
-                            style={{
-                              backgroundImage: `url(${LogoPlaceholder})`,
-                              backgroundSize: "cover",
-                              backgroundRepeat: "no-repeat",
-                              backgroundPosition: "center",
-                            }}
-                          ></div>
-                        )}
-                        <div className="location-list--item-container">
-                          <div className="location-list--item-filter">
-                            {/* <span>Under 1 km</span> */}
-                            <div className="location-list--item-tree">
-                              <span>{item.amount}</span>
-                              <FaTree />
-                            </div>
-                          </div>
-                          <span className="location-list--item-title">
-                            {item.title}
-                          </span>
-                          {/* <Probability text="High Probability" type="high" />
-                        <div className="location-list--item-visited">
-                          <em>Visited on 28/02/2024</em>
-                        </div> */}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* When a user clicks a map marker, the location that is selected should highlight on the left */}
-                  <MapContainer markerData={data}></MapContainer>
+                <div className="explore-container container-size">
+                  {isMobile ? (
+                    <>
+                      {isListView ? (
+                        <ListView data={filteredData} />
+                      ) : (
+                        <MapContainer
+                          markerData={filteredData}
+                          filterLevel={currentFilter}
+                        />
+                      )}
+                    </>
+                  ):
+                  (
+                    <>
+                    <ListView data={filteredData} />
+                    <MapContainer
+                          markerData={filteredData}
+                          filterLevel={currentFilter}
+                        />
+                    </>
+                  )
+                  }
                 </div>
               </>
             )}

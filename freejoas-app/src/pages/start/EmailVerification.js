@@ -3,7 +3,7 @@ import '../../App.scss';
 import PaperPlane from '../../images/paper-plane.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
-import axios from '../../axios';
+import ApiService from '../../services/ApiService';
 
 
 function EmailVerification() {
@@ -12,12 +12,9 @@ function EmailVerification() {
   const navigate = useNavigate();
   const { email, username } = location.state || {};
 
-  const sendVerificationEmail = async (email, username) => {
+  const handleEmailVerification = async (email, username) => {
     try {
-      await axios.post('/verification/send', {
-        email: email,
-        username: username,
-      });
+      await ApiService.sendVerificationEmail(email, username);
 
       console.log('Verification email sent');
 
@@ -28,7 +25,7 @@ function EmailVerification() {
 
   const handleResend = () => {
     console.log('Resend verification email');
-    sendVerificationEmail(email, username);
+    handleEmailVerification(email, username);
     navigate('/verify-your-email', { state: { email: email, username: username } });
   };
 
