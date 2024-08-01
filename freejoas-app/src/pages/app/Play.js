@@ -23,8 +23,8 @@ function PlayWithMap() {
   const { isMobile } = useMobileDetect(); // get the isMobile state from the context
   // local state
   const [loading, setLoading] = useState(false); // loading state
-  const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
-  const [currentFilter, setCurrentFilter] = useState(1000); // filter state: 1000m, 3000m, 5000m
+  const [filteredData, setFilteredData] = useState(null); // filtered data based on the distance
+  const [currentFilter, setCurrentFilter] = useState(null); // filter state: 1000m, 3000m, 5000m
   const [isListView, setIsListView] = useState(true); // list view or map view
 
   // fetch the data from the API
@@ -36,7 +36,6 @@ function PlayWithMap() {
       logger.debug("fetchFreejoasData response: ", response);
       if (response.status === 200) {
         logger.debug("Freejoas data fetched successfully");
-        setFilteredData(response.data.data);
         updateFreejoasData(response.data.data);
       }
       logger.debug("Freejoas data: ", freejoasData);
@@ -69,6 +68,9 @@ function PlayWithMap() {
   };
 
   useEffect(()=>{
+    if(!currentFilter){
+      setCurrentFilter(1000);
+    }
     if(userLocation){
       const filteredData = filterPointsByDistance(
         userLocation,
