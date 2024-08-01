@@ -24,7 +24,7 @@ function PlayWithMap() {
   // local state
   const [loading, setLoading] = useState(false); // loading state
   const [filteredData, setFilteredData] = useState(freejoasData); // filtered data based on the distance
-  const [currentFilter, setCurrentFilter] = useState(null); // filter state: 1000m, 3000m, 5000m
+  const [currentFilter, setCurrentFilter] = useState(1000); // filter state: 1000m, 3000m, 5000m
   const [isListView, setIsListView] = useState(true); // list view or map view
 
   // fetch the data from the API
@@ -64,34 +64,23 @@ function PlayWithMap() {
 
   const handleDistanceFilter = (maxDistance) => {
     // filter the data based on the distance
+    setCurrentFilter(maxDistance);
+    logger.debug("Filtering data by distance: ", maxDistance);
+  };
 
-    // if the current filter is the same as the one user clicked, remove the filter
-    if (currentFilter === maxDistance) {
-      // remove the filter
-      setFilteredData(freejoasData);
-      setCurrentFilter(null);
-      logger.debug("Filter removed");
-      return;
-    }
-
-    // if the user location is available, filter the data based on the distance
-    if (userLocation) {
-      logger.debug("Filtering data based on distance: ", maxDistance);
-      // call the filter function
+  useEffect(()=>{
+    if(userLocation){
       const filteredData = filterPointsByDistance(
         userLocation,
         freejoasData,
-        maxDistance
+        currentFilter
       );
-
+      // update the filtered data
       setFilteredData(filteredData);
-      setCurrentFilter(maxDistance);
-      logger.info("Data filtered successfully");
       logger.debug("Filtered data: ", filteredData);
-      return;
     }
-    logger.warning("User location is not available");
-  };
+    // eslint-disable-next-line
+  },[currentFilter, userLocation])
 
   return (
     <section className="explore w-full main-container flex flex-col">
