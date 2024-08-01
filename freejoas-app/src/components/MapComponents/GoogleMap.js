@@ -13,11 +13,11 @@ const MapContainer = ({ markerData, filterLevel }) => {
 
   const initalCameraProps = {
     center: { lat: -36.848461, lng: 174.763336 }, // Auckland City
-    zoom: 12, // default zoom level, New Zealand
+    zoom: 11, // default zoom level, New Zealand
   };
 
   return (
-    <APIProvider apiKey={''}>
+    <APIProvider apiKey={Environment.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={containerStyle}>
         <Map
           id="freejoa-map"

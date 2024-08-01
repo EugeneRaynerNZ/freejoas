@@ -6,12 +6,13 @@ import { useUserLocation } from "../../contexts/UserLocationContext";
 import { useSelectedFreejoa } from "../../contexts/SelectedFreejoaContext";
 import logger from "../../utils/Logger";
 import CustomCircle from "./CustomCircle";
+import { useMobileDetect } from "../../contexts/MobileDetectContext";
 
 const CustomMap = ({ markerData, filterLevel }) => {
   const map = useMap("freejoa-map");
   const { userLocation } = useUserLocation();
   const { selectedFreejoa, setSelectedFreejoa } = useSelectedFreejoa();
-
+  const { isMobile } = useMobileDetect();
   const handleMarkerClick = (point) => {
     setSelectedFreejoa(point);
   };
@@ -23,19 +24,36 @@ const CustomMap = ({ markerData, filterLevel }) => {
   const handleFilterLevelChange = (level) => {
     map.panTo(userLocation);
 
-    switch (level) {
-      case 1000:
-        map.setZoom(15);
-        break;
-      case 3000:
-        map.setZoom(14);
-        break;
-      case 5000:
-        map.setZoom(13);
-        break;
-      default:
-        map.setZoom(12);
-        break;
+    if(isMobile) {
+      switch (level) {
+        case 1000:
+          map.setZoom(14);
+          break;
+        case 3000:
+          map.setZoom(13);
+          break;
+        case 5000:
+          map.setZoom(12);
+          break;
+        default:
+          map.setZoom(11);
+          break;
+      }
+    }else{
+      switch (level) {
+        case 1000:
+          map.setZoom(15);
+          break;
+        case 3000:
+          map.setZoom(14);
+          break;
+        case 5000:
+          map.setZoom(13);
+          break;
+        default:
+          map.setZoom(12);
+          break;
+      }
     }
   };
 
