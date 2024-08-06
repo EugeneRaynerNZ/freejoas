@@ -17,7 +17,7 @@ function Navigation() {
 
   return (
     <div className="navigation--container flex">
-      <div className="flex flex-col gap-12 w-full">
+      <div className="flex flex-col w-full">
         <NavLink to="/" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
         <img className="desktop-only" src={SmallLogo} alt="Freejoas Logo"/>
         </NavLink>
