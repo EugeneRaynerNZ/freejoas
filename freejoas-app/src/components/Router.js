@@ -4,7 +4,6 @@ import { useUser } from "../contexts/UserContext";
 //pages
 import Landing from "../pages/Landing";
 import Home from "../pages/Home";
-// import Dashboard from "../pages/app/Dashboard";
 import Play from "../pages/app/Play";
 import Upload from "../pages/app/Upload";
 import UpdateTree from "../pages/app/UpdateTree";
@@ -14,6 +13,8 @@ import UploadImage from "./UploadImage";
 import PropTypes from "prop-types";
 import VerifyEmail from "../pages/start/EmailVerification";
 import PageNotFound from "../pages/404";
+import ForgotPassword from "../pages/start/ForgotPassword";
+import ResetPassword from "../pages/start/ResetPassword";
 // import PlayWithMap from '../pages/app/PlayWithMap';
 
 const PrivateRoute = ({ element, user }) => {
@@ -34,10 +35,7 @@ function Body() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
-        {/* <Route path='/landing' element={<Landing />} /> */}
-        {/* <Route path='/dashboard' element={<PrivateRoute element={<Dashboard />} user={user} />} /> */}
         <Route path="/play" element={<PrivateRoute element={<Play />} user={user} />} />
-        {/* <Route path='/playwithmap' element={<PrivateRoute element={<PlayWithMap />} user={user} />} /> */}
         <Route path="/upload" element={<PrivateRoute element={<Upload />} user={user} />} />
         <Route
           path="/update"
@@ -53,6 +51,8 @@ function Body() {
           path="/login"
           element={user ? <Navigate to="/play" /> : <Login />}
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </main>

@@ -58,6 +58,28 @@ a, button {
   color: white;
 }
 
+.divider {
+  width: 100%;
+  position: relative;
+  height: 1px;
+  background: #C8C8C8;
+  margin: 16px 0;
+
+  span {
+    background: white;
+    padding: 8px;
+    position: absolute;
+    color: #7B7B7B;
+    top: -15px;
+    left: 0; 
+    right: 0; 
+    width: 40px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .main-container {
   padding-bottom: 90px;
 
@@ -164,6 +186,21 @@ a, button {
 
   &-delete {
     background: #d30415;
+  }
+}
+
+.forgot-password--button {
+  text-decoration: underline;
+  color:#0A2E36;
+  text-align: right;
+}
+
+/**** Login / Register ****/
+
+.login, .register {
+  h1 {
+    font-size: 24px !important;
+    text-align: center;
   }
 }
 
@@ -384,57 +421,6 @@ form {
       }
     }
   }
-}
-
-/**** Dashboard ****/
-
-.dashboard {
-  padding: 0;
-  background: var(--primary-color);
-
-  &--container {
-    background: white;
-    flex: 1;
-    border-radius: 32px 32px 0 0;
-    padding: 16px;
-
-    p{
-      font-size: 14px;
-    }
-
-    h2{
-      font-size: 24px;
-    }
-  }
-
-  &--welcome{
-    padding: 62px 0;
-  }
-
-  &--title-container-text {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    box-shadow: 0px 0px 25px 0px rgba(48,115,81,0.5);
-  }
-
-  &--previous-activity {
-
-    h3{
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    p{
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    &--container {
-      overflow-x: auto;
-      column-gap: 8px;
-    }
-  } 
 }
 
 /**** Home ****/
@@ -661,23 +647,6 @@ form {
   }
 }
 
-/**** Dashboard ****/
-
-.logo-mark {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  height: 155px;
-  position: relative;
-
-  .logout {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-}
-
 /**** Upload Page ****/
 
 .get-my-location{
@@ -707,7 +676,7 @@ form {
 
   .explore {
     height: 100vh;
-    padding-bottom: 0;
+    padding-bottom: 16px;
 
     .standout {
       display: none;
@@ -801,45 +770,6 @@ form {
   }
 
   /* END: navigation */
-
-  /* START: dashboard */
-
-  .dashboard {
-    margin-left: var(--navigation-desktop--width);
-
-    .logo-mark {
-      display: none;
-    }
-
-    &--container {
-      border-radius: 0;
-
-      .dashboard--header {
-        text-align: left;
-
-        div {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: flex-start;
-        }
-      }
-
-      .dashboard--previous-activity .location-list--item {
-        max-width: 200px;
-      }
-    }
-
-    .dashboard--container h2, .dashboard .dashboard--container p {
-      font-size: 36px;
-    }
-  }
-
-  .page-heading {
-    font-size: 32px;
-  }
-
-  /* END: dashboard */
 
   /* START: play */
 

@@ -23,13 +23,6 @@ function Navigation() {
         </NavLink>
         
         <nav className="flex text-center">
-          {/* <li className="nav-link nav-link--home">
-            <NavLink to="/dashboard" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
-              {({ isActive }) => (
-                <>{isActive ? <HomeIcon fontSize="large" /> : <HomeIcon fontSize="large" />} <span>Home</span></>
-              )}
-            </NavLink>
-          </li> */}
           <li className="nav-link nav-link--play">
             <NavLink to="/play" className={({ isActive, isPending }) => (isPending ? "pending" : isActive ? "active" : "")}>
               {({ isActive }) => (

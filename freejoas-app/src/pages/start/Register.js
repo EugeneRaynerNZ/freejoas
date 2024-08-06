@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../../App.scss';
 import { NavLink, useNavigate } from "react-router-dom";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoadingAnimation from '../../components/LoadingAnimation';
 import ApiService from '../../services/ApiService';
 
@@ -17,13 +16,13 @@ function Register() {
         setErrors(prevErrors => ({ ...prevErrors, [e.target.name]: '' }));
     };
 
-    const handleEmailVerification = async (email, username) => {
+    const handleEmailVerification = async (email) => {
         try{
-            await ApiService.sendVerificationEmail(email, username);
+            await ApiService.sendVerificationEmail(email);
 
             console.log('Verification email sent');
 
-            navigate('/verify-your-email', { state: { email: email, username: username} });
+            navigate('/verify-your-email', { state: { email: email} });
 
         }catch(error){
             console.error(error);
@@ -31,14 +30,6 @@ function Register() {
     };
 
     async function handleClick() {
-        if (!inputs.first) {
-            setErrors(prevErrors => ({ ...prevErrors, first: 'Please enter your first name.' }));
-            return;
-        }
-        if (!inputs.last) {
-            setErrors(prevErrors => ({ ...prevErrors, last: 'Please enter your last name.' }));
-            return;
-        }
         if (!inputs.email) {
             setErrors(prevErrors => ({ ...prevErrors, email: 'Please enter your email address.' }));
             return;
@@ -59,10 +50,10 @@ function Register() {
         setLoading(true);
 
         try {
-           const response = await ApiService.register(inputs.first, inputs.last, inputs.email, inputs.password);
+           const response = await ApiService.register(inputs.email, inputs.password);
             if (response.status === 201) {
                 // send verification email
-                handleEmailVerification(inputs.email, inputs.first);
+                handleEmailVerification(inputs.email);
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -77,22 +68,9 @@ function Register() {
     }
 
     return (
-        <section className="flex flex-col gap-8 login w-full p-8 items-center justify-center">
-            <div className="flex flex-col gap-8 w-full">
-                <NavLink className="back--button" to="/"><ArrowBackIcon /><span>Go back</span></NavLink>
-                <h1>Register</h1>
-            </div>
+        <section className="register flex flex-col gap-8 login w-full p-8 items-center justify-center">
+            <h1>Register for a Freejoas account</h1>
             <form className="flex flex-col gap-4">
-                <label className="input--container">
-                    <span>First Name</span>
-                    <input type="text" name="first" value={inputs.first || ''} onChange={handleChange} />
-                    {errors.first && <span className="error-message">{errors.first}</span>}
-                </label>
-                <label className="input--container">
-                    <span>Last Name</span>
-                    <input type="text" name="last" value={inputs.last || ''} onChange={handleChange} />
-                    {errors.last && <span className="error-message">{errors.last}</span>}
-                </label>
                 <label className="input--container">
                     <span>Email Address</span>
                     <input type="email" name="email" value={inputs.email || ''} onChange={handleChange} />
@@ -112,11 +90,19 @@ function Register() {
             {/* <div className="flex w-full">
                 <button className="bg-green-700 text-white rounded p-2 w-full cta--button" onClick={handleClick}>Register</button>
             </div> */}
-            <div className="flex w-full justify-center">
+            <div className="flex flex-col gap-4 w-full justify-center">
                 <div className={`login--button cta--button-primary ${loading ? "login--button-loading" : ""}`} onClick={handleClick}>
                     {loading && <LoadingAnimation />}
                     <span>Register</span>
                 </div>
+
+                <div className="divider">
+                    <span>Or</span>
+                </div>
+
+                <NavLink className="text-center" to="/login">
+                    <span>Already have an account? </span><span style={{textDecoration: "underline"}}>Login</span>
+                </NavLink>
             </div>
         </section>
     );

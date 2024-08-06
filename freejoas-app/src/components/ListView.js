@@ -22,15 +22,15 @@ const ListView = ({ data }) => {
   return (
     <ul className="location-list">
       {!data || data.length === 0 ? (
-        <p>
+        <li>
           There are no feijoa trees near you. <br />
           Increase the filter or find one and upload it
-        </p>
+        </li>
       ) : null}
       {data &&
         data.length > 0 &&
         data.map((item) => (
-          <button
+          <li
             key={item._id}
             className={`location-list--item${
               selectedFreejoa && item._id === selectedFreejoa._id
@@ -74,7 +74,7 @@ const ListView = ({ data }) => {
                           <em>Visited on 28/02/2024</em>
                         </div> */}
             </div>
-          </button>
+          </li>
         ))}
     </ul>
   );

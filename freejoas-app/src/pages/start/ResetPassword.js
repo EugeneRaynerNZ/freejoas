@@ -1,11 +1,11 @@
 import "../../App.scss";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation";
 import { useUser } from "../../contexts/UserContext";
 import ApiService from "../../services/ApiService";
 
-function Login() {
+function ResetPassword() {
   //global state
   const { user, updateUser, updateToken } = useUser();
   const navigate = useNavigate();
@@ -63,55 +63,41 @@ function Login() {
   }, [user, navigate]);
 
   // Handle the Enter key press
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" || event.keyCode === 13 || event.which === 13) {
-      handleClick();
-    }
-  };
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter" || event.keyCode === 13 || event.which === 13) {
+  //     handleClick();
+  //   }
+  // };
 
   return (
-    <section className="login flex flex-col gap-10 login w-full p-8 items-center justify-center">
-      <h1>Login to your Freejoas account</h1>
+    <section className="login flex flex-col gap-8 login w-full p-8 items-center justify-center">
+      <div className="flex flex-col gap-8 w-full">
+        <h1>Reset your password</h1>
+      </div>
 
-      <form className="flex flex-col gap-2">
+      <form className="flex flex-col gap-4">
         <label className="input--container">
-          <span>Email Address</span>
-          <input
-            type="email"
-            name="email"
-            value={inputs.email}
-            onChange={handleChange}
-            className={errors.email ? "input-error" : ""}
-          />
-          {errors.email && (
-            <span className="error-message">{errors.email}</span>
-          )}
+            <span>Email Address</span>
+            <input type="email" name="email" value="test@gmail.com" disabled />
+            {errors.email && <span className="error-message">{errors.email}</span>}
         </label>
         <label className="input--container">
-          <span>Password</span>
-          <input
-            type="password"
-            name="password"
-            value={inputs.password}
-            onChange={handleChange}
-            className={errors.password ? "input-error" : ""}
-            onKeyDown={handleKeyDown}
-          />
-          <NavLink className="forgot-password--button" to="/forgot-password">
-            <span>Forgot password?</span>
-          </NavLink>
-          {errors.password && (
-            <span className="error-message">{errors.password}</span>
-          )}
+            <span>Password</span>
+            <input type="password" name="password" value={inputs.password || ''} onChange={handleChange} />
+            {errors.password && <span className="error-message">{errors.password}</span>}
         </label>
-        
-      </form>
+        <label className="input--container">
+            <span>Confirm Password</span>
+            <input type="password" name="passwordConfirm" value={inputs.passwordConfirm || ''} onChange={handleChange} />
+            {errors.passwordConfirm && <span className="error-message">{errors.passwordConfirm}</span>}
+        </label>
+    </form>
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-      
+      {/* Upon clicking this button, the user should be logged in automatically */}
 
-      <div className="flex flex-col gap-4 w-full justify-center">
+      <div className="flex w-full justify-center">
         <button
           className={`login--button cta--button-primary ${
             loading ? "login--button-loading" : ""
@@ -119,18 +105,10 @@ function Login() {
           onClick={handleClick}
         >
           {loading && <LoadingAnimation />}
-          <span>Login</span>
+          <span>Reset my password</span>
         </button>
-
-        <div className="divider">
-          <span>Or</span>
-        </div>
-
-        <NavLink className="text-center" to="/register">
-          <span>Don't have an account? </span><span style={{textDecoration: "underline"}}>Register</span>
-        </NavLink>
       </div>
     </section>
   );
 }
-export default Login;
+export default ResetPassword;
