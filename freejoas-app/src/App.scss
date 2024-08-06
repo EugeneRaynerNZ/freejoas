@@ -490,6 +490,7 @@ form {
 
 .explore {
   padding: 16px;
+  padding-bottom: 80px;
 
   // &.main-container {
   //   padding-bottom: 90px;
@@ -706,6 +707,7 @@ form {
 
   .explore {
     height: 100vh;
+    padding-bottom: 0;
 
     .standout {
       display: none;
