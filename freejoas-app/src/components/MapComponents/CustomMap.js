@@ -170,7 +170,7 @@ CustomMap.propTypes = {
         })
       ),
     })
-  ).isRequired,
+  ),
   filterLevel: PropTypes.number,
 };
 

@@ -81,7 +81,7 @@ const ListView = ({ data }) => {
 };
 
 ListView.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
 };
 
 export default ListView;

@@ -47,7 +47,7 @@ MapContainer.propTypes = {
         })
       ),
     })
-  ).isRequired,
+  ),
   filterLevel: PropTypes.number,
 };
 
