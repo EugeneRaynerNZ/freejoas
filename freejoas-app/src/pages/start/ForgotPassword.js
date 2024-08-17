@@ -118,7 +118,7 @@ function ForgotPassword() {
       {/* END: Show from here until next comment when resetPassword conditions have not been met */}
 
       {/* START: Replace with this once user has successfully sent email to their email address requesting new password */}
-      <p class="text-center">We have sent you an email with a link to reset your password.<br /> You can now close this window.</p>
+      <p className="text-center">We have sent you an email with a link to reset your password.<br /> You can now close this window.</p>
       {/* END: Replace with this once user has successfully sent email to their email address requesting new password */}
 
     </section>
