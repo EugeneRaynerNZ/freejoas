@@ -10,11 +10,11 @@ function EmailVerification() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { email, username } = location.state || {};
+  const { email } = location.state || {};
 
-  const handleEmailVerification = async (email, username) => {
+  const handleEmailVerification = async (email) => {
     try {
-      await ApiService.sendVerificationEmail(email, username);
+      await ApiService.sendVerificationEmail(email);
 
       console.log('Verification email sent');
 
@@ -25,8 +25,8 @@ function EmailVerification() {
 
   const handleResend = () => {
     console.log('Resend verification email');
-    handleEmailVerification(email, username);
-    navigate('/verify-your-email', { state: { email: email, username: username } });
+    handleEmailVerification(email);
+    navigate('/verify-your-email', { state: { email: email } });
   };
 
   return (
@@ -35,9 +35,9 @@ function EmailVerification() {
       <NavLink className="back--button" to="/login"><ArrowBackIcon /><span>Login</span></NavLink>
 
       <div className="verify-your-email w-full">
-        <h1 className="text-center mb-4">Hi, {username}. Please check your email.</h1>
+        <h1 className="text-center mb-4">Welcome to register at Freejoas.</h1>
         <img className="text-center" src={PaperPlane} alt="Paper Plane" />
-        <p className="text-center">Check your email inbox at {email} for instructions from us on how to verify your account.</p>
+        <p className="text-center">Please Check your email inbox for instructions from us on how to verify your account.</p>
         <p className="text-center">Didn't receive the email? Please check your Spam or Junk Mail folder, or <button onClick={handleResend}>Resend</button>
         </p>
       </div>

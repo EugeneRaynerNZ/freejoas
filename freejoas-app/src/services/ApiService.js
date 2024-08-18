@@ -129,17 +129,21 @@ class ApiService {
    * @returns {Promise<any>} The response data.
    * @throws {Error} If an error occurs during the request.
    */
-  static async register(firstname, lastname, email, password) {
+  static async register( email, password) {
     try {
       const response = await this.axiosInstance.post("/users", {
-        firstname: firstname,
-        lastname: lastname,
         email: email,
         password: password,
       });
       return response;
     } catch (error) {
-      logger.error("Error during registration:", error);
+      if (error.response) {
+        const statusCode = error.response.status;
+        // If the status code is 401, 402, or 404, return the response
+        if (statusCode === 401 || statusCode === 402 || statusCode === 404) {
+          return error.response;
+        }
+      }
       throw error;
     }
   }

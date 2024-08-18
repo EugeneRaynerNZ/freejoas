@@ -50,15 +50,15 @@ function Login() {
       if (response.status !== 200) {
         setErrorMessage(response.data.message);
         return;
-      }else{
-        // log in successful
-        updateUser(response.data.data);
-        updateToken(response.data.token);
-        logger.debug("User logged in:", response.data.data);
       }
 
+      // log in successful
+      updateUser(response.data.data);
+      updateToken(response.data.token);
+      logger.debug("User logged in:", response.data.data);
+
     } catch (error) {
-      // console.debug("Login error:", error);
+      logger.error("Login error:", error);
       setErrorMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
