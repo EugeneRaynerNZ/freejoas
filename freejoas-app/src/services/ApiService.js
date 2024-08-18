@@ -5,7 +5,14 @@ import logger from "../utils/Logger";
 
 const BASE_URL = Environment.REACT_APP_BACKEND_BASE_URL;
 const API_VERSION = "v2";
-const API_URL = `${BASE_URL}/api/${API_VERSION}`;
+// const API_URL = `${BASE_URL}/api/${API_VERSION}`;
+let API_URL = "";
+
+if(Environment.REACT_APP_NODE_ENV === "development") {
+  API_URL = `http://localhost:4000/api/${API_VERSION}`;
+}else{
+  API_URL = `${BASE_URL}/api/${API_VERSION}`;
+}
 
 /**
  * Class representing an API service.
@@ -39,27 +46,27 @@ class ApiService {
         return axiosConfig;
       },
       (error) => {
-        return Promise.reject(new Error(error));
+        return;
       }
     );
     /**
      *  Add a response interceptor to handle 401 Unauthorized errors.
      */
 
-    this.axiosInstance.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error) => {
-        const { response } = error;
-        if (response && response.status === 401) {
-          // Token is expired or unauthorized, navigate to login
-            logger.error("Unauthorized request, redirecting to login");
-            this.logout();
-        }
-        return Promise.reject(error);
-      }
-    );
+    // this.axiosInstance.interceptors.response.use(
+    //   (response) => {
+    //     return response;
+    //   },
+    //   (error) => {
+    //     const { response } = error;
+    //     if (response && response.status === 401) {
+    //       // Token is expired or unauthorized, navigate to login
+    //         logger.debug("Unauthorized request, redirecting to login");
+    //         this.logout();
+    //     }
+    //     return Promise.reject(error);
+    //   }
+    // );
 
   }
   static logout() {
@@ -100,7 +107,15 @@ class ApiService {
       });
       return response;
     } catch (error) {
-      logger.error("Error during login:", error);
+      if (error.response) {
+        const statusCode = error.response.status;
+        // If the status code is 401, 402, or 404, return the response
+        if (statusCode === 401 || statusCode === 402 || statusCode === 404) {
+          return error.response;
+        }
+      }
+      // Log the error and throw it
+      logger.debug("Error during login:", error);
       throw error;
     }
   }

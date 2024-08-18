@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import LoadingAnimation from "../../components/LoadingAnimation";
 import { useUser } from "../../contexts/UserContext";
 import ApiService from "../../services/ApiService";
+import logger from "../../utils/Logger";
 
 function Login() {
   //global state
@@ -45,11 +46,20 @@ function Login() {
     try {
       // Send a POST request to the server
       const response = await ApiService.login(inputs.email, inputs.password);
-      updateUser(response.data.data);
-      updateToken(response.data.token);
+      // check response status
+      if (response.status !== 200) {
+        setErrorMessage(response.data.message);
+        return;
+      }else{
+        // log in successful
+        updateUser(response.data.data);
+        updateToken(response.data.token);
+        logger.debug("User logged in:", response.data.data);
+      }
+
     } catch (error) {
-      setErrorMessage(error.response.data.message);
-      console.error(error);
+      // console.debug("Login error:", error);
+      setErrorMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -104,12 +114,9 @@ function Login() {
             <span className="error-message">{errors.password}</span>
           )}
         </label>
-        
       </form>
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-      
 
       <div className="flex flex-col gap-4 w-full justify-center">
         <button
@@ -127,7 +134,8 @@ function Login() {
         </div>
 
         <NavLink className="text-center" to="/register">
-          <span>Don't have an account? </span><span style={{textDecoration: "underline"}}>Register</span>
+          <span>Don't have an account? </span>
+          <span style={{ textDecoration: "underline" }}>Register</span>
         </NavLink>
       </div>
     </section>
